@@ -5,7 +5,7 @@ main() {
   String lastName = 'test';
   print(firstName + ' ' + lastName);
   stdout.writeln('Enter name');
-  String? name = stdin.readLineSync();
+  String name = stdin.readLineSync();
   print("My name is $name");
 
   int amount1 = 100;
@@ -165,8 +165,8 @@ void showOutput(var msg) {
 }
 
 class Person {
-  late String name;
-  late int age;
+  String name;
+  int age;
 
   Person(String Name, [int Age = 0]) {
     this.age = Age;
