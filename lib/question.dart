@@ -7,6 +7,14 @@ class Question extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Text(this._question);
+    // containser works as a wrapper like div and takes only 1 child
+    return new Container(
+        width: double.infinity,
+        margin: new EdgeInsets.all(10),
+        child: new Text(
+          this._question,
+          style: new TextStyle(fontSize: 28),
+          textAlign: TextAlign.center,
+        ));
   }
 }
