@@ -17,8 +17,8 @@ void main() {
   runApp(MyApp());
 }
 
-// stateless class for rerendering the content on data change using setState method like react
-// statefull class cannot have re-render on data change within the class but if class using this statefull widget is stateless
+// stateful class for rerendering the content on data change using setState method like react
+// stateless class cannot have re-render on data change within the class but if other class using this stateless widget is stateful
 // it can re-render on the content with data change
 class MyApp extends StatelessWidget {
   @override
