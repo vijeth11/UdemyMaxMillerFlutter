@@ -1,12 +1,25 @@
+import 'dart:io';
+
 import 'package:expenses_tracker/widgets/chart.dart';
 import 'package:expenses_tracker/widgets/new_transaction.dart';
 import 'package:expenses_tracker/widgets/transaction_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'models/transaction.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // to make application run only in potrait mode
+  /*WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);*/
+  runApp(MyApp());
+}
 
+// stateless class for rerendering the content on data change using setState method like react
+// statefull class cannot have re-render on data change within the class but if class using this statefull widget is stateless
+// it can re-render on the content with data change
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -46,6 +59,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> transactions = [];
 
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return transactions
         .where((element) => element.transactionDate
@@ -80,8 +95,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    final PreferredSizeWidget appBar;
+    if (Platform.isIOS) {
+      appBar = CupertinoNavigationBar(
+        middle: const Text(
+          'Personal Expenses',
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+                onPressed: () {
+                  this._startAddNewTransaction(context);
+                },
+                icon: Icon(CupertinoIcons.add))
+          ],
+        ),
+      );
+    } else {
+      appBar = AppBar(
         title: const Text(
           'Personal Expenses',
         ),
@@ -92,26 +124,73 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               icon: Icon(Icons.add))
         ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Chart(_recentTransactions),
-            TransactionList(
-              transactions: transactions,
-              deleteTransaction: _deleteTransaction,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          this._startAddNewTransaction(context);
-        },
+      );
+    }
+
+    final double screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        appBar.preferredSize.height;
+
+    final bool portraitMode =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
+    final transactionListWidget = Container(
+      height: screenHeight * 0.7,
+      child: TransactionList(
+        transactions: transactions,
+        deleteTransaction: _deleteTransaction,
       ),
     );
+
+    final chartWidget = Container(
+        height: screenHeight * (portraitMode ? 0.3 : 0.7),
+        child: Chart(_recentTransactions));
+
+    final pageBody = SafeArea(
+        child: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (!portraitMode)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Show Chart',
+                    style: Theme.of(context).textTheme.titleMedium),
+                // to get different natives style button view for android and ios
+                Switch.adaptive(
+                    activeColor: Theme.of(context).colorScheme.secondary,
+                    value: _showChart,
+                    onChanged: (value) {
+                      setState(() {
+                        _showChart = value;
+                      });
+                    })
+              ],
+            ),
+          if (portraitMode) ...[chartWidget, transactionListWidget] else
+            _showChart ? chartWidget : transactionListWidget,
+        ],
+      ),
+    ));
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: pageBody,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: pageBody,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Platform.isIOS
+                ? Container()
+                : FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      this._startAddNewTransaction(context);
+                    },
+                  ),
+          );
   }
 }
