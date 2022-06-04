@@ -74,6 +74,7 @@ class TransactionList extends StatelessWidget {
                     horizontal: 5,
                   ),
                   child: TransactionItem(
+                      key: ValueKey(currentTransaction.Id),
                       transaction: currentTransaction,
                       deleteTransaction: deleteTransaction));
             },
