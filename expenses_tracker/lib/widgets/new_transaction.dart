@@ -22,7 +22,7 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredtitile = this.titleInputController.text;
     final enteredCost = double.parse(costInputController.text);
     if (enteredtitile != null && enteredtitile.isNotEmpty && enteredCost > 0) {
-      this.widget._addNewTransaction(enteredtitile, enteredCost, choosenDate);
+      widget._addNewTransaction(enteredtitile, enteredCost, choosenDate);
     }
     Navigator.of(context).pop();
   }
@@ -59,11 +59,11 @@ class _NewTransactionState extends State<NewTransaction> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
               controller: titleInputController,
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
+              decoration: const InputDecoration(labelText: 'Amount'),
               keyboardType: TextInputType.number,
               controller: costInputController,
               onSubmitted: (_) => submitData(),
@@ -78,7 +78,7 @@ class _NewTransactionState extends State<NewTransaction> {
                           foregroundColor: MaterialStateColor.resolveWith(
                               (states) => Theme.of(context).primaryColor)),
                       onPressed: _presentDatePicker,
-                      child: Text(
+                      child: const Text(
                         'choose Date',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ))
@@ -93,7 +93,7 @@ class _NewTransactionState extends State<NewTransaction> {
                         Theme.of(context).textTheme.button?.color ??
                         Colors.white)),
                 onPressed: submitData,
-                child: Text(
+                child: const Text(
                   'Add transaction',
                 ))
           ],

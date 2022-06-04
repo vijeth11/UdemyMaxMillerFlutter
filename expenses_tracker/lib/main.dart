@@ -27,13 +27,13 @@ class MyApp extends StatelessWidget {
       primarySwatch: Colors.purple,
       fontFamily: "Quicksand",
       errorColor: Colors.red,
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
           headline6: TextStyle(
               fontFamily: 'OpenSans',
               fontSize: 18,
               fontWeight: FontWeight.bold),
           button: TextStyle(color: Colors.white)),
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
               fontFamily: 'OpenSans',
               fontSize: 20,
@@ -56,7 +56,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> transactions = [];
 
   bool _showChart = false;
@@ -66,6 +66,28 @@ class _MyHomePageState extends State<MyHomePage> {
         .where((element) => element.transactionDate
             .isAfter(DateTime.now().subtract(Duration(days: 7))))
         .toList();
+  }
+
+// called only once at the initial loading time to initialize the state
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    // TODO: implement initState
+    super.initState();
+  }
+
+// to know the app life cycle hooks like paused,resumed,inactive
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+// called when user exits app
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    // TODO: implement dispose
+    super.dispose();
   }
 
   void _addNewTransaction(String title, double amount, DateTime choosenDate) {
@@ -93,38 +115,56 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final PreferredSizeWidget appBar;
-    if (Platform.isIOS) {
-      appBar = CupertinoNavigationBar(
-        middle: const Text(
-          'Personal Expenses',
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-                onPressed: () {
-                  this._startAddNewTransaction(context);
-                },
-                icon: Icon(CupertinoIcons.add))
-          ],
-        ),
-      );
-    } else {
-      appBar = AppBar(
-        title: const Text(
-          'Personal Expenses',
-        ),
-        actions: [
+// sample builder methods top make file readable
+  CupertinoNavigationBar _buildCuprtinoNavigationBar() {
+    return CupertinoNavigationBar(
+      middle: const Text(
+        'Personal Expenses',
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
           IconButton(
               onPressed: () {
                 this._startAddNewTransaction(context);
               },
-              icon: Icon(Icons.add))
+              icon: Icon(CupertinoIcons.add))
         ],
-      );
+      ),
+    );
+  }
+
+// sample builder methods top make file readable
+  AppBar _buildMaterialAppBar() {
+    return AppBar(
+      title: const Text(
+        'Personal Expenses',
+      ),
+      actions: [
+        IconButton(
+            onPressed: () {
+              this._startAddNewTransaction(context);
+            },
+            icon: Icon(Icons.add))
+      ],
+    );
+  }
+
+// build method is called initially,setState and any changes in orientation or the os widget changes the view which trigger MediaQuery
+// like keyboard. whenever build method is triggered it calls the child widgets build method.
+// build method does not re-render complete application it uses elemnt tree and to know which part got changed and
+// re-render only those pixles for ex: if only text changed for a statefull widget on setState it re-renders text pixels
+// it does not change the background color or other parts of the app.
+// adding const infront of a widget constructor will tell flutter the widget instance will not change due to which the next build call
+// will not create this object of widget again when it re-builds widget tree thus improving the performance.
+// const can only be added infront of widget that has constant value or pre-defined values for that constructor otherwise ide will throw error
+  @override
+  Widget build(BuildContext context) {
+    final PreferredSizeWidget appBar;
+    if (Platform.isIOS) {
+      appBar = _buildCuprtinoNavigationBar();
+    } else {
+      appBar = _buildMaterialAppBar();
     }
 
     final double screenHeight = MediaQuery.of(context).size.height -
