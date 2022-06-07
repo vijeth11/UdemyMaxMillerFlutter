@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/screens/settings_screen.dart';
+import './screens/tabs_screen.dart';
 import './screens/meal_detail_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
@@ -7,10 +9,28 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  Map<String, bool> settings = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false
+  };
+
+  void setSettings(Map<String, bool> newSettings) {
+    setState(() {
+      settings = newSettings;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = ThemeData(
@@ -32,9 +52,12 @@ class MyApp extends StatelessWidget {
       initialRoute:
           '/', // default '/' but it can be changed using this attribute
       routes: {
-        '/': (ctx) => CategoriesScreen(),
+        '/': (ctx) => TabsScreen(),
         CategoryMealSecreen.routeName: (ctx) => CategoryMealSecreen(),
         MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        SettingsScreen.routeName: (ctx) => SettingsScreen(
+              setSelectedSettings: setSettings,
+            ),
       },
       onGenerateRoute: (settings) {
         // this is called when there is no route defined for the name in routes attribute

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
+  // you can access this method in below class extending state via widget
   final Function _addNewTransaction;
 
   NewTransaction(this._addNewTransaction, {Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredtitile = this.titleInputController.text;
     final enteredCost = double.parse(costInputController.text);
     if (enteredtitile != null && enteredtitile.isNotEmpty && enteredCost > 0) {
+      // accessing the method from parent class
       widget._addNewTransaction(enteredtitile, enteredCost, choosenDate);
     }
     Navigator.of(context).pop();

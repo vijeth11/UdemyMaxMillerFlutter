@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/screens/category_meals_screen.dart';
 
 class MealDetailScreen extends StatelessWidget {
   static const String routeName = '/meal_detail';
@@ -85,6 +86,12 @@ class MealDetailScreen extends StatelessWidget {
                 context)
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.delete),
+        onPressed: () {
+          Navigator.of(context).pop(currentItem.id);
+        },
       ),
     );
   }
