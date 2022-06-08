@@ -5,8 +5,10 @@ class SettingsScreen extends StatefulWidget {
   static const String routeName = '/settings';
   // you can access this method in below class extending state via widget
   final void Function(Map<String, bool>) setSelectedSettings;
+  final Map<String, bool> settings;
 
-  const SettingsScreen({Key? key, required this.setSelectedSettings})
+  const SettingsScreen(
+      {Key? key, required this.setSelectedSettings, required this.settings})
       : super(key: key);
 
   @override
@@ -18,6 +20,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool vegetarian = false;
   bool vegan = false;
   bool lactoseFree = false;
+
+  @override
+  void initState() {
+    glutenFree = widget.settings['gluten'] ?? false;
+    vegetarian = widget.settings['vegetarian'] ?? false;
+    vegan = widget.settings['vegan'] ?? false;
+    lactoseFree = widget.settings['lactose'] ?? false;
+    super.initState();
+  }
 
   Widget buildSwitchListTile(String title, String subTitle, bool currentValue,
       void Function(bool) updateValue) {

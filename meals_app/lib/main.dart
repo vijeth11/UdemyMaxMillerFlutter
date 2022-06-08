@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/screens/settings_screen.dart';
+import './data/dummy_data.dart';
+import './screens/settings_screen.dart';
 import './screens/tabs_screen.dart';
 import './screens/meal_detail_screen.dart';
 import './screens/categories_screen.dart';
 import './screens/category_meals_screen.dart';
+import './models/meal.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,10 +27,45 @@ class _MyAppState extends State<MyApp> {
     'vegetarian': false
   };
 
+  List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favourites = [];
+
   void setSettings(Map<String, bool> newSettings) {
     setState(() {
       settings = newSettings;
+      _availableMeals = DUMMY_MEALS.where((meal) {
+        if (settings['gluten'] == true && !meal.isGlutenFree) {
+          return false;
+        }
+        if (settings['lactose'] == true && !meal.isLactoseFree) {
+          return false;
+        }
+        if (settings['vegan'] == true && !meal.isVegan) {
+          return false;
+        }
+        if (settings['vegetarian'] == true && !meal.isVegetarian) {
+          return false;
+        }
+        return true;
+      }).toList();
     });
+  }
+
+  void toggleFavourite(String mealId) {
+    setState(() {
+      final int existingIndex =
+          _favourites.indexWhere((element) => element.id == mealId);
+      if (existingIndex > -1) {
+        _favourites.removeAt(existingIndex);
+      } else {
+        _favourites
+            .add(DUMMY_MEALS.firstWhere((element) => element.id == mealId));
+      }
+    });
+  }
+
+  bool isMealFavourite(String id) {
+    return _favourites.any((element) => element.id == id);
   }
 
   @override
@@ -52,10 +89,15 @@ class _MyAppState extends State<MyApp> {
       initialRoute:
           '/', // default '/' but it can be changed using this attribute
       routes: {
-        '/': (ctx) => TabsScreen(),
-        CategoryMealSecreen.routeName: (ctx) => CategoryMealSecreen(),
-        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        '/': (ctx) => TabsScreen(favouriteMeals: _favourites),
+        CategoryMealSecreen.routeName: (ctx) => CategoryMealSecreen(
+              availableMeals: _availableMeals,
+            ),
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(
+            isMealFavourite: isMealFavourite,
+            addOrRemoveFavourite: toggleFavourite),
         SettingsScreen.routeName: (ctx) => SettingsScreen(
+              settings: settings,
               setSelectedSettings: setSettings,
             ),
       },

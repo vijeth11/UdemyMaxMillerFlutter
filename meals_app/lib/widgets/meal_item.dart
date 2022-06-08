@@ -4,9 +4,8 @@ import 'package:meals_app/screens/meal_detail_screen.dart';
 
 class MealItem extends StatelessWidget {
   final Meal currentMeal;
-  final Function deleteMealItem;
 
-  const MealItem(this.currentMeal, this.deleteMealItem);
+  const MealItem(this.currentMeal);
 
   String get ComplexityText {
     switch (this.currentMeal.complexity) {
@@ -37,8 +36,7 @@ class MealItem extends StatelessWidget {
   void selectMeal(context) {
     Navigator.of(context).pushNamed(MealDetailScreen.routeName, arguments: {
       'currentItem': currentMeal
-    }) // then is called when the above screen is poped/ removed from stack
-        .then((value) => deleteMealItem(value));
+    }); // then is called when the above screen is poped/ removed from stack
   }
 
   @override
