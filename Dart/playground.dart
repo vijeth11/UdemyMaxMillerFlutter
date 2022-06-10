@@ -143,6 +143,12 @@ main() {
   } finally {
     print("finally is called");
   }
+
+// how to use mixins
+  final pers = Person1('max', 20);
+  print(pers.name);
+  pers.breath();
+  pers.sitDown();
 }
 
 class Num {
@@ -215,4 +221,29 @@ class Car extends Vehicle {
     }
     return true;
   }
+}
+
+mixin Agility {
+  // you can share methods and properties but it has less connection with child class
+  // which is using via 'with' key
+  //it allows multiple mixins but instace of child class is not assignable to mixins
+  // as there is not strong bond while on other hand Mamal class variable can take Person1
+  // instance as it is extended by Person1 and it has created a stronf bond
+  void sitDown() {
+    print('Sitting down');
+  }
+}
+
+class Mamal {
+  void breath() {
+    print('Breath in');
+    print('Breath out');
+  }
+}
+
+class Person1 extends Mamal with Agility {
+  String name;
+  int age;
+
+  Person1(this.name, this.age);
 }
