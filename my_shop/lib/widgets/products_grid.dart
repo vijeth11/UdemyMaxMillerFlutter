@@ -12,6 +12,8 @@ class ProductsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // this is a providers listener which takes an type of class defined in
+    // create attribute of ChangeNotifierProvider object
     final productsListener = Provider.of<Products>(context);
     final List<Product> loadedProducts = productsListener.items;
     return GridView.builder(
