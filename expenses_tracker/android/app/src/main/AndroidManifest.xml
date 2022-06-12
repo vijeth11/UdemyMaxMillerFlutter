@@ -1,9 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.expenses_tracker">
+    package="com.vijeth11.expenses_tracker">
+   <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="expenses_tracker"
+        android:label="Expenses Tracker"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/splash">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -17,8 +18,8 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
+              android:name="io.flutter.embedding.android.SplashScreenDrawable"
+   android:resource="@drawable/launch_background"
               />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

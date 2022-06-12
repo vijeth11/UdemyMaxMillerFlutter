@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/product.dart';
+import 'product.dart';
 
 // this is a state management in flutter using this we can create listners
 // and only re-render those part of application on data change.

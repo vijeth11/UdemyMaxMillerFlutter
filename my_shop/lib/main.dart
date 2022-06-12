@@ -18,6 +18,10 @@ class MyApp extends StatelessWidget {
     // an instance of the State class which has mixin ChangeNotifier with it
     // this same class needs to be used in the places where listeners are added
     // no other class will work. example can be seen in ProductsGrid class
+    // We should use normal provider with create builder
+    // if the data we are observing gets new set of values added to it and
+    // we use provider.value constructor only if the value gets updated but not initialized again
+    // this is best practice to avoid bugs
     return ChangeNotifierProvider(
       create: (ctx) => Products(),
       child: MaterialApp(

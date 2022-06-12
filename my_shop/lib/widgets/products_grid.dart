@@ -3,7 +3,7 @@ import 'package:my_shop/providers/products.dart';
 import 'package:provider/provider.dart';
 import './product_item.dart';
 
-import '../models/product.dart';
+import '../providers/product.dart';
 
 class ProductsGrid extends StatelessWidget {
   const ProductsGrid({
@@ -25,11 +25,14 @@ class ProductsGrid extends StatelessWidget {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10),
         itemBuilder: (ctx, i) {
-          return ProductItem(
-            id: loadedProducts[i].id,
-            title: loadedProducts[i].title,
-            imageUrl: loadedProducts[i].imageUrl,
-          );
+          // we use value instead of creat bulilder because we need provider attach
+          // to data not the context so that with hidden items in the grid view which
+          // goes beyond the screen does not throw error and we only want to watch change in data
+          // if you are using provider.value constructor we need to dispose the data set to value
+          // attribute whenever this page is exited from visibility otherwise it will cause memory leaks
+          // currently ChangeNotifierProvider is disposing the data
+          return ChangeNotifierProvider.value(
+              value: loadedProducts[i], child: ProductItem());
         });
   }
 }
