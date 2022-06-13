@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop/providers/products.dart';
+import '../providers/products.dart';
 import 'package:provider/provider.dart';
 import './product_item.dart';
 
 import '../providers/product.dart';
 
 class ProductsGrid extends StatelessWidget {
+  final bool showFavs;
+
   const ProductsGrid({
     Key? key,
+    required this.showFavs,
   }) : super(key: key);
 
   @override
@@ -15,7 +18,8 @@ class ProductsGrid extends StatelessWidget {
     // this is a providers listener which takes an type of class defined in
     // create attribute of ChangeNotifierProvider object
     final productsListener = Provider.of<Products>(context);
-    final List<Product> loadedProducts = productsListener.items;
+    final List<Product> loadedProducts =
+        showFavs ? productsListener.favouriteItems : productsListener.items;
     return GridView.builder(
         padding: const EdgeInsets.all(10.0),
         itemCount: loadedProducts.length,

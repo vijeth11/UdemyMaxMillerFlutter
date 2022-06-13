@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './providers/cart.dart';
+import './screens/cart_screen.dart';
 import '../providers/products.dart';
 import 'package:provider/provider.dart';
 import '../screens/product_detail_screen.dart';
@@ -22,15 +24,22 @@ class MyApp extends StatelessWidget {
     // if the data we are observing gets new set of values added to it and
     // we use provider.value constructor only if the value gets updated but not initialized again
     // this is best practice to avoid bugs
-    return ChangeNotifierProvider(
-      create: (ctx) => Products(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => Products()),
+        ChangeNotifierProvider(create: (ctx) => Cart())
+      ],
       child: MaterialApp(
         title: 'MyShop',
+        debugShowCheckedModeBanner: false,
         theme: theme.copyWith(
             colorScheme:
                 theme.colorScheme.copyWith(secondary: Colors.deepOrange)),
         home: ProductsOverViewScreen(),
-        routes: {ProductDetailScreen.routeName: (ctx) => ProductDetailScreen()},
+        routes: {
+          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+          CartScreen.routeName: (ctx) => CartScreen()
+        },
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../providers/cart.dart';
 import 'package:provider/provider.dart';
 import '../providers/product.dart';
 import '../screens/product_detail_screen.dart';
@@ -10,6 +11,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartListner = Provider.of<Cart>(context, listen: false);
     // clipRect sets a border radius
     //final product = Provider.of<Product>(context);
     // Consumer is an alternative to Provider.of it listens always
@@ -36,7 +38,9 @@ class ProductItem extends StatelessWidget {
             trailing: IconButton(
               color: Theme.of(context).colorScheme.secondary,
               icon: const Icon(Icons.shopping_cart),
-              onPressed: () {},
+              onPressed: () {
+                cartListner.addItem(product.id, product.price, product.title);
+              },
             ),
           ),
           child: GestureDetector(
