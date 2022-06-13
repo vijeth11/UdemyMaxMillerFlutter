@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop/providers/orders.dart';
 import '../widgets/cart_item.dart';
 import '../providers/cart.dart' as cartData;
 import 'package:provider/provider.dart';
@@ -10,26 +11,28 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartListener = Provider.of<cartData.Cart>(context);
+    final orderListner = Provider.of<Orders>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
-          title: Text('Your Cart'),
+          title: const Text('Your Cart'),
         ),
         body: Column(
           children: [
             Card(
-                margin: EdgeInsets.all(15),
+                margin: const EdgeInsets.all(15),
                 child: Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Total',
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Chip(
-                        label: Text('\$${cartListener.totalAmount}',
+                        label: Text(
+                            '\$${cartListener.totalAmount.toStringAsFixed(2)}',
                             style: TextStyle(
                                 color: Theme.of(context)
                                     .primaryTextTheme
@@ -37,11 +40,18 @@ class CartScreen extends StatelessWidget {
                                     ?.color)),
                         backgroundColor: Theme.of(context).primaryColor,
                       ),
-                      TextButton(onPressed: () {}, child: Text("ORDER NOW"))
+                      TextButton(
+                          onPressed: () {
+                            orderListner.addOrder(
+                                cartListener.items.values.toList(),
+                                cartListener.totalAmount);
+                            cartListener.clear();
+                          },
+                          child: const Text("ORDER NOW"))
                     ],
                   ),
                 )),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
                 child: ListView.builder(
               itemBuilder: (ctx, index) {

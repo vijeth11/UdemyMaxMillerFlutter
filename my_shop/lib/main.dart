@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop/screens/order_screen.dart';
+import './providers/orders.dart';
 import './providers/cart.dart';
 import './screens/cart_screen.dart';
 import '../providers/products.dart';
@@ -27,7 +29,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Products()),
-        ChangeNotifierProvider(create: (ctx) => Cart())
+        ChangeNotifierProvider(create: (ctx) => Cart()),
+        ChangeNotifierProvider(create: (ctx) => Orders()),
       ],
       child: MaterialApp(
         title: 'MyShop',
@@ -37,8 +40,9 @@ class MyApp extends StatelessWidget {
                 theme.colorScheme.copyWith(secondary: Colors.deepOrange)),
         home: ProductsOverViewScreen(),
         routes: {
-          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-          CartScreen.routeName: (ctx) => CartScreen()
+          ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
+          CartScreen.routeName: (ctx) => const CartScreen(),
+          OrderScreen.routeName: (ctx) => const OrderScreen()
         },
       ),
     );
@@ -50,9 +54,9 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MyShop'),
+        title: const Text('MyShop'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Let\'s build a shop!'),
       ),
     );
