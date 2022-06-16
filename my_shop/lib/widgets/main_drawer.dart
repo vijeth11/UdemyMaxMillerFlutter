@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop/screens/order_screen.dart';
+import 'package:my_shop/screens/user_product_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   final double appBarHeight;
@@ -39,7 +40,14 @@ class MainDrawer extends StatelessWidget {
               Navigator.of(context).pushNamed(OrderScreen.routeName);
             },
             leading: const Icon(Icons.payment),
-            title: const Text('Orders'))
+            title: const Text('Orders')),
+        const Divider(),
+        ListTile(
+            onTap: () {
+              Navigator.of(context).pushNamed(UserProductScreen.routeName);
+            },
+            leading: const Icon(Icons.edit),
+            title: const Text('Manage Products'))
       ],
     ));
   }

@@ -17,7 +17,7 @@ class ProductItem extends StatelessWidget {
     // Consumer is an alternative to Provider.of it listens always
     // we can use this with Provider if we want only one child widget to keep
     // listening but others only need one time data.
-    // for this you wrip the child widget which requires changes with Consumer and
+    // for this you wrap the child widget which requires changes with Consumer and
     // set listen attribute of Provider.of as false
     return Consumer<Product>(
       builder: (ctxt, product, child) => ClipRRect(
@@ -40,6 +40,22 @@ class ProductItem extends StatelessWidget {
               icon: const Icon(Icons.shopping_cart),
               onPressed: () {
                 cartListner.addItem(product.id, product.price, product.title);
+                // this reaches out to the nearest scaffold in widget tree
+                // open drawer only works if nearest scafoold has an drawer
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "Added Item to cart",
+                    textAlign: TextAlign.center,
+                  ),
+                  duration: Duration(seconds: 2),
+                  action: SnackBarAction(
+                    label: 'UNDO',
+                    onPressed: () {
+                      cartListner.removeSingleItem(product.id);
+                    },
+                  ),
+                ));
               },
             ),
           ),
