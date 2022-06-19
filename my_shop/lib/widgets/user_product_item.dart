@@ -32,7 +32,15 @@ class UserProductItem extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                Provider.of<Products>(context, listen: false).deleteProduct(id);
+                Provider.of<Products>(context, listen: false)
+                    .deleteProduct(id)
+                    .catchError((error) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                    'Deleting failed',
+                    textAlign: TextAlign.center,
+                  )));
+                });
               },
               icon: Icon(Icons.delete),
               color: Theme.of(context).errorColor,

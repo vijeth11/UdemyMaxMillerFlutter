@@ -149,6 +149,14 @@ main() {
   print(pers.name);
   pers.breath();
   pers.sitDown();
+
+// future (async code)
+  Future myfunction = Future(() {
+    return 'Hello';
+  });
+  print('this runs first');
+  myfunction.then((value) => print(value));
+  print('this runs second');
 }
 
 class Num {

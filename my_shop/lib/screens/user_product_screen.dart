@@ -28,21 +28,27 @@ class UserProductScreen extends StatelessWidget {
         drawer: MainDrawer(
           appBarHeight: appBar.preferredSize.height,
         ),
-        body: SafeArea(
-          child: ListView.builder(
-            itemBuilder: (ctx, index) {
-              var product = productListner.items[index];
-              // you dont need to wrap ListTile widget with card you if error is thrown it
-              // can because of the intenal child widget of ListTile pls check first error message
-              return Card(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-                  elevation: 5,
-                  child: UserProductItem(
-                      id: product.id,
-                      title: product.title,
-                      imageUrl: product.imageUrl));
-            },
-            itemCount: productListner.items.length,
+        body: RefreshIndicator(
+          onRefresh: () {
+            return Provider.of<Products>(context, listen: false)
+                .fetchAndSetProducts();
+          },
+          child: SafeArea(
+            child: ListView.builder(
+              itemBuilder: (ctx, index) {
+                var product = productListner.items[index];
+                // you dont need to wrap ListTile widget with card you if error is thrown it
+                // can because of the intenal child widget of ListTile pls check first error message
+                return Card(
+                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                    elevation: 5,
+                    child: UserProductItem(
+                        id: product.id,
+                        title: product.title,
+                        imageUrl: product.imageUrl));
+              },
+              itemCount: productListner.items.length,
+            ),
           ),
         ));
   }
