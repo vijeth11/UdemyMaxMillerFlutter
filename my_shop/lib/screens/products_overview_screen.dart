@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_shop/providers/products.dart';
 import 'package:my_shop/widgets/main_drawer.dart';
 import '../providers/cart.dart';
+import '../widgets/display_error.dart';
 import './cart_screen.dart';
 import '../widgets/badge.dart';
 import 'package:provider/provider.dart';
@@ -31,30 +32,14 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
         .catchError((error) {
       print(error);
       setState(() => isLoading = false);
-      displayError(error);
+      displayError(
+          error,
+          context,
+          () => setState(() {
+                isLoading = false;
+              }));
     });
     super.initState();
-  }
-
-  void displayError(error) {
-    showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: const Text('An Error occured'),
-            content: Text(error.toString()),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    setState(() {
-                      isLoading = false;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Okay'))
-            ],
-          );
-        });
   }
 
   @override

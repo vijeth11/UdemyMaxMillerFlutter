@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:my_shop/providers/orders.dart';
+import 'package:my_shop/widgets/display_error.dart';
 import '../widgets/cart_item.dart';
 import '../providers/cart.dart' as cartData;
 import 'package:provider/provider.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   static const String routeName = '/cart';
   const CartScreen({Key? key}) : super(key: key);
 
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     final cartListener = Provider.of<cartData.Cart>(context);
@@ -40,14 +47,41 @@ class CartScreen extends StatelessWidget {
                                     ?.color)),
                         backgroundColor: Theme.of(context).primaryColor,
                       ),
-                      TextButton(
-                          onPressed: () {
-                            orderListner.addOrder(
-                                cartListener.items.values.toList(),
-                                cartListener.totalAmount);
-                            cartListener.clear();
-                          },
-                          child: const Text("ORDER NOW"))
+                      _isLoading
+                          ? Padding(
+                              padding: EdgeInsets.all(5),
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                orderListner
+                                    .addOrder(
+                                        cartListener.items.values.toList(),
+                                        cartListener.totalAmount)
+                                    .then((value) {
+                                  setState(() {
+                                    _isLoading = false;
+                                  });
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Order Added Successfully. Go to Order Page')));
+                                  cartListener.clear();
+                                  Navigator.of(context).pop();
+                                }).catchError((error) {
+                                  displayError(error, context, () {
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  });
+                                });
+                              },
+                              child: const Text("ORDER NOW"))
                     ],
                   ),
                 )),

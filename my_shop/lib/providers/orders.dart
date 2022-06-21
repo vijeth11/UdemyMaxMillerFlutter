@@ -26,24 +26,67 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
-  void fetchAllOrders() async {
+  Future<void> fetchAllOrders() async {
     try {
       var response = await http.get(Uri.parse(url));
+      List<OrderItem> loadedOrders = [];
       var orderResponse = json.decode(response.body) as Map<String, dynamic>;
-      orderResponse.forEach((key, value) {});
+      print(response.body);
+      orderResponse.forEach((key, value) {
+        loadedOrders.add(OrderItem(
+            id: key,
+            amount: value['amount'],
+            products: [
+              ...(value['products'] as List<dynamic>)
+                  .map((item) => CartItem(
+                      id: item['id'],
+                      title: item['title'],
+                      quantity: item['quantity'],
+                      price: item['price']))
+                  .toList()
+            ],
+            dateTime: DateTime.parse(value['dateTime'])));
+      });
+      _orders = loadedOrders;
+      notifyListeners();
     } catch (error) {
       throw error;
     }
   }
 
-  void addOrder(List<CartItem> cartProducts, double total) {
-    _orders.insert(
-        0,
-        OrderItem(
-            id: DateTime.now().toString(),
-            amount: total,
-            products: cartProducts,
-            dateTime: DateTime.now()));
-    notifyListeners();
+  Future<void> addOrder(List<CartItem> cartProducts, double total) async {
+    try {
+      var order = OrderItem(
+          id: DateTime.now().toString(),
+          amount: total,
+          products: cartProducts,
+          dateTime: DateTime.now());
+      var response = await http.post(Uri.parse(url),
+          body: json.encode({
+            'amount': order.amount,
+            'products': [
+              ...order.products
+                  .map((item) => {
+                        'id': item.id,
+                        'title': item.title,
+                        'quantity': item.quantity,
+                        'price': item.price
+                      })
+                  .toList()
+            ],
+            'dateTime': order.dateTime.toString()
+          }));
+      var id = json.decode(response.body)['name'];
+      _orders.insert(
+          0,
+          OrderItem(
+              id: id,
+              amount: order.amount,
+              products: order.products,
+              dateTime: order.dateTime));
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 }

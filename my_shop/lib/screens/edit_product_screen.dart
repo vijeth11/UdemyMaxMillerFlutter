@@ -3,6 +3,8 @@ import 'package:my_shop/providers/product.dart';
 import 'package:my_shop/providers/products.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/display_error.dart';
+
 class EditProductScreen extends StatefulWidget {
   static const String routeName = '/editProduct';
   const EditProductScreen({Key? key}) : super(key: key);
@@ -63,27 +65,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
     super.dispose();
   }
 
-  void displayError(error) {
-    showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: const Text('An Error occured'),
-            content: Text(error.toString()),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    setState(() {
-                      isLoading = false;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('Okay'))
-            ],
-          );
-        });
-  }
-
   void saveForm() {
     var isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) {
@@ -102,7 +83,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
         });
         Navigator.of(context).pop();
       }).catchError((error) {
-        displayError(error);
+        displayError(
+            error,
+            context,
+            () => setState(() {
+                  isLoading = false;
+                }));
       });
     } else {
       Provider.of<Products>(context, listen: false)
@@ -112,7 +98,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
           isLoading = false;
         });
         Navigator.of(context).pop();
-      }).catchError((error) => displayError(error));
+      }).catchError((error) => displayError(
+              error,
+              context,
+              () => setState(() {
+                    isLoading = false;
+                  })));
     }
   }
 
