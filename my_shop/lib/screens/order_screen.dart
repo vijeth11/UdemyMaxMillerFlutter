@@ -41,15 +41,18 @@ class _OrderScreenState extends State<OrderScreen> {
         appBar: AppBar(
           title: const Text('Your Orders'),
         ),
-        body: _isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : ListView.builder(
-                itemBuilder: (ctx, index) {
-                  return OrderItem(order: orderListner.orders[index]);
-                },
-                itemCount: orderListner.orders.length,
-              ));
+        body: RefreshIndicator(
+            onRefresh: () => Provider.of<Order.Orders>(context, listen: false)
+                .fetchAllOrders(),
+            child: _isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    itemBuilder: (ctx, index) {
+                      return OrderItem(order: orderListner.orders[index]);
+                    },
+                    itemCount: orderListner.orders.length,
+                  )));
   }
 }
