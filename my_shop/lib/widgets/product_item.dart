@@ -41,7 +41,8 @@ class ProductItem extends StatelessWidget {
               onPressed: () {
                 cartListner.addItem(product.id, product.price, product.title);
                 // this reaches out to the nearest scaffold in widget tree
-                // open drawer only works if nearest scafoold has an drawer
+                // open drawer only works if nearest scafold has an drawer
+                //Scaffold.of(context).openDrawer();
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(

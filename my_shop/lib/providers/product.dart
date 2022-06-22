@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'package:my_shop/models/http_exception.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -16,8 +20,19 @@ class Product with ChangeNotifier {
       required this.imageUrl,
       this.favourite = false});
 
-  void toggleFavoriteStatus() {
-    favourite = !favourite;
-    notifyListeners();
+  Future<void> toggleFavoriteStatus() async {
+    try {
+      var response = await http.patch(
+          Uri.parse(
+              "https://flutter-shop-c7794-default-rtdb.firebaseio.com/products/$id.json"),
+          body: json.encode({'favourite': !favourite}));
+      if (response.statusCode >= 400) {
+        throw HttpException('Something failed in network');
+      }
+      favourite = !favourite;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 }

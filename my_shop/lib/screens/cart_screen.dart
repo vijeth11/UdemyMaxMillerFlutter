@@ -55,32 +55,35 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             )
                           : TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isLoading = true;
-                                });
-                                orderListner
-                                    .addOrder(
-                                        cartListener.items.values.toList(),
-                                        cartListener.totalAmount)
-                                    .then((value) {
-                                  setState(() {
-                                    _isLoading = false;
-                                  });
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              'Order Added Successfully. Go to Order Page')));
-                                  cartListener.clear();
-                                  Navigator.of(context).pop();
-                                }).catchError((error) {
-                                  displayError(error, context, () {
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                  });
-                                });
-                              },
+                              onPressed: cartListener.totalAmount <= 0
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        _isLoading = true;
+                                      });
+                                      orderListner
+                                          .addOrder(
+                                              cartListener.items.values
+                                                  .toList(),
+                                              cartListener.totalAmount)
+                                          .then((value) {
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content: Text(
+                                                    'Order Added Successfully. Go to Order Page')));
+                                        cartListener.clear();
+                                        Navigator.of(context).pop();
+                                      }).catchError((error) {
+                                        displayError(error, context, () {
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
+                                        });
+                                      });
+                                    },
                               child: const Text("ORDER NOW"))
                     ],
                   ),
