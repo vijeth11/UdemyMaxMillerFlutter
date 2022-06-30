@@ -14,6 +14,7 @@ enum FilterOptions {
 }
 
 class ProductsOverViewScreen extends StatefulWidget {
+  static const String routeName = '/';
   ProductsOverViewScreen({Key? key}) : super(key: key);
 
   @override
@@ -31,7 +32,6 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
         .then((value) => setState(() => isLoading = false))
         .catchError((error) {
       print(error);
-      setState(() => isLoading = false);
       displayError(
           error,
           context,

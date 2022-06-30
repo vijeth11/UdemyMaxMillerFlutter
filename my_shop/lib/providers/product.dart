@@ -20,12 +20,14 @@ class Product with ChangeNotifier {
       required this.imageUrl,
       this.favourite = false});
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String token, String userId) async {
     try {
-      var response = await http.patch(
+      var response = await http.put(
           Uri.parse(
-              "https://flutter-shop-c7794-default-rtdb.firebaseio.com/products/$id.json"),
-          body: json.encode({'favourite': !favourite}));
+              "https://flutter-shop-c7794-default-rtdb.firebaseio.com/userFavourites/$userId/$id.json?auth=$token"),
+          body: json.encode({
+            'favourite': !favourite,
+          }));
       if (response.statusCode >= 400) {
         throw HttpException('Something failed in network');
       }

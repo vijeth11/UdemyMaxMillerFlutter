@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop/providers/auth.dart';
 import '../providers/cart.dart';
 import 'package:provider/provider.dart';
 import '../providers/product.dart';
@@ -12,6 +13,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartListner = Provider.of<Cart>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
     // clipRect sets a border radius
     //final product = Provider.of<Product>(context);
     // Consumer is an alternative to Provider.of it listens always
@@ -28,7 +30,7 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondary,
               icon: Icon(
                   product.favourite ? Icons.favorite : Icons.favorite_border),
-              onPressed: product.toggleFavoriteStatus,
+              onPressed: () => product.toggleFavoriteStatus(authData.token ?? "",authData.userId),
             ),
             backgroundColor: Colors.black87,
             title: Text(

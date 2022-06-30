@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop/providers/auth.dart';
 import 'package:my_shop/screens/order_screen.dart';
+import 'package:my_shop/screens/products_overview_screen.dart';
 import 'package:my_shop/screens/user_product_screen.dart';
+import 'package:provider/provider.dart';
 
 class MainDrawer extends StatelessWidget {
   final double appBarHeight;
@@ -47,7 +50,15 @@ class MainDrawer extends StatelessWidget {
               Navigator.of(context).pushNamed(UserProductScreen.routeName);
             },
             leading: const Icon(Icons.edit),
-            title: const Text('Manage Products'))
+            title: const Text('Manage Products')),
+        const Divider(),
+        ListTile(
+            onTap: () {
+              Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).pushReplacementNamed('/');
+            },
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Logout'))
       ],
     ));
   }

@@ -10,8 +10,14 @@ import 'package:http/http.dart' as http;
 // this is like Subject and Observables in Angular4+
 // this class to be recognised as Notifier State class it needs mixin ChangeNotifier
 class Products with ChangeNotifier {
-  final String url =
-      "https://flutter-shop-c7794-default-rtdb.firebaseio.com/products.json";
+  late String url;
+  final String authToken;
+  final String userId;
+
+  Products(this.authToken, this.userId, this._items) {
+    url =
+        "https://flutter-shop-c7794-default-rtdb.firebaseio.com/products.json?auth=$authToken";
+  }
 
   List<Product> _items = [];
 
@@ -23,20 +29,27 @@ class Products with ChangeNotifier {
     return _items.where((element) => element.favourite).toList();
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
     try {
-      final response = await http.get(Uri.parse(url));
+      var response = await http.get(Uri.parse(
+          "https://flutter-shop-c7794-default-rtdb.firebaseio.com/userFavourites/$userId.json?auth=$authToken"));
+      final favourites = json.decode(response.body);
+      response = await http.get(Uri.parse(url +
+          (filterByUser ? '&orderBy="creatorId"&equalTo="$userId"' : '')));
       print(response.body);
       final List<Product> loadedData = [];
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       extractedData.forEach((key, value) {
         loadedData.add(Product(
-            id: key,
-            title: value['title'],
-            description: value['description'],
-            imageUrl: value['imageUrl'],
-            price: value['price'],
-            favourite: value['favourite']));
+          id: key,
+          title: value['title'],
+          description: value['description'],
+          imageUrl: value['imageUrl'],
+          price: value['price'],
+          favourite: favourites == null || favourites[key] == null
+              ? false
+              : favourites[key]['favourite'] ?? false,
+        ));
       });
       _items = loadedData;
       notifyListeners();
@@ -53,7 +66,7 @@ class Products with ChangeNotifier {
             'description': value.description,
             'price': value.price,
             'imageUrl': value.imageUrl,
-            'favourite': value.favourite
+            'creatorId': userId
           }));
       print(response.body);
       var id = json.decode(response.body)['name'];
@@ -79,7 +92,7 @@ class Products with ChangeNotifier {
 
   Future<void> updateProduct(String id, Product value) async {
     final updateUrl =
-        "https://flutter-shop-c7794-default-rtdb.firebaseio.com/products/$id.json";
+        "https://flutter-shop-c7794-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken";
 
     final prodIndex = _items.indexWhere((element) => element.id == id);
     if (prodIndex >= 0) {
@@ -89,7 +102,8 @@ class Products with ChangeNotifier {
               'title': value.title,
               'price': value.price,
               'description': value.description,
-              'imageUrl': value.imageUrl
+              'imageUrl': value.imageUrl,
+              'creatorId': userId
             }));
         _items[prodIndex] = value;
         notifyListeners();
@@ -101,7 +115,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) {
     final deleteUrl =
-        "https://flutter-shop-c7794-default-rtdb.firebaseio.com/products/$id.json";
+        "https://flutter-shop-c7794-default-rtdb.firebaseio.com/products/$id.json?auth=$authToken";
     return http.delete(Uri.parse(deleteUrl)).then((response) {
       if (response.statusCode >= 400) {
         throw HttpException('Could not delete product.');

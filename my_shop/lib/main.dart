@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_shop/screens/edit_product_screen.dart';
-import 'package:my_shop/screens/order_screen.dart';
-import 'package:my_shop/screens/user_product_screen.dart';
+import './screens/splash_screen.dart';
+import './providers/auth.dart';
+import './screens/auth_screen.dart';
+import './screens/edit_product_screen.dart';
+import './screens/order_screen.dart';
+import './screens/user_product_screen.dart';
 import './providers/orders.dart';
 import './providers/cart.dart';
 import './screens/cart_screen.dart';
@@ -18,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = ThemeData(primarySwatch: Colors.purple, fontFamily: 'Lato');
+    bool previousAuthState = false;
     // this is how we instantiate a state management by wripping the Material app with
     // a provider class 'ChangeNotifierProvider'. This requires child attribute and
     // create attribute. create attribute takes a function which returns
@@ -30,39 +34,61 @@ class MyApp extends StatelessWidget {
     // this is best practice to avoid bugs
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (ctx) => Products()),
+        ChangeNotifierProvider(
+          create: (ctx) => Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          update: (ctx, auth, previousProduct) => Products(
+              auth.token ?? "",
+              auth.userId,
+              previousProduct != null ? previousProduct.items : []),
+          create: (ctx) => Products("", "", []),
+        ),
         ChangeNotifierProvider(create: (ctx) => Cart()),
-        ChangeNotifierProvider(create: (ctx) => Orders()),
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          create: (ctx) => Orders("", ""),
+          update: (ctx, auth, order) => Orders(auth.token ?? "", auth.userId),
+        ),
       ],
-      child: MaterialApp(
-        title: 'MyShop',
-        debugShowCheckedModeBanner: false,
-        theme: theme.copyWith(
-            colorScheme:
-                theme.colorScheme.copyWith(secondary: Colors.deepOrange)),
-        home: ProductsOverViewScreen(),
-        routes: {
-          ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
-          CartScreen.routeName: (ctx) => const CartScreen(),
-          OrderScreen.routeName: (ctx) => OrderScreen(),
-          UserProductScreen.routeName: (ctx) => const UserProductScreen(),
-          EditProductScreen.routeName: (ctx) => EditProductScreen()
-        },
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('MyShop'),
-      ),
-      body: const Center(
-        child: Text('Let\'s build a shop!'),
-      ),
+      // this is done so that app can auto authenticate user based on token and
+      // direct him to products view screen rather than showing the login screen
+      // all the time when user opens the app.
+      // Here we only want to relad the home screen based on the auth provider
+      // hence we are wrapping the material app with consumer so we can access the
+      // auth cheange screen acordingly
+      child: Consumer<Auth>(builder: (ctx, auth, child) {
+        print("previous auth $previousAuthState");
+        print("is the material app authenticated ${auth.isAuth}");
+        if (previousAuthState != auth.isAuth) {
+          previousAuthState = auth.isAuth;
+          //Navigator.of(context).pushReplacementNamed('/');
+        }
+        return MaterialApp(
+          title: 'MyShop',
+          debugShowCheckedModeBanner: false,
+          theme: theme.copyWith(
+              colorScheme:
+                  theme.colorScheme.copyWith(secondary: Colors.deepOrange)),
+          home: auth.isAuth
+              ? ProductsOverViewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapShot) =>
+                      authResultSnapShot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
+          routes: {
+            //ProductsOverViewScreen.routeName: (ctx) => ProductsOverViewScreen(),
+            ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
+            CartScreen.routeName: (ctx) => const CartScreen(),
+            OrderScreen.routeName: (ctx) => OrderScreen(),
+            UserProductScreen.routeName: (ctx) => const UserProductScreen(),
+            EditProductScreen.routeName: (ctx) => EditProductScreen()
+          },
+        );
+      }),
     );
   }
 }

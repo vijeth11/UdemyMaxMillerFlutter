@@ -18,9 +18,16 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
-  final String url =
-      'https://flutter-shop-c7794-default-rtdb.firebaseio.com/orders.json';
+  late final String url;
+  final String authToken;
+  final String userId;
+
   List<OrderItem> _orders = [];
+
+  Orders(this.authToken, this.userId) {
+    url =
+        'https://flutter-shop-c7794-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken';
+  }
 
   List<OrderItem> get orders {
     return [..._orders];
@@ -32,6 +39,10 @@ class Orders with ChangeNotifier {
       List<OrderItem> loadedOrders = [];
       var orderResponse = json.decode(response.body) as Map<String, dynamic>;
       print(response.body);
+      if (orderResponse['error'] != null) {
+        _orders = [];
+        return;
+      }
       orderResponse.forEach((key, value) {
         loadedOrders.add(OrderItem(
             id: key,
@@ -50,6 +61,7 @@ class Orders with ChangeNotifier {
       _orders = loadedOrders.reversed.toList();
       notifyListeners();
     } catch (error) {
+      print(error);
       throw error;
     }
   }
