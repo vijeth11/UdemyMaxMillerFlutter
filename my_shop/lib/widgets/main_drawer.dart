@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop/helpers/custom_route.dart';
 import 'package:my_shop/providers/auth.dart';
 import 'package:my_shop/screens/order_screen.dart';
 import 'package:my_shop/screens/products_overview_screen.dart';
@@ -41,6 +42,9 @@ class MainDrawer extends StatelessWidget {
         ListTile(
             onTap: () {
               Navigator.of(context).pushNamed(OrderScreen.routeName);
+              // This is another way of providing an custom animation for a particular page
+              // this is currently commented out as main.dart file has same anuimation for all pages. 
+              //Navigator.of(context).pushReplacement(CustomRoute(builder:(ctx)=> OrderScreen()));
             },
             leading: const Icon(Icons.payment),
             title: const Text('Orders')),

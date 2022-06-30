@@ -12,6 +12,7 @@ import '../providers/products.dart';
 import 'package:provider/provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../screens/products_overview_screen.dart';
+import './helpers/custom_route.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,7 +21,17 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var theme = ThemeData(primarySwatch: Colors.purple, fontFamily: 'Lato');
+    var theme = ThemeData(
+        primarySwatch: Colors.purple,
+        fontFamily: 'Lato',
+        // this is a customized page change animation which overrides material theme
+        // page animation and uses the animation defined in the builder class which in
+        // current case is Fade in animation (go to helpers folder)
+        // For different animations for different pages look at main_drawer file.
+        pageTransitionsTheme: PageTransitionsTheme(builders: {
+          TargetPlatform.android: CustomPageTransitionBuilder(),
+          TargetPlatform.iOS: CustomPageTransitionBuilder()
+        }));
     bool previousAuthState = false;
     // this is how we instantiate a state management by wripping the Material app with
     // a provider class 'ChangeNotifierProvider'. This requires child attribute and

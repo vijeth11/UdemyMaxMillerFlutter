@@ -4,10 +4,47 @@ import 'package:provider/provider.dart';
 
 import '../providers/product.dart';
 
-class ProductDetailScreen extends StatelessWidget {
+class ProductDetailScreen extends StatefulWidget {
   static const String routeName = '/product-detail';
 
   const ProductDetailScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  late ScrollController _scrollController;
+  bool visible = true;
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_setTitleVisibility);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_setTitleVisibility);
+    super.dispose();
+  }
+
+  void _setTitleVisibility() {
+    if (_scrollController.offset > 235) {
+      if (visible) {
+        setState(() {
+          visible = false;
+        });
+      }
+    } else {
+      if (!visible) {
+        setState(() {
+          visible = true;
+        });
+      }
+    }
+    print(_scrollController.offset);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +54,43 @@ class ProductDetailScreen extends StatelessWidget {
     final productsProvider = Provider.of<Products>(context, listen: false);
     final Product item = productsProvider.findById(productId as String);
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: Text(item.title),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-                height: 300,
-                width: double.infinity,
-                child: Image.network(item.imageUrl)),
+      ),*/
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            title: !visible ? Text(item.title) : null,
+            flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.only(bottom: 0, top: 110),
+                title: Visibility(
+                  visible: visible,
+                  child: Container(
+                      width: 130,
+                      color: Colors.black54,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                      child: Text(item.title)),
+                ),
+                background: Hero(
+                    tag: productId,
+                    child: Image.network(
+                      item.imageUrl,
+                      fit: BoxFit.cover,
+                    ))),
+          ),
+          SliverList(
+              delegate: SliverChildListDelegate([
             const SizedBox(
               height: 10,
             ),
             Text(
               '\$${item.price}',
               style: const TextStyle(color: Colors.grey, fontSize: 20),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(
               height: 10,
@@ -44,9 +102,12 @@ class ProductDetailScreen extends StatelessWidget {
                   item.description,
                   textAlign: TextAlign.center,
                   softWrap: true,
-                ))
-          ],
-        ),
+                )),
+            SizedBox(
+              height: 800,
+            )
+          ]))
+        ],
       ),
     );
   }

@@ -30,7 +30,8 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondary,
               icon: Icon(
                   product.favourite ? Icons.favorite : Icons.favorite_border),
-              onPressed: () => product.toggleFavoriteStatus(authData.token ?? "",authData.userId),
+              onPressed: () => product.toggleFavoriteStatus(
+                  authData.token ?? "", authData.userId),
             ),
             backgroundColor: Colors.black87,
             title: Text(
@@ -67,7 +68,14 @@ class ProductItem extends StatelessWidget {
                 Navigator.of(context).pushNamed(ProductDetailScreen.routeName,
                     arguments: product.id);
               },
-              child: Image.network(product.imageUrl, fit: BoxFit.cover)),
+              child: Hero(
+                tag: product.id,
+                child: FadeInImage(
+                    placeholder:
+                        AssetImage('assets/images/product-placeholder.png'),
+                    image: NetworkImage(product.imageUrl),
+                    fit: BoxFit.cover),
+              )),
         ),
       ),
     );
