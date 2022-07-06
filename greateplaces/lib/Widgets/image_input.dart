@@ -1,9 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as sysPath;
 
 class ImageInput extends StatefulWidget {
-  const ImageInput({Key? key}) : super(key: key);
+  final Function onSelecImage;
+
+  const ImageInput(this.onSelecImage, {Key? key}) : super(key: key);
 
   @override
   State<ImageInput> createState() => _ImageInputState();
@@ -11,6 +16,21 @@ class ImageInput extends StatefulWidget {
 
 class _ImageInputState extends State<ImageInput> {
   late File? _storedImage = null;
+
+  Future<void> _takePicture() async {
+    final imageFile = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      maxWidth: 600,
+    );
+    if (imageFile == null) return;
+    setState(() {
+      _storedImage = File(imageFile.path);
+    });
+    final appDir = await sysPath.getApplicationDocumentsDirectory();
+    final fileName = path.basename(imageFile.path);
+    await imageFile.saveTo('${appDir.path}/$fileName');
+    widget.onSelecImage(File('${appDir.path}/$fileName'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +57,7 @@ class _ImageInputState extends State<ImageInput> {
         Expanded(
             child: TextButton.icon(
           icon: Icon(Icons.camera),
-          onPressed: () {},
+          onPressed: _takePicture,
           label: Text('Take Picture'),
           style: ButtonStyle(
               foregroundColor:
