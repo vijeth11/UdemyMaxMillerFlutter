@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           TargetPlatform.android: CustomPageTransitionBuilder(),
           TargetPlatform.iOS: CustomPageTransitionBuilder()
         }));
-    bool previousAuthState = false;
+
     // this is how we instantiate a state management by wripping the Material app with
     // a provider class 'ChangeNotifierProvider'. This requires child attribute and
     // create attribute. create attribute takes a function which returns
@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
     // if the data we are observing gets new set of values added to it and
     // we use provider.value constructor only if the value gets updated but not initialized again
     // this is best practice to avoid bugs
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -68,12 +69,7 @@ class MyApp extends StatelessWidget {
       // hence we are wrapping the material app with consumer so we can access the
       // auth cheange screen acordingly
       child: Consumer<Auth>(builder: (ctx, auth, child) {
-        print("previous auth $previousAuthState");
         print("is the material app authenticated ${auth.isAuth}");
-        if (previousAuthState != auth.isAuth) {
-          previousAuthState = auth.isAuth;
-          //Navigator.of(context).pushReplacementNamed('/');
-        }
         return MaterialApp(
           title: 'MyShop',
           debugShowCheckedModeBanner: false,
