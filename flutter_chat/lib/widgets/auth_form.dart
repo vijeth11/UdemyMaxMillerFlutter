@@ -44,8 +44,8 @@ class _AuthFormState extends State<AuthForm> {
 
     if (valid) {
       _formKey.currentState?.save();
-      widget.submitAuthForm(
-          _userEmail.trim(), _userPAssword.trim(), _userName.trim(),_userImageFile, _isLogin);
+      widget.submitAuthForm(_userEmail.trim(), _userPAssword.trim(),
+          _userName.trim(), _userImageFile, _isLogin);
     }
   }
 
@@ -65,6 +65,7 @@ class _AuthFormState extends State<AuthForm> {
                     if (!_isLogin) UserImagePicker(imagepickfn: _pickedImage),
                     TextFormField(
                       key: ValueKey('email'),
+                      textCapitalization: TextCapitalization.none,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(labelText: 'Email Address'),
                       validator: (value) {
@@ -79,6 +80,7 @@ class _AuthFormState extends State<AuthForm> {
                     if (!_isLogin)
                       TextFormField(
                           key: ValueKey('username'),
+                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(labelText: 'Username'),
                           validator: (value) {
                             if (value!.isEmpty || value.length < 4)
