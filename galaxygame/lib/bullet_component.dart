@@ -51,6 +51,7 @@ class BulletComponent extends SpriteComponent
       other.removeFromParent();
       removeFromParent();
       FlameAudio.play('explosion.mp3', volume: 100);
+      gameRef.addExplosionSprite(intersectionPoints.first);
       print("Collided bullet");
     }
   }

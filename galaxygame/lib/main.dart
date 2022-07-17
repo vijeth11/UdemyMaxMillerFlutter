@@ -55,8 +55,14 @@ class MyGame extends FlameGame
   var dimentions;
   @override
   Future<void> onLoad() async {
-    await Flame.images.loadAll(
-        ['fire.png', 'dragon.png', 'gun.png', 'bullet.png', 'background.jpg']);
+    await Flame.images.loadAll([
+      'fire.png',
+      'dragon.png',
+      'gun.png',
+      'bullet.png',
+      'background.jpg',
+      'explosionSpriteSheet.png'
+    ]);
     FlameAudio.bgm.initialize();
     FlameAudio.bgm.load('music.ogg');
     FlameAudio.bgm.play('music.ogg');
@@ -133,5 +139,18 @@ class MyGame extends FlameGame
       overlays.remove('PauseMessage');
       resumeEngine();
     }
+  }
+
+  addExplosionSprite(Vector2 position) {
+    final spriteSize = Vector2.all(40);
+    SpriteAnimationData spriteData = SpriteAnimationData.sequenced(
+        amount: 7, stepTime: 0.3, textureSize: Vector2(33, 33), loop: false);
+    var explosionAnimation = SpriteAnimationComponent.fromFrameData(
+        images.fromCache('explosionSpriteSheet.png'), spriteData)
+      ..x = position.toPoint().x.toDouble()
+      ..y = position.toPoint().y.toDouble()
+      ..size = spriteSize
+      ..removeOnFinish = true;
+    add(explosionAnimation);
   }
 }

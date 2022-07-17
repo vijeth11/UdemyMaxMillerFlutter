@@ -70,6 +70,7 @@ flutter:
     - assets/images/explosion-4.png
     - assets/images/explosion-5.png
     - assets/images/explosion-6.png
+    - assets/images/explosionSpriteSheet.png
     - assets/audio/explosion.mp3
     - assets/audio/miss.mp3
     - assets/audio/music.ogg
