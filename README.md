@@ -14,3 +14,23 @@ A new Flutter App displaying all the different types of dishes categorized by cu
 User can mark their favourite dishes
 
 ![](https://github.com/vijeth11/UdemyMaxMillerFlutter/blob/main/meals_app/Meal%20App.gif)
+
+# Great Places
+
+A new Flutter App where users can take the picture of the location from camera or gallery and add the google map location and save it.
+It displays list of places which user has added and also the google map location preview along with the images of the place. It uses firebase services
+and in app sqllite database to store the data
+
+# My Shop 
+
+A new Flutter App where users can register and shop for the different items, add them to cart and then place orders. Users can also login as admin 
+and add new items to the shop and view the list of shop items they have added and edit them as well. Users can also view their past orders in a list of tiles \
+which can be expanded to see the items with quantity and total amount. This app uses Firebase realtime database for storing data and firebase auth for authentication
+and providers for handling data.
+
+# Flutter Chat
+
+A new Flutter chatting application which uses Firebase cloud services for providing a unique chatting experience.
+
+# Galaxy Game
+ ref https://blog.geekyants.com/building-a-2d-game-in-flutter-a-comprehensive-guide-913f647846bc
