@@ -1,6 +1,7 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:galaxygame/main.dart';
 import 'package:galaxygame/villan_component.dart';
@@ -41,14 +42,15 @@ class BulletComponent extends SpriteComponent
   }
 
   @override
-  void onCollisionStart(
-      Set<Vector2> intersectionPoints, PositionComponent other) {
+  Future<void> onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) async {
     // TODO: implement onCollision
     super.onCollisionStart(intersectionPoints, other);
     if (other is VillanComponent) {
       gameRef.score += 1;
       other.removeFromParent();
       removeFromParent();
+      FlameAudio.play('explosion.mp3', volume: 100);
       print("Collided bullet");
     }
   }

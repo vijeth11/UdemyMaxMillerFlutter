@@ -2,6 +2,7 @@ import 'dart:math' as Math;
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -56,6 +57,9 @@ class MyGame extends FlameGame
   Future<void> onLoad() async {
     await Flame.images.loadAll(
         ['fire.png', 'dragon.png', 'gun.png', 'bullet.png', 'background.jpg']);
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.load('music.ogg');
+    FlameAudio.bgm.play('music.ogg');
     var background =
         SpriteComponent(sprite: Sprite(images.fromCache('background.jpg')));
     add(background);
