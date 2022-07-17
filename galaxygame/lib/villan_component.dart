@@ -69,7 +69,6 @@ class VillanComponent extends SpriteComponent
       if (intersectionPoints.first[1] == intersectionPoints.last[1]) {
         gameRef.displayGameOver();
       }
-      print(intersectionPoints);
     }
   }
 }

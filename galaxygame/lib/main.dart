@@ -106,7 +106,6 @@ class MyGame extends FlameGame
       }
     } else if (gamePaused) {
       if (children.query().length == 2) {
-        print(children.query());
         pauseEngine();
       }
     }
