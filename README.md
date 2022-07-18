@@ -4,9 +4,9 @@ Below are some of the projects created using the flutter
 
 Some basic flutter commands:-
 
-"flutter run" command to run app 
-"flutter pub get <lib name>"
- "flutter create <app_name>"
+- "flutter run" command to run app 
+- "flutter pub get <lib name>"
+- "flutter create <app_name>"
 
  # expenses_tracker
 
