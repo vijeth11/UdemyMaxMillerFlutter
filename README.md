@@ -19,7 +19,10 @@ User can mark their favourite dishes
 
 A new Flutter App where users can take the picture of the location from camera or gallery and add the google map location and save it.
 It displays list of places which user has added and also the google map location preview along with the images of the place. It uses firebase services
-and in app sqllite database to store the data
+and in app sqllite database to store the data.
+
+![GreatPlace](https://user-images.githubusercontent.com/21109775/179568613-0d169144-f083-498e-8330-dca69414bb2b.gif)
+
 
 # My Shop 
 
