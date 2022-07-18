@@ -33,4 +33,13 @@ and providers for handling data.
 A new Flutter chatting application which uses Firebase cloud services for providing a unique chatting experience.
 
 # Galaxy Game
+
+Game developed using flutter and flame game engine 
+
+
+
+https://user-images.githubusercontent.com/21109775/179467499-ffcdd876-ab4a-4699-bd37-a93e164a5392.mp4
+
+
+
  ref https://blog.geekyants.com/building-a-2d-game-in-flutter-a-comprehensive-guide-913f647846bc
