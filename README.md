@@ -2,7 +2,13 @@
 
 Below are some of the projects created using the flutter
 
-# expenses_tracker
+Some basic flutter commands:-
+
+"flutter run" command to run app 
+"flutter pub get <lib name>"
+ "flutter create <app_name>"
+
+ # expenses_tracker
 
 A new Flutter project which records the expenses done by user over a week and displays them with a chart above the list.
 
