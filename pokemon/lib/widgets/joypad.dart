@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:pokemon/helper/direction.dart';
 import 'package:pokemon/helper/draw_line.dart';
 
 class JoyPad extends StatefulWidget {
@@ -10,6 +13,7 @@ class JoyPad extends StatefulWidget {
 }
 
 class _JoyPadState extends State<JoyPad> {
+  Direction direction = Direction.none;
   Offset delta = Offset.zero;
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,7 @@ class _JoyPadState extends State<JoyPad> {
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: const Color(0xccffffff),
+                        color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
                   ),
@@ -48,6 +52,58 @@ class _JoyPadState extends State<JoyPad> {
               )
             ]),
           ),
+          onPanStart: onDragStart,
+          onPanUpdate: onDragUpdate,
+          onPanEnd: onDragEnd,
         ));
+  }
+
+  Direction getDirection(Offset position) {
+    if (position.dx > 20) {
+      return Direction.right;
+    }
+    if (position.dx < -20) {
+      return Direction.left;
+    }
+    if (position.dy > 20) {
+      return Direction.down;
+    }
+    if (position.dy < -20) {
+      return Direction.up;
+    }
+    return Direction.none;
+  }
+
+  void updateTheDelta(Offset update) {
+    var newDirection = getDirection(update);
+    if (newDirection != direction) {
+      direction = newDirection;
+      widget.onDirectionChanged(direction);
+    }
+    setState(() {
+      delta = update;
+    });
+  }
+
+  void currentStickPosition(Offset updatedPosition) {
+    Offset newPosition = Offset.zero;
+    // remove the area covered by stick 
+    if (newPosition != updatedPosition)
+      newPosition = updatedPosition - Offset(60, 60);
+    // to keep the stick withing the outer circle which has radius of 30
+    updateTheDelta(Offset.fromDirection(
+        newPosition.direction, min(30, newPosition.distance)));
+  }
+
+  void onDragStart(DragStartDetails details) {
+    currentStickPosition(details.localPosition);
+  }
+
+  void onDragUpdate(DragUpdateDetails details) {
+    currentStickPosition(details.localPosition);
+  }
+
+  void onDragEnd(DragEndDetails details) {
+    currentStickPosition(Offset.zero);
   }
 }
