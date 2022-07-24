@@ -10,10 +10,14 @@ class Player extends SpriteAnimationComponent {
   late SpriteAnimation sprintAnimation;
   final Vector2 playerSize;
   final Vector2 playerPosition;
+  double speedY = 0.0;
+  double maxY = 0.0;
+  double gravity = 1000;
 
   Player(this.playerSize, this.playerPosition) {
     size = playerSize;
     position = playerPosition;
+    maxY = playerPosition.y;
   }
 
   @override
@@ -39,5 +43,39 @@ class Player extends SpriteAnimationComponent {
 
     animation = runAnimation;
     return super.onLoad();
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    // final velocity
+    // v = u + at
+    this.speedY += gravity * dt;
+
+    // distance formula
+    // d = s0 + vt
+    this.y += this.speedY * dt;
+    if (isOnGround()) {
+      y = maxY;
+      speedY = 0;
+    }
+  }
+
+  bool isOnGround() {
+    return y >= maxY;
+  }
+
+  jump() {
+    if (isOnGround()) {
+      speedY = -600;
+    }
+  }
+
+  void hit() {
+    animation = hitAnimation;
+  }
+
+  void run() {
+    animation = runAnimation;
   }
 }
