@@ -1,6 +1,6 @@
-import 'package:dino_run/widgets/background.dart';
-import 'package:dino_run/widgets/enemy_manager.dart';
-import 'package:dino_run/widgets/player.dart';
+import 'package:dino_run/helper/background.dart';
+import 'package:dino_run/game/enemy_manager.dart';
+import 'package:dino_run/game/player.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -20,6 +20,7 @@ class DinoGame extends FlameGame
   late Player dino;
   late TextComponent _scoreText;
   int score = 0;
+  double elapsedTime = 0;
   Background background = Background();
   double countter = 0;
   late EnemyManager _enemyManager;
@@ -65,8 +66,12 @@ class DinoGame extends FlameGame
 
   @override
   void update(double dt) {
-    score += (60 * dt).toInt();
-    _scoreText.text = score.toString();
+    elapsedTime += dt;
+    if (elapsedTime > (1 / 60)) {
+      elapsedTime = 0;
+      score += 1;
+      _scoreText.text = score.toString();
+    }
     if (life.value <= 0) {
       displayGameOver();
     }

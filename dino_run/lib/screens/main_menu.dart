@@ -1,7 +1,21 @@
-import 'package:flutter/cupertino.dart';
+import 'package:dino_run/widgets/menu.dart';
+import 'package:dino_run/widgets/settings.dart';
 import 'package:flutter/material.dart';
 
-class MainMenu extends StatelessWidget {
+class MainMenu extends StatefulWidget {
+  @override
+  State<MainMenu> createState() => _MainMenuState();
+}
+
+class _MainMenuState extends State<MainMenu> {
+  late CrossFadeState _crossFadeState;
+
+  @override
+  void initState() {
+    _crossFadeState = CrossFadeState.showFirst;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -19,38 +33,28 @@ class MainMenu extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 100, vertical: 50),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Dino Run',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Audiowide',
-                          fontSize: 60),
-                    ),
-                    ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white)),
-                        onPressed: () {
-                          Navigator.of(context).pushReplacementNamed('game');
-                        },
-                        child: Text(
-                          'Play',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Audiowide',
-                              fontSize: 30),
-                        ))
-                  ],
-                ),
-              ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 100, vertical: 50),
+                  child: AnimatedCrossFade(
+                    crossFadeState: _crossFadeState,
+                    duration: Duration(milliseconds: 300),
+                    firstChild: Menu(showSettings),
+                    secondChild: Settings(showMenu),
+                  )),
             ),
           )),
     );
+  }
+
+  showMenu() {
+    setState(() {
+      _crossFadeState = CrossFadeState.showFirst;
+    });
+  }
+
+  showSettings() {
+    setState(() {
+      _crossFadeState = CrossFadeState.showSecond;
+    });
   }
 }
