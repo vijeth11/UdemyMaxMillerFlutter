@@ -1,17 +1,23 @@
 import 'package:dino_run/widgets/background.dart';
-import 'package:dino_run/widgets/enemy.dart';
+import 'package:dino_run/widgets/enemy_manager.dart';
 import 'package:dino_run/widgets/player.dart';
+import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 
-const double groundHeight = 32;
-const double playerSize = 50;
+import 'helper/constants.dart';
 
-class DinoGame extends FlameGame with MultiTouchTapDetector {
+class DinoGame extends FlameGame with MultiTouchTapDetector, HasCollisionDetection {
   late Player dino;
+  late TextComponent _scoreText;
+  int score = 0;
   Background background = Background();
   double countter = 0;
+  late EnemyManager _enemyManager;
+  DinoGame() {
+    _scoreText = TextComponent(text: score.toString());
+  }
 
   @override
   Future<void>? onLoad() async {
@@ -35,25 +41,26 @@ class DinoGame extends FlameGame with MultiTouchTapDetector {
 
     dino = Player(
         Vector2.all(playerSize),
-        Vector2(size.toOffset().dx / 10,
-            size.toOffset().dy - groundHeight - playerSize + 15));
+        Vector2(size.toOffset().dx / numberOfTiles,
+            size.toOffset().dy - groundHeight - playerSize / 2 + 10));
     add(dino);
-
+    add(_scoreText);
+    _enemyManager = EnemyManager();
+    add(_enemyManager);
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
-    countter += dt;
-    if (countter > 2) {
-      var enemy = Enemy(
-          Vector2.all(playerSize),
-          Vector2(size.toOffset().dx / 10,
-              size.toOffset().dy - groundHeight - playerSize));
-      add(enemy);
-      countter = 0;
-    }
+    score += (60 * dt).toInt();
+    _scoreText.text = score.toString();
     super.update(dt);
+  }
+
+  @override
+  void onGameResize(Vector2 canvasSize) {
+    _scoreText.position = Vector2(canvasSize.toOffset().dx / 2, 0);
+    super.onGameResize(canvasSize);
   }
 
   @override

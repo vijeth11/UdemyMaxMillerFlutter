@@ -1,8 +1,10 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 
-class Player extends SpriteAnimationComponent {
+class Player extends SpriteAnimationComponent
+    with HasGameRef, CollisionCallbacks {
   late SpriteAnimation idelAnimation;
   late SpriteAnimation runAnimation;
   late SpriteAnimation kickAnimation;
@@ -18,6 +20,7 @@ class Player extends SpriteAnimationComponent {
     size = playerSize;
     position = playerPosition;
     maxY = playerPosition.y;
+    anchor = Anchor.center;
   }
 
   @override
@@ -42,6 +45,7 @@ class Player extends SpriteAnimationComponent {
         row: 0, stepTime: 0.1, from: 17, to: 23);
 
     animation = runAnimation;
+    add(RectangleHitbox());
     return super.onLoad();
   }
 
@@ -77,5 +81,18 @@ class Player extends SpriteAnimationComponent {
 
   void run() {
     animation = runAnimation;
+  }
+
+  @override
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    hit();
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    run();
+    super.onCollisionEnd(other);
   }
 }
