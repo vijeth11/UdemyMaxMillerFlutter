@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:dino_run/dino_game.dart';
+import 'package:dino_run/screens/dino_game.dart';
 import 'package:dino_run/widgets/enemy.dart';
 import 'package:flame/components.dart';
 

@@ -1,4 +1,4 @@
-import 'package:dino_run/dino_game.dart';
+import 'package:dino_run/screens/dino_game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';

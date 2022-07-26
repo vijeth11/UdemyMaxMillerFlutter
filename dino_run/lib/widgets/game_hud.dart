@@ -1,4 +1,4 @@
-import 'package:dino_run/dino_game.dart';
+import 'package:dino_run/screens/dino_game.dart';
 import 'package:flutter/material.dart';
 
 class GameHud extends StatelessWidget {

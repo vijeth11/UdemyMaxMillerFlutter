@@ -2,14 +2,15 @@ import 'package:dino_run/widgets/background.dart';
 import 'package:dino_run/widgets/enemy_manager.dart';
 import 'package:dino_run/widgets/player.dart';
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'helper/constants.dart';
+import '../helper/constants.dart';
+import '../widgets/game_hud.dart';
+import '../widgets/game_over.dart';
+import '../widgets/pause_menu.dart';
 
 class DinoGame extends FlameGame
     with MultiTouchTapDetector, HasCollisionDetection {
@@ -133,5 +134,29 @@ class DinoGame extends FlameGame
     }
     overlays.add('gameOver');
     pauseEngine();
+  }
+}
+
+class GameAppScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    var game = DinoGame();
+    return Scaffold(
+      body: Stack(
+        children: [
+          GameWidget(
+            game: game,
+            overlayBuilderMap: {
+              'pauseMenu': (ctx, DinoGame gameInstance) =>
+                  PauseMenu(gameInstance.resumeGame),
+              'pauseIcon': (ctx, DinoGame gameInstance) =>
+                  GameHud(gameInstance),
+              'gameOver': (ctx, DinoGame gameInstance) => GameOver(gameInstance)
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
