@@ -44,4 +44,14 @@ class EnemyManager extends Component with HasGameRef<DinoGame> {
     }
     super.update(dt);
   }
+
+  void reset() {
+    _timer.stop();
+    spawnLevel = 0;
+    gameRef.removeAll(gameRef.children.where((element) => element is Enemy));
+    _timer = Timer(4, repeat: true, autoStart: false, onTick: () {
+      spawnRandomEnemy();
+    });
+    
+  }
 }

@@ -5,18 +5,29 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flame/input.dart';
+import 'package:flame/widgets.dart';
+import 'package:flutter/material.dart';
 
 import 'helper/constants.dart';
 
-class DinoGame extends FlameGame with MultiTouchTapDetector, HasCollisionDetection {
+class DinoGame extends FlameGame
+    with MultiTouchTapDetector, HasCollisionDetection {
+  @override
+  // TODO: implement debugMode
+  //bool get debugMode => true;
   late Player dino;
   late TextComponent _scoreText;
   int score = 0;
   Background background = Background();
   double countter = 0;
   late EnemyManager _enemyManager;
+  ValueNotifier<int> life = ValueNotifier(5);
+
   DinoGame() {
-    _scoreText = TextComponent(text: score.toString());
+    var style = TextStyle(fontFamily: 'Audiowide', fontSize: 20);
+    var render = TextPaint(style: style);
+    _scoreText = TextComponent(text: score.toString(), textRenderer: render);
   }
 
   @override
@@ -47,6 +58,7 @@ class DinoGame extends FlameGame with MultiTouchTapDetector, HasCollisionDetecti
     add(_scoreText);
     _enemyManager = EnemyManager();
     add(_enemyManager);
+    overlays.add('pauseIcon');
     return super.onLoad();
   }
 
@@ -54,6 +66,9 @@ class DinoGame extends FlameGame with MultiTouchTapDetector, HasCollisionDetecti
   void update(double dt) {
     score += (60 * dt).toInt();
     _scoreText.text = score.toString();
+    if (life.value <= 0) {
+      displayGameOver();
+    }
     super.update(dt);
   }
 
@@ -67,5 +82,56 @@ class DinoGame extends FlameGame with MultiTouchTapDetector, HasCollisionDetecti
   void onTapDown(int pointerId, TapDownInfo info) {
     dino.jump();
     super.onTapDown(pointerId, info);
+  }
+
+  @override
+  void lifecycleStateChange(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.inactive:
+        displayPauseMenu();
+        break;
+      case AppLifecycleState.detached:
+        displayPauseMenu();
+        break;
+      case AppLifecycleState.paused:
+        displayPauseMenu();
+        break;
+      case AppLifecycleState.resumed:
+        break;
+    }
+  }
+
+  displayPauseMenu() {
+    if (overlays.isActive('pauseMenu')) {
+      overlays.remove('pauseMenu');
+    }
+    overlays.add('pauseMenu');
+    pauseEngine();
+  }
+
+  resumeGame() {
+    if (overlays.isActive('pauseMenu')) {
+      overlays.remove('pauseMenu');
+    }
+    resumeEngine();
+  }
+
+  restartGame() {
+    if (overlays.isActive('gameOver')) {
+      overlays.remove('gameOver');
+    }
+    score = 0;
+    life.value = 5;
+    _enemyManager.reset();
+    dino.run();
+    resumeEngine();
+  }
+
+  displayGameOver() {
+    if (overlays.isActive('gameOver')) {
+      overlays.remove('gameOver');
+    }
+    overlays.add('gameOver');
+    pauseEngine();
   }
 }

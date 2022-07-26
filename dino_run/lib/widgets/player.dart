@@ -1,10 +1,12 @@
+import 'package:dino_run/dino_game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
+import 'package:flutter/cupertino.dart';
 
 class Player extends SpriteAnimationComponent
-    with HasGameRef, CollisionCallbacks {
+    with HasGameRef<DinoGame>, CollisionCallbacks {
   late SpriteAnimation idelAnimation;
   late SpriteAnimation runAnimation;
   late SpriteAnimation kickAnimation;
@@ -45,7 +47,13 @@ class Player extends SpriteAnimationComponent
         row: 0, stepTime: 0.1, from: 17, to: 23);
 
     animation = runAnimation;
-    add(RectangleHitbox());
+    var paint = Paint()..color = Color.fromARGB(255, 195, 67, 235);
+    var hitBox = PolygonHitbox.relative(
+        [Vector2(0.3, -1), Vector2(-1, -1), Vector2(-1, 1), Vector2(0.3, 1)],
+        parentSize: size)
+      ..renderShape = false
+      ..paint = paint;
+    add(hitBox);
     return super.onLoad();
   }
 
@@ -77,6 +85,7 @@ class Player extends SpriteAnimationComponent
 
   void hit() {
     animation = hitAnimation;
+    gameRef.life.value -= 1;
   }
 
   void run() {
