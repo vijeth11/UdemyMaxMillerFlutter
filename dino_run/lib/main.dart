@@ -1,12 +1,21 @@
+import 'dart:io';
+
+import 'package:dino_run/game/audio_manager.dart';
 import 'package:dino_run/screens/dino_game.dart';
 import 'package:dino_run/screens/main_menu.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Flame.device.fullScreen();
   Flame.device.setLandscape();
+  Directory appDocDir = await getApplicationDocumentsDirectory();
+  String appDocPath = appDocDir.path;
+  Hive.init(appDocPath);
+  await AudioManager.instance.init();
   runApp(const MyApp());
 }
 

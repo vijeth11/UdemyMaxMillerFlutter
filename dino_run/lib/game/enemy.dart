@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dino_run/screens/dino_game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
@@ -20,7 +21,7 @@ class EnemyData {
 }
 
 class Enemy extends SpriteAnimationComponent
-    with HasGameRef, CollisionCallbacks {
+    with HasGameRef<DinoGame>, CollisionCallbacks {
   final double speed = 150;
   static const Map<EnemyType, EnemyData> _enemyDetails = {
     EnemyType.AngryPig:
@@ -60,6 +61,10 @@ class Enemy extends SpriteAnimationComponent
     x -= speed * dt;
     if (x <= -width) {
       gameRef.remove(this);
+      if (!gameRef.isHit) {
+        gameRef.score.value += 1;
+      }
+      gameRef.isHit = false;
     }
     super.update(dt);
   }

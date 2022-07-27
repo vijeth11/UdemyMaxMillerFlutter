@@ -22,7 +22,7 @@ class GameOver extends StatelessWidget {
                       fontFamily: 'Audiowide',
                       fontSize: 30,
                       color: Colors.white)),
-              Text('Your score was ${instance.score}',
+              Text('Your score was ${instance.score.value}',
                   style: TextStyle(
                       fontFamily: 'Audiowide',
                       fontSize: 30,

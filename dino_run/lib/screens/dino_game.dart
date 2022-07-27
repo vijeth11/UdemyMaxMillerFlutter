@@ -1,3 +1,4 @@
+import 'package:dino_run/game/enemy.dart';
 import 'package:dino_run/helper/background.dart';
 import 'package:dino_run/game/enemy_manager.dart';
 import 'package:dino_run/game/player.dart';
@@ -6,6 +7,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import '../helper/constants.dart';
 import '../widgets/game_hud.dart';
@@ -18,22 +20,25 @@ class DinoGame extends FlameGame
   // TODO: implement debugMode
   //bool get debugMode => true;
   late Player dino;
-  late TextComponent _scoreText;
-  int score = 0;
-  double elapsedTime = 0;
+  late Box scoreData;
+  late int highScore;
+  ValueNotifier<int> score = ValueNotifier(0);
+  bool isHit = false;
   Background background = Background();
   double countter = 0;
   late EnemyManager _enemyManager;
   ValueNotifier<int> life = ValueNotifier(5);
 
-  DinoGame() {
-    var style = TextStyle(fontFamily: 'Audiowide', fontSize: 20);
-    var render = TextPaint(style: style);
-    _scoreText = TextComponent(text: score.toString(), textRenderer: render);
-  }
-
   @override
   Future<void>? onLoad() async {
+    scoreData = await Hive.openBox('highScore');
+    if (scoreData.get('score') == null) {
+      highScore = 0;
+      scoreData.put('score', 0);
+    } else {
+      highScore = scoreData.get('score');
+    }
+
     await Flame.images.loadAll([
       'DinoSprites_tard.gif',
       'DinoSprites - tard.png',
@@ -49,7 +54,6 @@ class DinoGame extends FlameGame
       'Flying Bat (46x30).png',
       'Rino Run (52x34).png'
     ]);
-
     add(background);
 
     dino = Player(
@@ -57,7 +61,6 @@ class DinoGame extends FlameGame
         Vector2(size.toOffset().dx / numberOfTiles,
             size.toOffset().dy - groundHeight - playerSize / 2 + 10));
     add(dino);
-    add(_scoreText);
     _enemyManager = EnemyManager();
     add(_enemyManager);
     overlays.add('pauseIcon');
@@ -66,12 +69,6 @@ class DinoGame extends FlameGame
 
   @override
   void update(double dt) {
-    elapsedTime += dt;
-    if (elapsedTime > (1 / 60)) {
-      elapsedTime = 0;
-      score += 1;
-      _scoreText.text = score.toString();
-    }
     if (life.value <= 0) {
       displayGameOver();
     }
@@ -80,13 +77,14 @@ class DinoGame extends FlameGame
 
   @override
   void onGameResize(Vector2 canvasSize) {
-    _scoreText.position = Vector2(canvasSize.toOffset().dx / 2, 0);
     super.onGameResize(canvasSize);
   }
 
   @override
   void onTapDown(int pointerId, TapDownInfo info) {
-    dino.jump();
+    if (!overlays.isActive('gameOver') || !overlays.isActive('pauseMenu')) {
+      dino.jump();
+    }
     super.onTapDown(pointerId, info);
   }
 
@@ -108,11 +106,13 @@ class DinoGame extends FlameGame
   }
 
   displayPauseMenu() {
-    if (overlays.isActive('pauseMenu')) {
-      overlays.remove('pauseMenu');
+    if (!overlays.isActive('gameOver')) {
+      if (overlays.isActive('pauseMenu')) {
+        overlays.remove('pauseMenu');
+      }
+      overlays.add('pauseMenu');
+      pauseEngine();
     }
-    overlays.add('pauseMenu');
-    pauseEngine();
   }
 
   resumeGame() {
@@ -126,7 +126,7 @@ class DinoGame extends FlameGame
     if (overlays.isActive('gameOver')) {
       overlays.remove('gameOver');
     }
-    score = 0;
+    score.value = 0;
     life.value = 5;
     _enemyManager.reset();
     dino.run();
@@ -138,6 +138,10 @@ class DinoGame extends FlameGame
       overlays.remove('gameOver');
     }
     overlays.add('gameOver');
+    if (highScore < score.value) {
+      highScore = score.value;
+      scoreData.put('score', highScore);
+    }
     pauseEngine();
   }
 }
@@ -159,6 +163,12 @@ class GameAppScreen extends StatelessWidget {
                   GameHud(gameInstance),
               'gameOver': (ctx, DinoGame gameInstance) => GameOver(gameInstance)
             },
+            loadingBuilder: (ctx) => Center(
+              child: Container(
+                width: 200,
+                child: LinearProgressIndicator(),
+              ),
+            ),
           ),
         ],
       ),

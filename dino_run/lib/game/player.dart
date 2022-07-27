@@ -1,3 +1,5 @@
+import 'package:dino_run/game/audio_manager.dart';
+
 import '../screens/dino_game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -80,12 +82,15 @@ class Player extends SpriteAnimationComponent
   jump() {
     if (isOnGround()) {
       speedY = -600;
+      AudioManager.instance.playSfx('jump14.wav');
     }
   }
 
   void hit() {
     animation = hitAnimation;
     gameRef.life.value -= 1;
+    gameRef.isHit = true;
+    AudioManager.instance.playSfx('hurt7.wav');
   }
 
   void run() {

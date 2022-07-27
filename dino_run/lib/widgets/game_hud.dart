@@ -19,6 +19,37 @@ class GameHud extends StatelessWidget {
             color: Colors.white,
             iconSize: 30.0,
           ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Score: ',
+                      style: TextStyle(
+                          fontFamily: 'Audiowide',
+                          color: Colors.white,
+                          fontSize: 25)),
+                  ValueListenableBuilder(
+                      valueListenable: gameInstance.score,
+                      builder: (ctx, int value, child) => Text(
+                            '$value',
+                            style: TextStyle(
+                                fontFamily: 'Audiowide',
+                                color: Colors.white,
+                                fontSize: 25),
+                          )),
+                ],
+              ),
+              Text(
+                'Hight Score: ${gameInstance.highScore}',
+                style: TextStyle(
+                    fontFamily: 'Audiowide', color: Colors.white, fontSize: 18),
+              )
+            ],
+          ),
           Padding(
             padding: EdgeInsets.only(right: 15),
             child: ValueListenableBuilder(

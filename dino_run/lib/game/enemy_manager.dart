@@ -32,7 +32,7 @@ class EnemyManager extends Component with HasGameRef<DinoGame> {
   @override
   void update(double dt) {
     _timer.update(dt);
-    int newSpawnLevel = (gameRef.score ~/ 500);
+    int newSpawnLevel = (gameRef.score.value ~/ 500);
     if (spawnLevel < newSpawnLevel) {
       spawnLevel = newSpawnLevel;
       _timer.stop();
@@ -52,6 +52,6 @@ class EnemyManager extends Component with HasGameRef<DinoGame> {
     _timer = Timer(4, repeat: true, autoStart: false, onTick: () {
       spawnRandomEnemy();
     });
-    
+    _timer.start();
   }
 }
