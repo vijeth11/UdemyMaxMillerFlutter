@@ -5,6 +5,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
+import 'package:flutter/material.dart';
 
 import '../helper/constants.dart';
 
@@ -52,7 +53,10 @@ class Enemy extends SpriteAnimationComponent
         (isBat && Random().nextBool()
             ? 0
             : _enemyDetails[selectedType]!.extraHeight);
-    add(RectangleHitbox());
+    var paint = Paint()..color = Color.fromARGB(255, 195, 67, 235);
+    add(RectangleHitbox.relative(Vector2(0.8, 1), parentSize: size)
+      ..paint = paint
+      ..renderShape = false);
     return super.onLoad();
   }
 

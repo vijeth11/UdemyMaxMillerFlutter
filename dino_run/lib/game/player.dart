@@ -50,9 +50,12 @@ class Player extends SpriteAnimationComponent
 
     animation = runAnimation;
     var paint = Paint()..color = Color.fromARGB(255, 195, 67, 235);
-    var hitBox = PolygonHitbox.relative(
-        [Vector2(0.3, -1), Vector2(-1, -1), Vector2(-1, 1), Vector2(0.3, 1)],
-        parentSize: size)
+    var hitBox = PolygonHitbox.relative([
+      Vector2(0.3, -1),
+      Vector2(-0.4, -1),
+      Vector2(-0.4, 1),
+      Vector2(0.3, 1)
+    ], parentSize: size)
       ..renderShape = false
       ..paint = paint;
     add(hitBox);
