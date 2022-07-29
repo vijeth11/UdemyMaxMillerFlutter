@@ -17,9 +17,6 @@ class Platform extends PositionComponent with CollisionCallbacks {
             angle: angle);
 
   @override
-  // TODO: implement debugMode
-  bool get debugMode => true;
-  @override
   Future<void>? onLoad() {
     add(RectangleHitbox()..collisionType = CollisionType.passive);
     return super.onLoad();
