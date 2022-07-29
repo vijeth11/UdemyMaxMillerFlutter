@@ -65,7 +65,11 @@ class Level extends Component with HasGameRef<SimplePlatformer> {
           add(coin);
           break;
         case 'Enemy':
+          final targetId = int.parse(element.properties.first.value);
+          final target = spawnPointsLayer.objects
+              .firstWhere((element) => element.id == targetId);
           final enemy = Enemy(Flame.images.fromCache('Spritesheet.png'),
+              targetPosition: Vector2(target.x, target.y),
               position: Vector2(element.x, element.y),
               size: Vector2(element.width, element.height));
           add(enemy);

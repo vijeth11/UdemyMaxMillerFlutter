@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter/services.dart';
 import 'package:simple_platform/game/actor/platform.dart';
 import 'package:simple_platform/game/game.dart';
@@ -124,5 +125,10 @@ class Player extends SpriteComponent
       onGround = false;
     }
     super.onCollisionEnd(other);
+  }
+
+  void Hit() {
+    add(OpacityEffect.fadeOut(
+        EffectController(alternate: true, duration: 0.1, repeatCount: 5)));
   }
 }

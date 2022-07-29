@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="30" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="38">
+<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="30" height="12" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="40">
  <tileset firstgid="1" source="Spritesheet.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="12">
   <data encoding="base64">
@@ -8,13 +8,21 @@
  </layer>
  <objectgroup id="2" name="SpawnPoints">
   <object id="2" class="Player" x="30.6667" y="189.333" width="32" height="32"/>
-  <object id="5" class="Enemy" x="127.67" y="286.33" width="32" height="32"/>
+  <object id="5" class="Enemy" x="127.67" y="286.33" width="32" height="32">
+   <properties>
+    <property name="Target" type="object" value="38"/>
+   </properties>
+  </object>
   <object id="6" class="Coin" x="349.333" y="285.333" width="32" height="32"/>
   <object id="7" class="Coin" x="418.667" y="287" width="32" height="32"/>
   <object id="8" class="Coin" x="480" y="288" width="32" height="32"/>
   <object id="9" class="Coin" x="226.667" y="128" width="32" height="32"/>
   <object id="10" class="Coin" x="225.333" y="193.333" width="32" height="32"/>
-  <object id="11" class="Enemy" x="577.333" y="94.6667" width="32" height="32"/>
+  <object id="11" class="Enemy" x="577.333" y="94.6667" width="32" height="32">
+   <properties>
+    <property name="Target" type="object" value="39"/>
+   </properties>
+  </object>
   <object id="12" class="Coin" x="609.333" y="95" width="32" height="32"/>
   <object id="13" class="Coin" x="668" y="96" width="32" height="32"/>
   <object id="14" class="Coin" x="801.333" y="64" width="32" height="32"/>
@@ -39,6 +47,12 @@
   <object id="29" gid="2" x="128" y="321.333" width="32" height="32"/>
   <object id="30" gid="2" x="577.333" y="128" width="32" height="32"/>
   <object id="31" gid="3" x="897.333" y="317.67" width="64" height="64"/>
+  <object id="38" x="544.5" y="284.5">
+   <point/>
+  </object>
+  <object id="39" x="704.5" y="97">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="3" name="Platforms">
   <object id="32" x="576.5" y="127.5" width="159.5" height="193"/>

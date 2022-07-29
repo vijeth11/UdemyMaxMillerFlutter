@@ -13,7 +13,7 @@ class SimplePlatformer extends FlameGame
   Future<void>? onLoad() async {
     await images.load('Spritesheet.png');
     camera.viewport = FixedResolutionViewport(Vector2(960, 340), clip: false);
-    loadLevel('level1.tmx');
+    loadLevel('level2.tmx');
 
     return super.onLoad();
   }
