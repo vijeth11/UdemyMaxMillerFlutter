@@ -5,8 +5,10 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
 import 'package:simple_platform/game/actor/player.dart';
+import 'package:simple_platform/game/game.dart';
 
-class Coin extends SpriteComponent with CollisionCallbacks {
+class Coin extends SpriteComponent
+    with CollisionCallbacks, HasGameRef<SimplePlatformer> {
   Coin(
     Image image, {
     Paint? paint,
@@ -43,6 +45,7 @@ class Coin extends SpriteComponent with CollisionCallbacks {
     if (other is Player) {
       add(OpacityEffect.fadeOut(LinearEffectController(0.3))
         ..onComplete = () {
+          gameRef.playerData.score.value += 1;
           add(RemoveEffect());
         });
     }

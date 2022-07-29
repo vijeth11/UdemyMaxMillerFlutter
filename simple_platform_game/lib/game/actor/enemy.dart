@@ -4,8 +4,10 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:simple_platform/game/actor/player.dart';
+import 'package:simple_platform/game/game.dart';
 
-class Enemy extends SpriteComponent with CollisionCallbacks {
+class Enemy extends SpriteComponent
+    with CollisionCallbacks, HasGameRef<SimplePlatformer> {
   Enemy(
     Image image, {
     Paint? paint,
@@ -50,6 +52,8 @@ class Enemy extends SpriteComponent with CollisionCallbacks {
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Player) {
       other.Hit();
+      if (gameRef.playerData.health.value > 0)
+        gameRef.playerData.health.value -= 1;
     }
     super.onCollisionStart(intersectionPoints, other);
   }
