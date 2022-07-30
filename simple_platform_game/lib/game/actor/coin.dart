@@ -6,6 +6,7 @@ import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
 import 'package:simple_platform/game/actor/player.dart';
 import 'package:simple_platform/game/game.dart';
+import 'package:simple_platform/game/utils/audio_manager.dart';
 
 class Coin extends SpriteComponent
     with CollisionCallbacks, HasGameRef<SimplePlatformer> {
@@ -43,6 +44,7 @@ class Coin extends SpriteComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Player) {
+      AudioManager.playSfx('Collectibles_6.wav');
       add(OpacityEffect.fadeOut(LinearEffectController(0.3))
         ..onComplete = () {
           gameRef.playerData.score.value += 1;

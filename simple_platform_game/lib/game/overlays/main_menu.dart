@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_platform/game/actor/game_play.dart';
 import 'package:simple_platform/game/game.dart';
+import 'package:simple_platform/game/overlays/settings.dart';
 
 class MainMenu extends StatelessWidget {
   static const id = 'MainMenu';
@@ -28,8 +29,12 @@ class MainMenu extends StatelessWidget {
                     child: const Text('Play'))),
             SizedBox(
                 width: 100,
-                child:
-                    ElevatedButton(onPressed: () {}, child: Text('Settings')))
+                child: ElevatedButton(
+                    onPressed: () {
+                      gameRef.overlays.remove(id);
+                      gameRef.overlays.add(Settings.id);
+                    },
+                    child: Text('Settings')))
           ],
         ),
       ),

@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:simple_platform/game/game.dart';
 import 'package:simple_platform/game/hud/hud.dart';
 import 'package:simple_platform/game/level/level.dart';
+import 'package:simple_platform/game/utils/audio_manager.dart';
 
 class GamePlay extends Component with HasGameRef<SimplePlatformer> {
   Level? _currentLevel;
@@ -14,6 +15,7 @@ class GamePlay extends Component with HasGameRef<SimplePlatformer> {
     add(HUD(priority: 1));
     gameRef.playerData.score.value = 0;
     gameRef.playerData.health.value = 5;
+    AudioManager.playBgm();
     return super.onLoad();
   }
 

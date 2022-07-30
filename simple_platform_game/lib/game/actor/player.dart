@@ -7,6 +7,7 @@ import 'package:flame/effects.dart';
 import 'package:flutter/services.dart';
 import 'package:simple_platform/game/actor/platform.dart';
 import 'package:simple_platform/game/game.dart';
+import 'package:simple_platform/game/utils/audio_manager.dart';
 
 class Player extends SpriteComponent
     with CollisionCallbacks, KeyboardHandler, HasGameRef<SimplePlatformer> {
@@ -61,6 +62,7 @@ class Player extends SpriteComponent
       _velocity.y = -jumpspeed;
       jumpHit = false;
       onGround = false;
+      AudioManager.playSfx('Jump_15.wav');
     }
     _velocity.y = _velocity.y.clamp(-jumpspeed, 150);
     position += _velocity * dt;

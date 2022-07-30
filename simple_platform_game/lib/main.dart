@@ -7,6 +7,7 @@ import 'package:simple_platform/game/game.dart';
 import 'package:simple_platform/game/overlays/game_over.dart';
 import 'package:simple_platform/game/overlays/main_menu.dart';
 import 'package:simple_platform/game/overlays/pause_menu.dart';
+import 'package:simple_platform/game/overlays/settings.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Simple Platformer',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.dark(),
       home: Scaffold(
         body: GameWidget(
           game: SimplePlatformer(),
@@ -38,6 +37,8 @@ class MyApp extends StatelessWidget {
                 PauseMenu(gameRef: _gameRef),
             GameOver.id: (ctx, SimplePlatformer _gameRef) =>
                 GameOver(gameRef: _gameRef),
+            Settings.id: (ctx, SimplePlatformer _gameRef) =>
+                Settings(gameRef: _gameRef)
           },
           initialActiveOverlays: [MainMenu.id],
         ),

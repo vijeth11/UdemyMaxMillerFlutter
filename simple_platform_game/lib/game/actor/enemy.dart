@@ -6,6 +6,7 @@ import 'package:flame/effects.dart';
 import 'package:simple_platform/game/actor/player.dart';
 import 'package:simple_platform/game/game.dart';
 import 'package:simple_platform/game/overlays/game_over.dart';
+import 'package:simple_platform/game/utils/audio_manager.dart';
 
 class Enemy extends SpriteComponent
     with CollisionCallbacks, HasGameRef<SimplePlatformer> {
@@ -64,6 +65,7 @@ class Enemy extends SpriteComponent
         other.jump();
         print("collided from top");
       } else {
+        AudioManager.playSfx('Hit_2.wav');
         other.Hit();
         if (gameRef.playerData.health.value > 1) {
           gameRef.playerData.health.value -= 1;
@@ -71,6 +73,7 @@ class Enemy extends SpriteComponent
           gameRef.playerData.health.value -= 1;
           gameRef.pauseEngine();
           gameRef.overlays.add(GameOver.id);
+          AudioManager.stopBgm();
         }
       }
     }

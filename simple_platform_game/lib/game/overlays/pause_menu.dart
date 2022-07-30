@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simple_platform/game/game.dart';
 import 'package:simple_platform/game/overlays/main_menu.dart';
+import 'package:simple_platform/game/utils/audio_manager.dart';
 
 class PauseMenu extends StatelessWidget {
   static const id = 'PauseMenu';
@@ -24,6 +25,7 @@ class PauseMenu extends StatelessWidget {
                     onPressed: () {
                       gameRef.overlays.remove(id);
                       gameRef.resumeEngine();
+                      AudioManager.playBgm();
                     },
                     child: const Text('Resume'))),
             SizedBox(

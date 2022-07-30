@@ -4,6 +4,7 @@ import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_platform/game/game.dart';
 import 'package:simple_platform/game/overlays/pause_menu.dart';
+import 'package:simple_platform/game/utils/audio_manager.dart';
 
 class HUD extends Component with HasGameRef<SimplePlatformer> {
   late final TextComponent scoreTextComponent, healthTextComponent;
@@ -47,6 +48,7 @@ class HUD extends Component with HasGameRef<SimplePlatformer> {
         onPressed: () {
           gameRef.pauseEngine();
           gameRef.overlays.add(PauseMenu.id);
+          AudioManager.stopBgm();
         },
         button: Sprite(Flame.images.fromCache('Spritesheet.png'),
             srcPosition: Vector2(4 * 32, 0), srcSize: Vector2.all(32)),
