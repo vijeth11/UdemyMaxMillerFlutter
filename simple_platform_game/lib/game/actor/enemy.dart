@@ -5,6 +5,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:simple_platform/game/actor/player.dart';
 import 'package:simple_platform/game/game.dart';
+import 'package:simple_platform/game/overlays/game_over.dart';
 
 class Enemy extends SpriteComponent
     with CollisionCallbacks, HasGameRef<SimplePlatformer> {
@@ -51,9 +52,27 @@ class Enemy extends SpriteComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Player) {
-      other.Hit();
-      if (gameRef.playerData.health.value > 0)
-        gameRef.playerData.health.value -= 1;
+      // calculate the direction by subtracting player center from enemy center
+      // change the direction vector to unit vector by normalizing to get thedirection
+      // dot product it with (0,-1) for up if value is less than 0 then it is from up
+      final positionOfEnemyfromPlayer =
+          (absoluteCenter - other.absoluteCenter).normalized();
+      var product = Vector2(0, -1).dot(positionOfEnemyfromPlayer);
+      if (product < 0) {
+        add(OpacityEffect.fadeOut(LinearEffectController(0.2),
+            onComplete: () => removeFromParent()));
+        other.jump();
+        print("collided from top");
+      } else {
+        other.Hit();
+        if (gameRef.playerData.health.value > 1) {
+          gameRef.playerData.health.value -= 1;
+        } else {
+          gameRef.playerData.health.value -= 1;
+          gameRef.pauseEngine();
+          gameRef.overlays.add(GameOver.id);
+        }
+      }
     }
     super.onCollisionStart(intersectionPoints, other);
   }

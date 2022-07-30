@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:simple_platform/game/actor/coin.dart';
 import 'package:simple_platform/game/actor/door.dart';
 import 'package:simple_platform/game/actor/enemy.dart';
+import 'package:simple_platform/game/actor/game_play.dart';
 import 'package:simple_platform/game/actor/platform.dart';
 import 'package:simple_platform/game/actor/player.dart';
 import 'package:simple_platform/game/game.dart';
 import 'package:tiled/tiled.dart';
 
-class Level extends Component with HasGameRef<SimplePlatformer> {
+class Level extends Component with HasGameRef<SimplePlatformer>, ParentIsA<GamePlay> {
   final String levelName;
   late TiledComponent level;
   late Player player;
@@ -78,7 +79,7 @@ class Level extends Component with HasGameRef<SimplePlatformer> {
           final door = Door(Flame.images.fromCache('Spritesheet.png'),
               position: Vector2(element.x, element.y),
               size: Vector2(element.width, element.height), onPlayerEnter: () {
-            gameRef.loadLevel(element.properties.first.value);
+            parent.loadLevel(element.properties.first.value);
           });
           add(door);
           break;

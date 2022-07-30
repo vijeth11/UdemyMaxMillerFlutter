@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flame/collisions.dart';
@@ -13,7 +14,7 @@ class Player extends SpriteComponent
   int _haxisInput = 0;
   final double speed = 200;
   final double gravity = 10;
-  final double jumpspeed = 430;
+  final double jumpspeed = 400;
   bool jumpHit = false;
   bool onGround = false;
   late Vector2 minClamp;
@@ -130,5 +131,10 @@ class Player extends SpriteComponent
   void Hit() {
     add(OpacityEffect.fadeOut(
         EffectController(alternate: true, duration: 0.1, repeatCount: 5)));
+  }
+
+  void jump() {
+    jumpHit = true;
+    onGround = true;
   }
 }
