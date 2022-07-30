@@ -6,6 +6,8 @@ import 'package:simple_platform/game/utils/audio_manager.dart';
 
 class GamePlay extends Component with HasGameRef<SimplePlatformer> {
   Level? _currentLevel;
+
+  Level get currentLevel => _currentLevel!;
   @override
   Future<void>? onLoad() {
     loadLevel('level2.tmx');

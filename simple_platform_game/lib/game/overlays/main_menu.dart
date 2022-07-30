@@ -25,6 +25,7 @@ class MainMenu extends StatelessWidget {
                       gameRef.overlays.remove(id);
                       gameRef.add(GamePlay());
                       gameRef.resumeEngine();
+                      gameRef.isOverlayActive.value = false;
                     },
                     child: const Text('Play'))),
             SizedBox(

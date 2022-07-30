@@ -77,11 +77,11 @@ class Player extends SpriteComponent
 
   @override
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    _haxisInput = 0;
+    //_haxisInput = 0;
     // Needs to be changed later to joystick as system keyboard will not work properly
-    _haxisInput += keysPressed.contains(LogicalKeyboardKey.arrowUp) ? -1 : 0;
-    _haxisInput += keysPressed.contains(LogicalKeyboardKey.arrowDown) ? 1 : 0;
-    jumpHit = keysPressed.contains(LogicalKeyboardKey.arrowRight) && onGround;
+    //_haxisInput += keysPressed.contains(LogicalKeyboardKey.arrowUp) ? -1 : 0;
+    //_haxisInput += keysPressed.contains(LogicalKeyboardKey.arrowDown) ? 1 : 0;
+    //jumpHit = keysPressed.contains(LogicalKeyboardKey.arrowRight) && onGround;
     return true;
   }
 
@@ -138,5 +138,14 @@ class Player extends SpriteComponent
   void jump() {
     jumpHit = true;
     onGround = true;
+  }
+
+  void jumpButtonhit() {
+    jumpHit = onGround;
+  }
+
+  void horizontalMovement(int value) {
+    _haxisInput = value;
+    print("direction set");
   }
 }

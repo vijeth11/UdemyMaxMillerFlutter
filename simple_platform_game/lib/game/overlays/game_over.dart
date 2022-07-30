@@ -27,6 +27,7 @@ class GameOver extends StatelessWidget {
                       gameRef.resumeEngine();
                       gameRef.removeAll(gameRef.children);
                       gameRef.add(GamePlay());
+                      gameRef.isOverlayActive.value = false;
                     },
                     child: const Text('Restart'))),
             SizedBox(

@@ -73,6 +73,7 @@ class Enemy extends SpriteComponent
           gameRef.playerData.health.value -= 1;
           gameRef.pauseEngine();
           gameRef.overlays.add(GameOver.id);
+          gameRef.isOverlayActive.value = true;
           AudioManager.stopBgm();
         }
       }

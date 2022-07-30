@@ -48,6 +48,7 @@ class HUD extends Component with HasGameRef<SimplePlatformer> {
         onPressed: () {
           gameRef.pauseEngine();
           gameRef.overlays.add(PauseMenu.id);
+          gameRef.isOverlayActive.value = true;
           AudioManager.stopBgm();
         },
         button: Sprite(Flame.images.fromCache('Spritesheet.png'),

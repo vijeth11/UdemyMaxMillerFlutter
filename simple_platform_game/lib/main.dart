@@ -4,6 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_platform/game/game.dart';
+import 'package:simple_platform/game/hud/game_controll.dart';
 import 'package:simple_platform/game/overlays/game_over.dart';
 import 'package:simple_platform/game/overlays/main_menu.dart';
 import 'package:simple_platform/game/overlays/pause_menu.dart';
@@ -28,19 +29,27 @@ class MyApp extends StatelessWidget {
       title: 'Simple Platformer',
       theme: ThemeData.dark(),
       home: Scaffold(
-        body: GameWidget(
-          game: SimplePlatformer(),
-          overlayBuilderMap: {
-            MainMenu.id: (ctx, SimplePlatformer _gameRef) =>
-                MainMenu(gameRef: _gameRef),
-            PauseMenu.id: (ctx, SimplePlatformer _gameRef) =>
-                PauseMenu(gameRef: _gameRef),
-            GameOver.id: (ctx, SimplePlatformer _gameRef) =>
-                GameOver(gameRef: _gameRef),
-            Settings.id: (ctx, SimplePlatformer _gameRef) =>
-                Settings(gameRef: _gameRef)
-          },
-          initialActiveOverlays: [MainMenu.id],
+        body: Stack(
+          children: [
+            GameWidget(
+              game: game,
+              overlayBuilderMap: {
+                MainMenu.id: (ctx, SimplePlatformer _gameRef) =>
+                    MainMenu(gameRef: _gameRef),
+                PauseMenu.id: (ctx, SimplePlatformer _gameRef) =>
+                    PauseMenu(gameRef: _gameRef),
+                GameOver.id: (ctx, SimplePlatformer _gameRef) =>
+                    GameOver(gameRef: _gameRef),
+                Settings.id: (ctx, SimplePlatformer _gameRef) =>
+                    Settings(gameRef: _gameRef)
+              },
+              initialActiveOverlays: [MainMenu.id],
+            ),
+            ValueListenableBuilder(
+                valueListenable: game.isOverlayActive,
+                builder: (context, bool value, child) =>
+                    value ? Container() : GameControl(game))
+          ],
         ),
       ),
     );
