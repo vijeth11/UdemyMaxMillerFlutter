@@ -58,9 +58,9 @@ class Player extends SpriteComponent
   void update(double dt) {
     _velocity.x = _haxisInput * speed;
     _velocity.y += gravity;
-    if (jumpHit == true) {
+    if (jumpHit == true && onGround == true) {
       _velocity.y = -jumpspeed;
-      jumpHit = false;
+      //jumpHit = false;
       onGround = false;
       AudioManager.playSfx('Jump_15.wav');
     }
@@ -138,10 +138,6 @@ class Player extends SpriteComponent
   void jump() {
     jumpHit = true;
     onGround = true;
-  }
-
-  void jumpButtonhit() {
-    jumpHit = onGround;
   }
 
   void horizontalMovement(int value) {

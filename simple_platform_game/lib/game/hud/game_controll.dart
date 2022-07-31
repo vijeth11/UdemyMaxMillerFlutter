@@ -10,71 +10,93 @@ class GameControl extends StatelessWidget {
     // TODO: implement build
     return Container(
       height: double.infinity,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          GestureDetector(
-            child: Image.asset(
-              'assets/images/blue-!square.png',
-              width: 50,
-              height: 50,
-            ),
-            onTapDown: (tapDownDetails) {
-              if (gameRef.children.last is GamePlay) {
-                final gamePlay = gameRef.children.last as GamePlay;
-                final player = gamePlay.currentLevel.player;
-                player.jumpButtonhit();
-              }
-            },
-            onTapUp: (tapUpDetails) {},
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 100),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
             GestureDetector(
-              child: Image.asset(
-                'assets/images/blue-!arrowleft.png',
-                width: 50,
-                height: 50,
-              ),
+              child: SizedBox(
+                  width: 70,
+                  height: 70,
+                  child: Image.asset(
+                    'assets/images/blue-!square.png',
+                    width: 32,
+                    height: 32,
+                    fit: BoxFit.cover,
+                  )),
               onTapDown: (tapDownDetails) {
                 if (gameRef.children.last is GamePlay) {
                   final gamePlay = gameRef.children.last as GamePlay;
                   final player = gamePlay.currentLevel.player;
-                  player.horizontalMovement(-1);
+                  player.jumpHit = true;
                 }
               },
               onTapUp: (tapUpDetails) {
                 if (gameRef.children.last is GamePlay) {
                   final gamePlay = gameRef.children.last as GamePlay;
-                  gamePlay.currentLevel.player.horizontalMovement(0);
-                }
-              },
-            ),
-            GestureDetector(
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Image.asset(
-                  'assets/images/blue-!arrowright.png',
-                  width: 50,
-                  height: 50,
-                ),
-              ),
-              onTapDown: (longPressDetails) {
-                if (gameRef.children.last is GamePlay) {
-                  final gamePlay = gameRef.children.last as GamePlay;
                   final player = gamePlay.currentLevel.player;
-                  player.horizontalMovement(1);
-                }
-              },
-              onTapUp: (longPressEndDetails) {
-                if (gameRef.children.last is GamePlay) {
-                  final gamePlay = gameRef.children.last as GamePlay;
-                  gamePlay.currentLevel.player.horizontalMovement(0);
+                  player.jumpHit = false;
                 }
               },
             ),
-          ]),
-        ],
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              GestureDetector(
+                child: SizedBox(
+                    width: 70,
+                    height: 70,
+                    child: Image.asset(
+                      'assets/images/blue-!arrowleft.png',
+                      width: 32,
+                      height: 32,
+                      fit: BoxFit.cover,
+                    )),
+                onTapDown: (tapDownDetails) {
+                  if (gameRef.children.last is GamePlay) {
+                    final gamePlay = gameRef.children.last as GamePlay;
+                    final player = gamePlay.currentLevel.player;
+                    player.horizontalMovement(-1);
+                  }
+                },
+                onTapUp: (tapUpDetails) {
+                  if (gameRef.children.last is GamePlay) {
+                    final gamePlay = gameRef.children.last as GamePlay;
+                    gamePlay.currentLevel.player.horizontalMovement(0);
+                  }
+                },
+              ),
+              GestureDetector(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: SizedBox(
+                    width: 70,
+                    height: 70,
+                    child: Image.asset(
+                      'assets/images/blue-!arrowright.png',
+                      width: 32,
+                      height: 32,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                onTapDown: (longPressDetails) {
+                  if (gameRef.children.last is GamePlay) {
+                    final gamePlay = gameRef.children.last as GamePlay;
+                    final player = gamePlay.currentLevel.player;
+                    player.horizontalMovement(1);
+                  }
+                },
+                onTapUp: (longPressEndDetails) {
+                  if (gameRef.children.last is GamePlay) {
+                    final gamePlay = gameRef.children.last as GamePlay;
+                    gamePlay.currentLevel.player.horizontalMovement(0);
+                  }
+                },
+              ),
+            ]),
+          ],
+        ),
       ),
     );
   }
