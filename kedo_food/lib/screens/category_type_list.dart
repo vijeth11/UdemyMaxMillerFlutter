@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kedo_food/model/tile_detail.dart';
 import 'package:kedo_food/widgets/category_tile.dart';
 
-class Categories extends StatelessWidget {
+class CategoryTypeList extends StatelessWidget {
   static const String routeName = 'category'; 
 
-  Categories({Key? key}) : super(key: key);
+  CategoryTypeList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

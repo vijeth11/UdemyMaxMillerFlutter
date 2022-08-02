@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kedo_food/screens/category.dart';
+import 'package:kedo_food/screens/category_type_list.dart';
 import 'package:kedo_food/screens/home.dart';
 
 void main() {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
       routes: {
         MyHomePage.routeName: (context) => MyHomePage(),
-        Categories.routeName: (context) => Categories()
+        CategoryTypeList.routeName: (context) => CategoryTypeList()
       },
     );
   }
