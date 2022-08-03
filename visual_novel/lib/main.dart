@@ -2,12 +2,13 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Flame.device.fullScreen();
   await Flame.device.setLandscape();
+  await Flame.device.fullScreen();
   runApp(const MyApp());
 }
 
@@ -48,6 +49,7 @@ class MyGame extends FlameGame with HasTappables {
     final textBoxHeight = 100;
 
     await Flame.images.loadAll(['castle.jpg', 'battle.jpg']);
+    FlameAudio.bgm.initialize();
     background
       ..sprite = await loadSprite('background.png')
       ..size = Vector2(screenWidth, screenHeight - textBoxHeight);
@@ -125,6 +127,9 @@ class MyGame extends FlameGame with HasTappables {
     }
     switch (dialogButton.screen2Level) {
       case 1:
+        if (!FlameAudio.bgm.isPlaying) {
+          FlameAudio.bgm.play('music.ogg');
+        }
         sceneLevel = 2;
         canvas.drawRect(Rect.fromLTWH(0, size[1] - 100, size[0] - 60, 100),
             Paint()..color = Colors.black);
