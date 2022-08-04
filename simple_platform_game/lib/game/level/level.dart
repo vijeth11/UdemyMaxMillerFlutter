@@ -11,7 +11,8 @@ import 'package:simple_platform/game/actor/player.dart';
 import 'package:simple_platform/game/game.dart';
 import 'package:tiled/tiled.dart';
 
-class Level extends Component with HasGameRef<SimplePlatformer>, ParentIsA<GamePlay> {
+class Level extends Component
+    with HasGameRef<SimplePlatformer>, ParentIsA<GamePlay> {
   final String levelName;
   late TiledComponent level;
   late Player player;
@@ -23,6 +24,8 @@ class Level extends Component with HasGameRef<SimplePlatformer>, ParentIsA<GameP
   Future<void>? onLoad() async {
     level = await TiledComponent.load(levelName, Vector2.all(32));
     add(level);
+    // map width =  number of tiles in width * each tile width
+    // map height = number of tiles in height * each tile height
     levelBounds = Rect.fromLTWH(
         0,
         0,
@@ -39,6 +42,7 @@ class Level extends Component with HasGameRef<SimplePlatformer>, ParentIsA<GameP
   }
 
   _spawnActors() {
+    // read data from level tile file
     final ObjectGroup? platformLayers =
         level.tileMap.getLayer<ObjectGroup>('Platforms');
     platformLayers?.objects.forEach((element) {
@@ -66,6 +70,9 @@ class Level extends Component with HasGameRef<SimplePlatformer>, ParentIsA<GameP
           add(coin);
           break;
         case 'Enemy':
+          // destination position for enemy to move in tiles
+          // data is stored in level tmx under object with name target
+          // whose id is stored as a property value for in enemy tag
           final targetId = int.parse(element.properties.first.value);
           final target = spawnPointsLayer.objects
               .firstWhere((element) => element.id == targetId);
