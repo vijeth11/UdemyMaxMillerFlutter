@@ -1,0 +1,33 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "map.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "background.tsx": {
+            "scaleInDock": 1
+        },
+        "map.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 303.5,
+                "y": 351.5
+            }
+        }
+    },
+    "map.height": 50,
+    "map.lastUsedFormat": "tmx",
+    "map.width": 88,
+    "openFiles": [
+        "map.tmx"
+    ],
+    "project": "george.tiled-project",
+    "recentFiles": [
+        "map.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
