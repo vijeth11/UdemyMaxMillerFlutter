@@ -1,6 +1,5 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:george_builder/dialog/dialog_box.dart';
 import 'package:george_builder/main.dart';
 
 class FriendComponent extends PositionComponent
