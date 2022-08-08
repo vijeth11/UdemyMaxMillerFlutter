@@ -5,6 +5,7 @@
     },
     "activeFile": "map.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "fileStates": {
         "apple_pie.tsx": {
@@ -16,20 +17,23 @@
             "scaleInEditor": 1
         },
         "cheesecake.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "chocolate.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "cookies.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "map.tmx": {
             "scale": 0.75,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 897.3333333333333,
-                "y": 372.6666666666667
+                "x": 886.6666666666667,
+                "y": 559.3333333333333
             }
         }
     },
@@ -42,12 +46,12 @@
     ],
     "project": "george.tiled-project",
     "recentFiles": [
+        "map.tmx",
         "apple_pie.tsx",
         "cookies.tsx",
         "chocolate.tsx",
         "cheesecake.tsx",
-        "background.tsx",
-        "map.tmx"
+        "background.tsx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }
