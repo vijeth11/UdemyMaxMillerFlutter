@@ -78,6 +78,8 @@ https://user-images.githubusercontent.com/21109775/179467499-ffcdd876-ab4a-4699-
  This is an arcade game where the player tries to find the treasure by going throught different levels of chambers. In which there are enemys
  trying to stop the player whome he has to defeat and move to next level and along the way he is rewarded with coins for his progress
  
+ https://user-images.githubusercontent.com/21109775/183501701-e409f1ce-3ce7-4556-8a36-3ba98843b9d6.mp4
+ 
 # George Builder
   
  This is a story play game which revolves around the new life of George who has just come to Happy Village and is planning to help vilagers to build and 
