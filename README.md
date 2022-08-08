@@ -42,7 +42,16 @@ and providers for handling data.
 A new Flutter chatting application which uses Firebase cloud services for providing a unique chatting experience.
 
 ![Flutter Chat](https://user-images.githubusercontent.com/21109775/179480502-4b0374bb-5d66-48a9-994d-26cbb93b4d52.gif)
+ 
+ # Kedo Food
+ 
+ A grocery app where users can order fresh fruits, vegetables and other grocery items, and get them delivered to their
+ door step.
 
+# Cute Girl 
+ 
+This is a demo for using Sprite Animation in flame game
+ 
 # Galaxy Game
 
 Game developed using flutter and flame game engine 
@@ -59,3 +68,22 @@ https://user-images.githubusercontent.com/21109775/179467499-ffcdd876-ab4a-4699-
  Game developed using flame game engine and flutter
  
  ref https://www.raywenderlich.com/27407121-building-games-in-flutter-with-flame-getting-started#toc-anchor-014
+ 
+# Dino Run
+ The most famouse Trex Game built using lots of graphics and animations with new enemy characters and bring color to black and white
+
+# Simple Platform
+ This is an arcade game where the player tries to find the treasure by going throught different levels of chambers. In which there are enemys
+ trying to stop the player whome he has to defeat and move to next level and along the way he is rewarded with coins for his progress
+ 
+# George Builder
+  
+ This is a story play game which revolves around the new life of George who has just come to Happy Village and is planning to help vilagers to build and 
+ improve the infrastructure of the village and enhance it to become a greate town.
+ 
+# Visual Novel
+ 
+ This is simple animation story of a japanese warior who is preparing to go to war, which has come upon his village. while his wife is trying to stop
+ him as she was expecting a new family member and wanted him to stay beside her.
+ 
+
