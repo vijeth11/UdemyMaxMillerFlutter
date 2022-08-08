@@ -1,5 +1,6 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:george_builder/dialog/dialog_box.dart';
 import 'package:george_builder/main.dart';
 
 class FriendComponent extends PositionComponent
@@ -11,8 +12,18 @@ class FriendComponent extends PositionComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    print("made a friend");
-    gameRef.friendNumber.value++;
+    var message = '';
+    if (gameRef.bakedGroupInventory.value > 0) {
+      message = "Wow. Thanks so much. Please come over"
+          " this weekend for dinner. I have to run now."
+          " See you on Saturday at 7pm.";
+      gameRef.friendNumber.value++;
+      gameRef.bakedGroupInventory.value--;
+      gameRef.applause.start();
+    } else {
+      message = 'Greate to meet you, I have to run to a meeting.';
+    }
+    gameRef.addDialog(message);
     gameRef.remove(this);
     super.onCollision(intersectionPoints, other);
   }

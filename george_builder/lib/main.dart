@@ -1,17 +1,20 @@
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/audio_pool.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 import 'package:george_builder/character/friend_component.dart';
 import 'package:george_builder/character/george_component.dart';
+import 'package:george_builder/dialog/dialog_box.dart';
 import 'package:george_builder/loaders/add_baked_goods.dart';
 import 'package:tiled/tiled.dart';
 import 'package:george_builder/button_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Flame.device.setLandscape();
   Flame.device.fullScreen();
   runApp(MaterialApp(
       home: Scaffold(
@@ -32,7 +35,11 @@ class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
   late String soundTrackName = "music.mp3";
   late double mapHeight, mapWidth;
   ValueNotifier<int> friendNumber = ValueNotifier<int>(0);
-  int bakedGroupInventory = 0;
+  ValueNotifier<int> bakedGroupInventory = ValueNotifier<int>(0);
+
+  late AudioPool yummy;
+  late AudioPool applause;
+  late DialogBox dialogBox;
 
   @override
   Future<void>? onLoad() async {
@@ -63,6 +70,9 @@ class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
     }
 
     addBakedGoods(homeMap, this);
+    yummy = await AudioPool.create('audio/sfx/yummy.mp3', maxPlayers: 3);
+    applause = await AudioPool.create('audio/sfx/applause.mp3', maxPlayers: 3);
+
     FlameAudio.bgm.initialize();
     FlameAudio.audioCache.load('music.mp3');
     FlameAudio.bgm.play('music.mp3');
@@ -75,6 +85,13 @@ class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
     add(george);
     camera.followComponent(george,
         worldBounds: Rect.fromLTRB(0, 0, mapWidth, mapHeight));
+
+    dialogBox = DialogBox(
+        text: 'Hi.  I am George. I have just'
+            'moved to Happy Bay Village'
+            'I want to make friends.',
+        game: this);
+    add(dialogBox);
     return super.onLoad();
   }
 
@@ -91,5 +108,10 @@ class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
       george.direction = 0;
     }
     super.onTapUp(pointerId, info);
+  }
+
+  void addDialog(String text) {
+    dialogBox = DialogBox(text: text, game: this);
+    add(dialogBox);
   }
 }

@@ -17,8 +17,9 @@ class BakedComponent extends SpriteComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    gameRef.bakedGroupInventory++;
+    gameRef.bakedGroupInventory.value++;
     print("backed goods inventory ${gameRef.bakedGroupInventory}");
+    gameRef.yummy.start();
     gameRef.remove(this);
     super.onCollision(intersectionPoints, other);
   }

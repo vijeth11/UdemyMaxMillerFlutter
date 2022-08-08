@@ -13,45 +13,78 @@ class ButtonController extends StatelessWidget {
       children: [
         Row(
           children: [
-            IconButton(
-              onPressed: () {
-                FlameAudio.bgm.play('music.mp3');
-              },
-              icon: const Icon(Icons.volume_up_rounded),
-              color: Colors.pink.shade200,
-            ),
-            IconButton(
+            Container(
+              color: const Color(0x8f37474f),
+              child: IconButton(
                 onPressed: () {
-                  FlameAudio.bgm.stop();
+                  FlameAudio.bgm.play('music.mp3');
                 },
-                icon: Icon(
-                  Icons.volume_off_rounded,
-                  color: Colors.pink.shade200,
-                )),
-            Text(
-              game.soundTrackName,
-              style: TextStyle(color: Colors.pink.shade200, fontSize: 20),
-            )
+                icon: const Icon(Icons.volume_up_rounded),
+                color: Colors.pink.shade200,
+              ),
+            ),
+            Container(
+              color: const Color(0x8f37474f),
+              child: IconButton(
+                  onPressed: () {
+                    FlameAudio.bgm.stop();
+                  },
+                  icon: Icon(
+                    Icons.volume_off_rounded,
+                    color: Colors.pink.shade200,
+                  )),
+            ),
+            // Text(
+            //   game.soundTrackName,
+            //   style: TextStyle(color: Colors.pink.shade200, fontSize: 20),
+            // )
           ],
         ),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(
             children: [
-              Image.asset(
-                'assets/images/friend.png',
-                scale: .7,
+              Container(
+                color: const Color.fromARGB(167, 218, 218, 218),
+                child: Image.asset(
+                  'assets/images/friend.png',
+                  scale: .8,
+                ),
               ),
               const SizedBox(
                 width: 12,
               ),
-              ValueListenableBuilder(
-                  valueListenable: game.friendNumber,
-                  builder: (ctx, int value, _) => Text(
-                        '$value',
-                        style: const TextStyle(
-                            fontSize: 28, color: Colors.black45),
-                      ))
+              Container(
+                color: const Color.fromARGB(167, 218, 218, 218),
+                child: ValueListenableBuilder(
+                    valueListenable: game.friendNumber,
+                    builder: (ctx, int value, _) => Text(
+                          '$value',
+                          style: const TextStyle(
+                              fontSize: 28, color: Colors.black45),
+                        )),
+              ),
+              const SizedBox(width: 20),
+              Container(
+                color: const Color.fromARGB(167, 218, 218, 218),
+                child: Image.asset(
+                  'assets/images/ChocoCake.png',
+                  scale: .8,
+                ),
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Container(
+                color: const Color.fromARGB(167, 218, 218, 218),
+                child: ValueListenableBuilder(
+                    valueListenable: game.bakedGroupInventory,
+                    builder: (ctx, int value, _) => Text(
+                          '$value',
+                          style: const TextStyle(
+                              fontSize: 28, color: Colors.black45),
+                        )),
+              ),
             ],
           ),
         )
