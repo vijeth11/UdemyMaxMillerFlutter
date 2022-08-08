@@ -2,17 +2,23 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:george_builder/main.dart';
 
-class FriendComponent extends PositionComponent
+class BakedComponent extends SpriteComponent
     with CollisionCallbacks, HasGameRef<MyGeorgeGame> {
-  FriendComponent() {
-    var hitbox = RectangleHitbox();
-    add(hitbox);
+  BakedComponent() {
+    debugMode = true;
+  }
+
+  @override
+  Future<void>? onLoad() {
+    var hitBox = RectangleHitbox.relative(Vector2.all(0.5), parentSize: size);
+    add(hitBox);
+    return super.onLoad();
   }
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    print("made a friend");
-    gameRef.friendNumber.value++;
+    gameRef.bakedGroupInventory++;
+    print("backed goods inventory ${gameRef.bakedGroupInventory}");
     gameRef.remove(this);
     super.onCollision(intersectionPoints, other);
   }

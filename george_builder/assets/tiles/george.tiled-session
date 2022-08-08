@@ -7,18 +7,33 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "apple_pie.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "background.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "cheesecake.tsx": {
+            "scaleInEditor": 1
+        },
+        "chocolate.tsx": {
+            "scaleInEditor": 1
+        },
+        "cookies.tsx": {
+            "scaleInEditor": 1
         },
         "map.tmx": {
-            "scale": 1,
-            "selectedLayer": 1,
+            "scale": 0.75,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 303.5,
-                "y": 351.5
+                "x": 897.3333333333333,
+                "y": 372.6666666666667
             }
         }
     },
+    "last.imagePath": "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/images",
     "map.height": 50,
     "map.lastUsedFormat": "tmx",
     "map.width": 88,
@@ -27,6 +42,11 @@
     ],
     "project": "george.tiled-project",
     "recentFiles": [
+        "apple_pie.tsx",
+        "cookies.tsx",
+        "chocolate.tsx",
+        "cheesecake.tsx",
+        "background.tsx",
         "map.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"

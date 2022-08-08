@@ -48,7 +48,7 @@ class ButtonController extends StatelessWidget {
               ValueListenableBuilder(
                   valueListenable: game.friendNumber,
                   builder: (ctx, int value, _) => Text(
-                        'Friend Number: $value',
+                        '$value',
                         style: const TextStyle(
                             fontSize: 28, color: Colors.black45),
                       ))
