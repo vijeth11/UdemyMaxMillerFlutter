@@ -71,6 +71,8 @@ https://user-images.githubusercontent.com/21109775/179467499-ffcdd876-ab4a-4699-
  
 # Dino Run
  The most famouse Trex Game built using lots of graphics and animations with new enemy characters and bring color to black and white
+ 
+ https://user-images.githubusercontent.com/21109775/183499624-8ef34d42-3a51-4cd5-a2a1-43d0959c1100.mp4
 
 # Simple Platform
  This is an arcade game where the player tries to find the treasure by going throught different levels of chambers. In which there are enemys
