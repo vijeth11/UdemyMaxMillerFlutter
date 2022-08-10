@@ -1,0 +1,63 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 857.9999999999999,
+                "y": 320.66666666666663
+            }
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx#ApplePie": {
+            "scaleInDock": 1
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx#CheeseCake": {
+            "scaleInDock": 1
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx#ChocoCake": {
+            "scaleInDock": 1
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx#Cookie": {
+            "scaleInDock": 1
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx#housesheet": {
+            "scaleInDock": 1
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx#idle_32x32_2": {
+            "scaleInDock": 1
+        },
+        "housesheet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/images",
+    "map.height": 50,
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": null,
+    "map.width": 88,
+    "openFiles": [
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx"
+    ],
+    "project": "george-village.tiled-project",
+    "recentFiles": [
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx",
+        "housesheet.tsx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
+}

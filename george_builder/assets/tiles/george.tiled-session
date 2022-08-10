@@ -4,6 +4,7 @@
         "width": 2
     },
     "activeFile": "map.tmx",
+    "automapping.whileDrawing": false,
     "expandedProjectPaths": [
         "."
     ],
@@ -29,11 +30,11 @@
             "scaleInEditor": 1
         },
         "map.tmx": {
-            "scale": 0.75,
-            "selectedLayer": 2,
+            "scale": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 886.6666666666667,
-                "y": 559.3333333333333
+                "x": 1052.5,
+                "y": 516.5
             }
         }
     },
@@ -42,16 +43,17 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 88,
     "openFiles": [
-        "map.tmx"
+        "map.tmx",
+        "background.tsx"
     ],
     "project": "george.tiled-project",
     "recentFiles": [
+        "background.tsx",
         "map.tmx",
         "apple_pie.tsx",
         "cookies.tsx",
         "chocolate.tsx",
-        "cheesecake.tsx",
-        "background.tsx"
+        "cheesecake.tsx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

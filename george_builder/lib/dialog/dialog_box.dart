@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:george_builder/main.dart';
+import 'package:george_builder/my_george_game.dart';
 
 class DialogBox extends TextBoxComponent {
   final String text;

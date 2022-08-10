@@ -3,7 +3,8 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 import 'package:flutter/material.dart';
-import 'package:george_builder/main.dart';
+import 'package:george_builder/character/obstacle_component.dart';
+import 'package:george_builder/my_george_game.dart';
 
 class GeorgeComponent extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<MyGeorgeGame> {
@@ -15,6 +16,8 @@ class GeorgeComponent extends SpriteAnimationComponent
 
   double animationSpeed = 0.1;
   int direction = 0;
+  int collisionDirection = -1;
+  bool hasCollided = false;
 
   GeorgeComponent() {}
 
@@ -51,28 +54,55 @@ class GeorgeComponent extends SpriteAnimationComponent
       case 1:
         animation = downAnimation;
         if (y < gameRef.mapHeight - height) {
-          y += dt * gameRef.characterSpeed;
+          if (collisionDirection != 1) {
+            y += dt * gameRef.characterSpeed;
+          }
         }
         break;
       case 2:
         animation = leftAnimation;
         if (x > 0) {
-          x -= dt * gameRef.characterSpeed;
+          if (collisionDirection != 2) {
+            x -= dt * gameRef.characterSpeed;
+          }
         }
         break;
       case 3:
         animation = upAnimation;
         if (y > 0) {
-          y -= dt * gameRef.characterSpeed;
+          if (collisionDirection != 3) {
+            y -= dt * gameRef.characterSpeed;
+          }
         }
         break;
       case 4:
         animation = rightAnimation;
         if (x < gameRef.mapWidth - width) {
-          x += dt * gameRef.characterSpeed;
+          if (collisionDirection != 4) {
+            x += dt * gameRef.characterSpeed;
+          }
         }
         break;
     }
     super.update(dt);
+  }
+
+  @override
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is ObstacleComponent && !hasCollided) {
+      collisionDirection = direction;
+      hasCollided = true;
+    }
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    if (other is ObstacleComponent) {
+      collisionDirection = -1;
+      hasCollided = false;
+    }
+    super.onCollisionEnd(other);
   }
 }
