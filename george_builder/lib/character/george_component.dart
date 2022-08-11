@@ -47,42 +47,45 @@ class GeorgeComponent extends SpriteAnimationComponent
 
   @override
   void update(double dt) {
-    switch (direction) {
-      case 0:
-        animation = idelAnimation;
-        break;
-      case 1:
-        animation = downAnimation;
-        if (y < gameRef.mapHeight - height) {
-          if (collisionDirection != 1) {
-            y += dt * gameRef.characterSpeed;
+    // move george after the user read dialog
+    if (gameRef.displayMessage.value.isEmpty) {
+      switch (direction) {
+        case 0:
+          animation = idelAnimation;
+          break;
+        case 1:
+          animation = downAnimation;
+          if (y < gameRef.mapHeight - height) {
+            if (collisionDirection != 1) {
+              y += dt * gameRef.characterSpeed;
+            }
           }
-        }
-        break;
-      case 2:
-        animation = leftAnimation;
-        if (x > 0) {
-          if (collisionDirection != 2) {
-            x -= dt * gameRef.characterSpeed;
+          break;
+        case 2:
+          animation = leftAnimation;
+          if (x > 0) {
+            if (collisionDirection != 2) {
+              x -= dt * gameRef.characterSpeed;
+            }
           }
-        }
-        break;
-      case 3:
-        animation = upAnimation;
-        if (y > 0) {
-          if (collisionDirection != 3) {
-            y -= dt * gameRef.characterSpeed;
+          break;
+        case 3:
+          animation = upAnimation;
+          if (y > 0) {
+            if (collisionDirection != 3) {
+              y -= dt * gameRef.characterSpeed;
+            }
           }
-        }
-        break;
-      case 4:
-        animation = rightAnimation;
-        if (x < gameRef.mapWidth - width) {
-          if (collisionDirection != 4) {
-            x += dt * gameRef.characterSpeed;
+          break;
+        case 4:
+          animation = rightAnimation;
+          if (x < gameRef.mapWidth - width) {
+            if (collisionDirection != 4) {
+              x += dt * gameRef.characterSpeed;
+            }
           }
-        }
-        break;
+          break;
+      }
     }
     super.update(dt);
   }

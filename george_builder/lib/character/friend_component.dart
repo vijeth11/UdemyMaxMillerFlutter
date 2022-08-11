@@ -21,6 +21,10 @@ class FriendComponent extends PositionComponent
         gameRef.friendNumber.value++;
         gameRef.bakedGroupInventory.value--;
         gameRef.applause.start();
+        //if (gameRef.maxFriends == gameRef.friendNumber.value) {
+        gameRef.sceneNumber++;
+        gameRef.newScene();
+        //}
       } else {
         message = 'Greate to meet you, I have to run to a meeting.';
       }

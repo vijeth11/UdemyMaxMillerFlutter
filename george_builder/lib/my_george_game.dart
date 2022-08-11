@@ -13,16 +13,22 @@ import 'package:george_builder/loaders/load_obstacles.dart';
 
 class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
   late GeorgeComponent george;
-  double characterSize = 67;
-  double characterSpeed = 80;
   late String soundTrackName = "music.mp3";
   late double mapHeight, mapWidth;
+  late TiledComponent homeMap;
+  final List<String> maps = ['map.tmx', 'happy_map.tmx'];
+  double characterSize = 67;
+  double characterSpeed = 80;
+  int maxFriends = 0;
+  int sceneNumber = 1;
+
   ValueNotifier<int> friendNumber = ValueNotifier<int>(0);
   ValueNotifier<int> bakedGroupInventory = ValueNotifier<int>(0);
+  ValueNotifier<String> displayMessage = ValueNotifier("");
 
   late AudioPool yummy;
   late AudioPool applause;
-  late DialogBox dialogBox;
+  //late DialogBox dialogBox;
 
   @override
   Future<void>? onLoad() async {
@@ -34,17 +40,7 @@ class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
       'CheeseCake.png',
       'ApplePie.png'
     ]);
-    final homeMap = await TiledComponent.load('map.tmx', Vector2.all(32));
-    add(homeMap);
 
-    mapHeight = (homeMap.tileMap.map.height * homeMap.tileMap.map.tileHeight)
-        .toDouble();
-    mapWidth =
-        (homeMap.tileMap.map.width * homeMap.tileMap.map.tileWidth).toDouble();
-
-    loadFriends(homeMap, this);
-    addBakedGoods(homeMap, this);
-    loadObstacles(homeMap, this);
     yummy = await AudioPool.create('audio/sfx/yummy.mp3', maxPlayers: 3);
     applause = await AudioPool.create('audio/sfx/applause.mp3', maxPlayers: 3);
 
@@ -53,20 +49,17 @@ class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
     FlameAudio.bgm.play('music.mp3');
     overlays.add('ButtonController');
 
-    george = GeorgeComponent()
-      ..position = Vector2(529, 128)
-      ..debugMode = true
-      ..size = Vector2.all(characterSize);
-    add(george);
-    camera.followComponent(george,
-        worldBounds: Rect.fromLTRB(0, 0, mapWidth, mapHeight));
+    loadMap(maps[sceneNumber - 1]);
 
-    dialogBox = DialogBox(
-        text: 'Hi.  I am George. I have just'
-            'moved to Happy Bay Village'
-            'I want to make friends.',
-        game: this);
-    add(dialogBox);
+    // dialogBox = DialogBox(
+    //     text: 'Hi.  I am George. I have just'
+    //         'moved to Happy Bay Village'
+    //         'I want to make friends.',
+    //     game: this);
+    // add(dialogBox);
+    addDialog('Hi.  I am George. I have just'
+        'moved to Happy Bay Village'
+        'I want to make friends.');
     return super.onLoad();
   }
 
@@ -85,8 +78,50 @@ class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
     super.onTapUp(pointerId, info);
   }
 
+  void loadMap(String map) async {
+    homeMap = await TiledComponent.load(map, Vector2.all(32));
+    add(homeMap);
+
+    mapHeight = (homeMap.tileMap.map.height * homeMap.tileMap.map.tileHeight)
+        .toDouble();
+    mapWidth =
+        (homeMap.tileMap.map.width * homeMap.tileMap.map.tileWidth).toDouble();
+
+    maxFriends = loadFriends(homeMap, this);
+    addBakedGoods(homeMap, this);
+    loadObstacles(homeMap, this);
+
+    george = GeorgeComponent()
+      ..position = Vector2(529, 128)
+      ..debugMode = true
+      ..size = Vector2.all(characterSize);
+    add(george);
+    camera.followComponent(george,
+        worldBounds: Rect.fromLTRB(0, 0, mapWidth, mapHeight));
+  }
+
   void addDialog(String text) {
-    dialogBox = DialogBox(text: text, game: this);
-    add(dialogBox);
+    //dialogBox = DialogBox(text: text, game: this);
+    //add(dialogBox);
+    displayMessage.value = text;
+  }
+
+  void clearMessage() {
+    displayMessage.value = "";
+  }
+
+  void newScene() async {
+    print(" change the scene");
+    removeAll(children);
+    print(children);
+    bakedGroupInventory.value = 0;
+    friendNumber.value = 0;
+    maxFriends = 0;
+    // //FlameAudio.bgm.stop();
+    // mapHeight = canvasSize.toRect().height;
+    // mapWidth = canvasSize.toRect().width;
+    // camera.worldBounds = Rect.fromLTWH(0, 0, mapHeight, mapWidth);
+    if (sceneNumber > maps.length) sceneNumber = 1;
+    loadMap(maps[sceneNumber - 1]);
   }
 }

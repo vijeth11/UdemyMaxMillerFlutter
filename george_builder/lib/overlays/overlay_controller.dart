@@ -19,7 +19,14 @@ class OverlayController extends StatelessWidget {
           child: Row(
             children: [
               Expanded(flex: 2, child: ScoreOverlay(game: game)),
-              Expanded(flex: 2, child: DialogOverlay())
+              Expanded(
+                flex: 2,
+                child: ValueListenableBuilder(
+                    valueListenable: game.displayMessage,
+                    builder: (ctx, String value, _) => value.isEmpty
+                        ? Container()
+                        : DialogOverlay(game: game)),
+              )
             ],
           ),
         )
