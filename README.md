@@ -50,7 +50,7 @@ A new Flutter chatting application which uses Firebase cloud services for provid
 
 # Cute Girl 
  
-This is a demo for using Sprite Animation in flame game 
+This is a demo for using Sprite Animation in flame game. The spritesheet used is created by adding set of images to TexturePackerGUI
 
 https://user-images.githubusercontent.com/21109775/183504615-8a35c8dc-352b-4fb0-9635-47cc09705947.mp4
  
@@ -72,22 +72,29 @@ https://user-images.githubusercontent.com/21109775/179467499-ffcdd876-ab4a-4699-
 # Dino Run
  The most famouse Trex Game built using lots of graphics and animations with new enemy characters and bring color to black and white
  
+ ref: https://youtube.com/playlist?list=PLiZZKL9HLmWOmQgYxWHuOHOWsUUlhCCOY
+ 
  https://user-images.githubusercontent.com/21109775/183499624-8ef34d42-3a51-4cd5-a2a1-43d0959c1100.mp4
 
 # Simple Platform
  This is an arcade game where the player tries to find the treasure by going throught different levels of chambers. In which there are enemys
  trying to stop the player whome he has to defeat and move to next level and along the way he is rewarded with coins for his progress
  
+ ref:https://youtube.com/playlist?list=PLiZZKL9HLmWPyd808sda2ydG-dhexNONV
+ 
  https://user-images.githubusercontent.com/21109775/183501701-e409f1ce-3ce7-4556-8a36-3ba98843b9d6.mp4
  
 # George Builder
   
  This is a story play game which revolves around the new life of George who has just come to Happy Village and is planning to help vilagers to build and 
- improve the infrastructure of the village and enhance it to become a greate town.
+ improve the infrastructure of the village and enhance it to become a greate town.The map is built using Tiled app, game assets from itch.io
  
 # Visual Novel
  
  This is simple animation story of a japanese warior who is preparing to go to war, which has come upon his village. while his wife is trying to stop
  him as she was expecting a new family member and wanted him to stay beside her.
  
+# Angry Bird
+  
+  This is in progress
 
