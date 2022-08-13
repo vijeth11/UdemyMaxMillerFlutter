@@ -50,7 +50,7 @@ A new Flutter chatting application which uses Firebase cloud services for provid
 
 # Cute Girl 
  
-This is a demo for using Sprite Animation in flame game 
+This is a demo for using Sprite Animation in flame game. The spritesheet used is created by adding set of images to TexturePackerGUI
 
 https://user-images.githubusercontent.com/21109775/183504615-8a35c8dc-352b-4fb0-9635-47cc09705947.mp4
  
@@ -83,7 +83,7 @@ https://user-images.githubusercontent.com/21109775/179467499-ffcdd876-ab4a-4699-
 # George Builder
   
  This is a story play game which revolves around the new life of George who has just come to Happy Village and is planning to help vilagers to build and 
- improve the infrastructure of the village and enhance it to become a greate town.
+ improve the infrastructure of the village and enhance it to become a greate town.The map is built using Tiled app, game assets from itch.io
  
 # Visual Novel
  
