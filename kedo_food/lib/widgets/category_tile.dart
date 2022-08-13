@@ -16,7 +16,7 @@ class CategoryTile extends StatelessWidget {
         child: GestureDetector(
             onTap: () {
               Navigator.of(context).pushReplacementNamed(CategoryMenu.routeName,
-                  arguments: categoryTileData.title);
+                  arguments: categoryTileData);
             },
             child: Card(
               elevation: 0,

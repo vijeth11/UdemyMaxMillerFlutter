@@ -1,66 +1,129 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/model/tile_detail.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
 import 'package:kedo_food/widgets/search_bar_header.dart';
 
-class CategoryMenu extends StatelessWidget {
+class CategoryMenu extends StatefulWidget {
   static const String routeName = 'CategoryName';
-  late String _categoryName;
+
   CategoryMenu({Key? key}) : super(key: key);
 
   @override
+  State<CategoryMenu> createState() => _CategoryMenuState();
+}
+
+class _CategoryMenuState extends State<CategoryMenu> {
+  late TileDetail _categoryTile;
+  Color iconColor = Colors.white;
+  late double fixedAppBarHeight;
+
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    scrollController.addListener(listener);
+    super.initState();
+  }
+
+  void listener() {
+    var offset = scrollController.offset;
+    //print("offset data $offset");
+    if (offset > 140 && iconColor == Colors.white) {
+      //print("offset data $offset");
+      setState(() {
+        iconColor = Colors.black;
+      });
+    } else if (offset < 140 && iconColor == Colors.black) {
+      setState(() {
+        iconColor = Colors.white;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(listener);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _categoryName = ModalRoute.of(context)!.settings.arguments as String;
+    _categoryTile = ModalRoute.of(context)!.settings.arguments as TileDetail;
+    fixedAppBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
     return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                Icons.arrow_circle_left_outlined,
-                color: Colors.black,
-                size: 40,
-              )),
-        ),
-        //title: Text(_categoryName),
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed(CategoryTypeList.routeName);
-              },
-              icon: Icon(Icons.menu_rounded))
-        ],
-      ),
       body: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverAppBar(
-            pinned: false,
-            expandedHeight: 250.0,
-            primary: false,
-            automaticallyImplyLeading: false,
-            flexibleSpace: FlexibleSpaceBar(
-              title: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(_categoryName, style: TextStyle(fontSize: 25)),
-                      Text(
-                        "items: 87",
-                        style: TextStyle(fontSize: 15),
-                      )
-                    ]),
-              ),
-              titlePadding: EdgeInsets.only(left: 15, bottom: 20),
-              collapseMode: CollapseMode.pin,
-              background: Container(
-                color: Colors.green[100],
-              ),
+            pinned: true,
+            expandedHeight: 200.0,
+            iconTheme: IconThemeData(
+              color: iconColor,
+            ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(CategoryTypeList.routeName);
+                    },
+                    icon: const Icon(
+                      Icons.menu_rounded,
+                      size: 40,
+                    )),
+              )
+            ],
+            leading: Padding(
+              padding: const EdgeInsets.only(bottom: 8.0, left: 30.0),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(
+                    Icons.arrow_circle_left_outlined,
+                    size: 40,
+                  )),
+            ),
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            flexibleSpace: LayoutBuilder(
+              builder: (context, constraints) {
+                //print('constraints=' + constraints.toString());
+                var top = constraints.biggest.height;
+                //print(top);
+                return FlexibleSpaceBar(
+                  title: top == fixedAppBarHeight
+                      ? Text(
+                          _categoryTile.title,
+                          style: const TextStyle(color: Colors.black),
+                        )
+                      : SingleChildScrollView(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(_categoryTile.title,
+                                    style: const TextStyle(fontSize: 25)),
+                                Text(
+                                  '${_categoryTile.itemCount} items',
+                                  style: TextStyle(fontSize: 15),
+                                )
+                              ]),
+                        ),
+                  titlePadding: top == fixedAppBarHeight
+                      ? null
+                      : EdgeInsets.only(left: 180 - (top / 1.8), bottom: 20),
+                  //collapseMode: CollapseMode.pin,
+                  centerTitle: top == fixedAppBarHeight,
+                  background: Container(
+                    color: Color(0xFF4CB32B),
+                  ),
+                );
+              },
             ),
           ),
-          SearchBarHeader(),
+          const SearchBarHeader(),
           SliverGrid(
               delegate: SliverChildBuilderDelegate((context, index) {
                 return Container(
@@ -69,8 +132,8 @@ class CategoryMenu extends StatelessWidget {
                   child: Text('Grid Item $index'),
                 );
               }, childCount: 20),
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200.0,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 5))
         ],
