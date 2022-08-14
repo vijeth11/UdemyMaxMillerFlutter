@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:george_builder/overlays/joypad.dart';
 import './audio_overlay.dart';
 import './dialog_overlay.dart';
 import './score_overlay.dart';
@@ -13,22 +14,31 @@ class OverlayController extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const AudioOverlay(),
         Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              Expanded(flex: 2, child: ScoreOverlay(game: game)),
-              Expanded(
-                flex: 2,
-                child: ValueListenableBuilder(
-                    valueListenable: game.displayMessage,
-                    builder: (ctx, String value, _) => value.isEmpty
-                        ? Container()
-                        : DialogOverlay(game: game)),
-              )
-            ],
-          ),
+            padding: const EdgeInsets.all(20.0),
+            child: Row(children: [
+              const AudioOverlay(),
+              ScoreOverlay(game: game),
+            ])),
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  JoyPad(onDirectionChanged: game.changeGeorgeDirection),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: ValueListenableBuilder(
+                  valueListenable: game.displayMessage,
+                  builder: (ctx, String value, _) =>
+                      value.isEmpty ? Container() : DialogOverlay(game: game)),
+            ),
+          ],
         )
       ],
     );

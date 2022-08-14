@@ -12,7 +12,7 @@ int loadFriends(TiledComponent homeMap, MyGeorgeGame game) {
       ..position = Vector2(friendBox.x, friendBox.y)
       ..width = friendBox.width
       ..height = friendBox.height
-      ..debugMode = true;
+      ..debugMode = false;
     game.add(friend);
   }
   return friends.length;

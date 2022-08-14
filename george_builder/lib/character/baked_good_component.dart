@@ -5,7 +5,7 @@ import 'package:george_builder/my_george_game.dart';
 class BakedComponent extends SpriteComponent
     with CollisionCallbacks, HasGameRef<MyGeorgeGame> {
   BakedComponent() {
-    debugMode = true;
+    debugMode = false;
   }
 
   @override

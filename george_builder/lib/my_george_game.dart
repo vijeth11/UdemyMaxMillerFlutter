@@ -7,11 +7,12 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 import 'package:george_builder/character/george_component.dart';
 import 'package:george_builder/dialog/dialog_box.dart';
+import 'package:george_builder/helper/direction.dart';
 import 'package:george_builder/loaders/add_baked_goods.dart';
 import 'package:george_builder/loaders/load_friends.dart';
 import 'package:george_builder/loaders/load_obstacles.dart';
 
-class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
+class MyGeorgeGame extends FlameGame with HasCollisionDetection {
   late GeorgeComponent george;
   late String soundTrackName = "music.mp3";
   late double mapHeight, mapWidth;
@@ -69,13 +70,37 @@ class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
     super.render(canvas);
   }
 
-  @override
-  void onTapUp(int pointerId, TapUpInfo info) {
-    george.direction++;
-    if (george.direction > 4) {
-      george.direction = 0;
+  // add HasTapables to the class eztending flamegame
+  // @override
+  // void onTapUp(int pointerId, TapUpInfo info) {
+  //   george.direction++;
+  //   if (george.direction > 4) {
+  //     george.direction = 0;
+  //   }
+  //   super.onTapUp(pointerId, info);
+  // }
+
+  void changeGeorgeDirection(Direction direction) {
+    switch (direction) {
+      case Direction.none:
+        george.direction = 0;
+        break;
+      case Direction.down:
+        george.direction = 1;
+        break;
+      case Direction.left:
+        george.direction = 2;
+        break;
+      case Direction.up:
+        george.direction = 3;
+        break;
+      case Direction.right:
+        george.direction = 4;
+        break;
+      default:
+        george.direction = 0;
+        break;
     }
-    super.onTapUp(pointerId, info);
   }
 
   void loadMap(String map) async {
@@ -93,7 +118,7 @@ class MyGeorgeGame extends FlameGame with HasTappables, HasCollisionDetection {
 
     george = GeorgeComponent()
       ..position = Vector2(529, 128)
-      ..debugMode = true
+      ..debugMode = false
       ..size = Vector2.all(characterSize);
     add(george);
     camera.followComponent(george,
