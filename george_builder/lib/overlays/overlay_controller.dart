@@ -27,7 +27,10 @@ class OverlayController extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  JoyPad(onDirectionChanged: game.changeGeorgeDirection),
+                  Padding(
+                      padding: EdgeInsets.only(left: 20, bottom: 10),
+                      child: JoyPad(
+                          onDirectionChanged: game.changeGeorgeDirection)),
                 ],
               ),
             ),

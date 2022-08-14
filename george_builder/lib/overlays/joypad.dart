@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import '../helper/direction.dart';
-import '../helper/draw_line.dart';
 
 class JoyPad extends StatefulWidget {
   final Function onDirectionChanged;
