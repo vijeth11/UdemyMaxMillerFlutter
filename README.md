@@ -92,7 +92,9 @@ https://user-images.githubusercontent.com/21109775/179467499-ffcdd876-ab4a-4699-
 # Visual Novel
  
  This is simple animation story of a japanese warior who is preparing to go to war, which has come upon his village. while his wife is trying to stop
- him as she was expecting a new family member and wanted him to stay beside her.
+ him as she was expecting a new family member and wanted him to stay beside her. 
+
+ https://user-images.githubusercontent.com/21109775/184599063-ded4204a-9dc7-495b-be37-332c29b4fcea.mp4
  
 # Angry Bird
   
