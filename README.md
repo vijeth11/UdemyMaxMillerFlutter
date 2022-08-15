@@ -96,5 +96,8 @@ https://user-images.githubusercontent.com/21109775/179467499-ffcdd876-ab4a-4699-
  
 # Angry Bird
   
-  This is in progress
+  This is a very famous Angry Bird snipet game which is developed using Flame and Forge2D which is extention of Box2D used for adding physics to the game
+
+  https://user-images.githubusercontent.com/21109775/184597020-af5df5b7-1bd8-4770-8bfd-29ebfe6808df.mp4
+
 
