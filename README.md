@@ -89,6 +89,8 @@ https://user-images.githubusercontent.com/21109775/179467499-ffcdd876-ab4a-4699-
  This is a story play game which revolves around the new life of George who has just come to Happy Village and is planning to help vilagers to build and 
  improve the infrastructure of the village and enhance it to become a greate town.The map is built using Tiled app, game assets from itch.io
  
+ https://user-images.githubusercontent.com/21109775/184601318-0c2ed2c5-9fc4-4071-a1eb-58969b113080.mp4
+ 
 # Visual Novel
  
  This is simple animation story of a japanese warior who is preparing to go to war, which has come upon his village. while his wife is trying to stop
