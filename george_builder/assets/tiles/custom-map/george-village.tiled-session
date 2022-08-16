@@ -8,7 +8,8 @@
     ],
     "fileStates": {
         "": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx": {
             "scale": 0.75,
@@ -36,16 +37,28 @@
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx#idle_32x32_2": {
             "scaleInDock": 1
         },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#12": {
+            "dynamicWrapping": false
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#Ground": {
+            "dynamicWrapping": true
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#Grounds": {
+            "dynamicWrapping": true
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#background": {
+            "dynamicWrapping": false
+        },
         "housesheet.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/images",
-    "map.height": 50,
+    "last.imagePath": "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/images/groundTiles",
+    "map.height": 23,
     "map.lastUsedFormat": "tmx",
     "map.layerDataFormat": null,
-    "map.width": 88,
+    "map.width": 32,
     "openFiles": [
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx"
     ],
@@ -59,5 +72,6 @@
     "tileset.tileSize": {
         "height": 32,
         "width": 32
-    }
+    },
+    "tileset.type": 1
 }
