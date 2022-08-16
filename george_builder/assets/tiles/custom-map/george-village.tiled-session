@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx",
+    "activeFile": "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
@@ -37,17 +37,27 @@
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx#idle_32x32_2": {
             "scaleInDock": 1
         },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx": {
+            "scale": 1,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 1151,
+                "y": 704.5
+            }
+        },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#12": {
             "dynamicWrapping": false
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#Ground": {
-            "dynamicWrapping": true
+            "dynamicWrapping": true,
+            "scaleInDock": 1
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#Grounds": {
             "dynamicWrapping": true
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#background": {
-            "dynamicWrapping": false
+            "dynamicWrapping": false,
+            "scaleInDock": 1
         },
         "housesheet.tsx": {
             "scaleInDock": 1,
@@ -60,10 +70,11 @@
     "map.layerDataFormat": null,
     "map.width": 32,
     "openFiles": [
-        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx"
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx"
     ],
     "project": "george-village.tiled-project",
     "recentFiles": [
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx",
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx",
         "housesheet.tsx"
     ],

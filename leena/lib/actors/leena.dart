@@ -7,6 +7,7 @@ import 'package:leena/world/ground.dart';
 class Leena extends SpriteComponent
     with CollisionCallbacks, HasGameRef<LeenaGame> {
   bool onGround = false;
+  bool facingRight = true;
   Leena() : super() {
     debugMode = true;
   }
@@ -23,6 +24,7 @@ class Leena extends SpriteComponent
     add(hitbox
       ..renderShape = false
       ..paint = (Paint()..color = Colors.red));
+    anchor = Anchor.bottomCenter;
     return super.onLoad();
   }
 
@@ -30,8 +32,8 @@ class Leena extends SpriteComponent
   void update(double dt) {
     if (!onGround) {
       gameRef.velocity.y += gameRef.gravity;
-      position.y += gameRef.velocity.y * dt;
     }
+    position += gameRef.velocity * dt;
     super.update(dt);
   }
 
@@ -39,8 +41,27 @@ class Leena extends SpriteComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Ground) {
       gameRef.velocity.y = 0;
-      onGround = true;
+      // Bounce back a bit and not go into the ground
+      if (!onGround && y - intersectionPoints.last[1] > 3) {
+        y -= y - intersectionPoints.last[1] - 3;
+        onGround = true;
+      }
+      if (gameRef.velocity.x != 0) {
+        for (var point in intersectionPoints) {
+          if (y - 20 >= point[1]) {
+            print("Hit the wall");
+            gameRef.velocity.x = facingRight ? -5 : 5;
+          }
+          print(point);
+        }
+      }
     }
     super.onCollision(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    onGround = false;
+    super.onCollisionEnd(other);
   }
 }

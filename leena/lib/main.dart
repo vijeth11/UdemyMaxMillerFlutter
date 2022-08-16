@@ -17,7 +17,9 @@ Future<void> main() async {
 
 class LeenaGame extends FlameGame with HasCollisionDetection, TapDetector {
   Leena leena = Leena();
-  double gravity = 1.8;
+  final double gravity = 3.0;
+  final double pushSpeed = 100;
+  final double jumpForce = 80;
   Vector2 velocity = Vector2(0, 0);
   late TiledComponent homeMap;
 
@@ -51,10 +53,27 @@ class LeenaGame extends FlameGame with HasCollisionDetection, TapDetector {
 
   @override
   void onTapDown(TapDownInfo info) {
-    if (info.eventPosition.game.x < 100) {
-      print('left tap down');
-    } else if (info.eventPosition.game.x > size.x - 100) {
-      print('right tap down');
+    if (leena.onGround) {
+      if (info.eventPosition.game.x < 100) {
+        print('left tap down');
+        if (leena.facingRight) {
+          leena.flipHorizontallyAroundCenter();
+          leena.facingRight = false;
+        }
+        velocity.x -= pushSpeed;
+      } else if (info.eventPosition.game.x > size.x - 100) {
+        print('right tap down');
+        if (!leena.facingRight) {
+          leena.flipHorizontallyAroundCenter();
+          leena.facingRight = true;
+        }
+        velocity.x += pushSpeed;
+      }
+      if (info.eventPosition.game.y < 100) {
+        print('jump');
+        leena.y -= 10;
+        velocity.y = -jumpForce;
+      }
     }
     super.onTapDown(info);
   }
