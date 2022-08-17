@@ -39,14 +39,19 @@
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx": {
             "scale": 1.5,
-            "selectedLayer": 2,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 2255.333333333333,
-                "y": 437.6666666666667
+                "x": 680.6666666666666,
+                "y": 450.3333333333333
             }
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#12": {
             "dynamicWrapping": false
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#Gems": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx#Ground": {
             "dynamicWrapping": true,
@@ -64,7 +69,7 @@
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/images/groundTiles",
+    "last.imagePath": "C:/Users/vbelle/Documents/Pixel Art Icon Pack - RPG/Ore & Gem",
     "map.height": 23,
     "map.lastUsedFormat": "tmx",
     "map.layerDataFormat": null,
