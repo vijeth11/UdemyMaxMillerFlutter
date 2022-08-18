@@ -36,7 +36,7 @@ class LeenaGame extends FlameGame with HasCollisionDetection, TapDetector {
   Leena leena = Leena();
   final double gravity = 3.0;
   final double pushSpeed = 80;
-  final double jumpForce = 80;
+  final double jumpForce = 180;
   final double groundFriction = 1.0;
   Vector2 velocity = Vector2(0, 0);
   late TiledComponent homeMap;
@@ -125,8 +125,8 @@ class LeenaGame extends FlameGame with HasCollisionDetection, TapDetector {
         if (leena.facingRight) {
           leena.flipHorizontallyAroundCenter();
           leena.facingRight = false;
+          velocity.x = 0;
         }
-        velocity.x = 0;
         velocity.x -= pushSpeed;
         leena.onePush.reset();
         leena.animation = leena.onePush;
@@ -136,8 +136,8 @@ class LeenaGame extends FlameGame with HasCollisionDetection, TapDetector {
         if (!leena.facingRight) {
           leena.flipHorizontallyAroundCenter();
           leena.facingRight = true;
+          velocity.x = 0;
         }
-        velocity.x = 0;
         velocity.x += pushSpeed;
         leena.onePush.reset();
         leena.animation = leena.onePush;
