@@ -19,7 +19,7 @@ class Gem extends SpriteComponent
     position = Vector2(gem.x, gem.y);
     size = Vector2.all(32);
     anchor = Anchor.bottomRight;
-    debugMode = true;
+    debugMode = false;
     add(RectangleHitbox());
     return super.onLoad();
   }

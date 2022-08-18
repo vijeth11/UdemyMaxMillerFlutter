@@ -10,6 +10,7 @@ import 'package:leena/actors/leena.dart';
 import 'package:leena/dashboard/GameOver.dart';
 import 'package:leena/dashboard/dashboard.dart';
 import 'package:leena/world/ground.dart';
+import 'package:leena/world/intro.dart';
 import 'package:tiled/tiled.dart';
 
 Future<void> main() async {
@@ -23,9 +24,11 @@ Future<void> main() async {
         game: LeenaGame(),
         overlayBuilderMap: {
           Dashboard.name: (ctx, LeenaGame game) => Dashboard(game: game),
-          GameOver.name: (ctx, game) => GameOver()
+          GameOver.name: (ctx, LeenaGame game) => GameOver(
+                // as per intro story 9 gems required
+                gameWon: game.magicLevel.value > 8,
+              )
         },
-        initialActiveOverlays: [Dashboard.name],
       ))));
 }
 
@@ -39,12 +42,14 @@ class LeenaGame extends FlameGame with HasCollisionDetection, TapDetector {
   late TiledComponent homeMap;
   late double mapWidth;
   late double mapHeight;
+  late Intro intro;
 
   ValueNotifier<int> magicLevel = ValueNotifier(0);
 
   late Timer countDown;
   ValueNotifier<int> remainingTime = ValueNotifier(30);
   bool timerStarted = false;
+  bool introFinished = false;
 
   @override
   Future<void>? onLoad() async {
@@ -54,8 +59,8 @@ class LeenaGame extends FlameGame with HasCollisionDetection, TapDetector {
       }
     }, repeat: true);
 
-    await Flame.images
-        .loadAll(['girl.png', 'moving.png', 'onePush.png', 'jump.png']);
+    await Flame.images.loadAll(
+        ['girl.png', 'moving.png', 'onePush.png', 'jump.png', 'dad.png']);
     homeMap = await TiledComponent.load('map.tmx', Vector2.all(32));
     mapWidth = homeMap.tileMap.map.width.toDouble() * 32;
     mapHeight = homeMap.tileMap.map.height.toDouble() * 32;
@@ -88,6 +93,8 @@ class LeenaGame extends FlameGame with HasCollisionDetection, TapDetector {
     add(leena);
     camera.followComponent(leena,
         worldBounds: Rect.fromLTRB(0, 0, mapWidth, mapHeight));
+    intro = Intro(size: size);
+    add(intro);
     return super.onLoad();
   }
 
@@ -104,7 +111,14 @@ class LeenaGame extends FlameGame with HasCollisionDetection, TapDetector {
 
   @override
   void onTapDown(TapDownInfo info) {
-    if (leena.onGround) {
+    if (!introFinished) {
+      introFinished = true;
+      remove(intro);
+      if (!overlays.isActive(Dashboard.name)) {
+        overlays.add(Dashboard.name);
+      }
+    }
+    if (leena.onGround && introFinished) {
       if (info.eventPosition.viewport.x < 100) {
         timerStarted = true;
         print('left tap down');

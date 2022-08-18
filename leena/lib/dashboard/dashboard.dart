@@ -15,7 +15,7 @@ class Dashboard extends StatelessWidget {
             valueListenable: game.magicLevel,
             builder: (context, int value, _) {
               return Text(
-                'Magic $value',
+                'Magic: $value',
                 style: TextStyle(fontSize: 20),
               );
             }),

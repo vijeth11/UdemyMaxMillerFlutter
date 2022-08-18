@@ -17,7 +17,7 @@ class Leena extends SpriteAnimationComponent
   late SpriteAnimation jump;
   late SpriteAnimation ideal;
   Leena() : super() {
-    debugMode = true;
+    debugMode = false;
   }
 
   @override

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class GameOver extends StatelessWidget {
   static final String name = 'GameOver';
-  const GameOver({Key? key}) : super(key: key);
+  final bool gameWon;
+  const GameOver({Key? key, required this.gameWon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +14,16 @@ class GameOver extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('GAME OVER',
-              style: TextStyle(
-                fontSize: 80,
-                color: Colors.red,
-              ))
+          gameWon
+              ? Text(
+                  "YOU WON",
+                  style: TextStyle(color: Colors.green, fontSize: 60),
+                )
+              : Text('GAME OVER',
+                  style: TextStyle(
+                    fontSize: 80,
+                    color: Colors.red,
+                  ))
         ],
       )
     ]);
