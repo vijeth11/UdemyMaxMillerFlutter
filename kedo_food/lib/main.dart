@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kedo_food/screens/category_menu.dart';
 import 'package:kedo_food/screens/category_type_list.dart';

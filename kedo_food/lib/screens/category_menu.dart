@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/model/market_item.dart';
 import 'package:kedo_food/model/tile_detail.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
+import 'package:kedo_food/widgets/item_card.dart';
 import 'package:kedo_food/widgets/search_bar_header.dart';
 
 class CategoryMenu extends StatefulWidget {
@@ -13,6 +15,7 @@ class CategoryMenu extends StatefulWidget {
 }
 
 class _CategoryMenuState extends State<CategoryMenu> {
+  late List<MarketItem> menuItems;
   late TileDetail _categoryTile;
   Color iconColor = Colors.white;
   late double fixedAppBarHeight;
@@ -22,6 +25,13 @@ class _CategoryMenuState extends State<CategoryMenu> {
   @override
   void initState() {
     scrollController.addListener(listener);
+    menuItems = List.generate(
+        20,
+        (index) => MarketItem(
+            name: 'Avocado',
+            cost: 8.8,
+            isFavourite: true,
+            image: 'item-brocoli.png'));
     super.initState();
   }
 
@@ -126,14 +136,11 @@ class _CategoryMenuState extends State<CategoryMenu> {
           const SearchBarHeader(),
           SliverGrid(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.teal[100 * (index % 9)],
-                  child: Text('Grid Item $index'),
-                );
-              }, childCount: 20),
+                return ItemCard(item: menuItems[index],isCardLeft: (index % 2) == 0,);
+              }, childCount: menuItems.length),
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
+                  mainAxisExtent: 250,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 5))
         ],
