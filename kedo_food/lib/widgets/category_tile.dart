@@ -12,7 +12,7 @@ class CategoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         child: GestureDetector(
             onTap: () {
               Navigator.of(context).pushReplacementNamed(CategoryMenu.routeName,
@@ -20,7 +20,7 @@ class CategoryTile extends StatelessWidget {
             },
             child: Card(
               elevation: 0,
-              color: Color.fromARGB(211, 77, 179, 43),
+              color: const Color.fromARGB(211, 77, 179, 43),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
               ),
@@ -34,17 +34,17 @@ class CategoryTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                            padding: EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.only(bottom: 10),
                             child: Text(
                               categoryTileData.title,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold),
                             )),
                         Text(
                           '${categoryTileData.itemCount} items',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: const TextStyle(color: Colors.white, fontSize: 20),
                         )
                       ],
                     ),

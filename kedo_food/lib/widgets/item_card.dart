@@ -4,7 +4,12 @@ import 'package:kedo_food/model/market_item.dart';
 class ItemCard extends StatelessWidget {
   final MarketItem item;
   final bool isCardLeft;
-  const ItemCard({super.key, required this.item, required this.isCardLeft});
+  final VoidCallback onClick;
+  const ItemCard(
+      {super.key,
+      required this.item,
+      required this.isCardLeft,
+      required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,7 @@ class ItemCard extends StatelessWidget {
             ),
           )),
           child: GestureDetector(
-              onTap: () {},
+              onTap: onClick,
               child: Container(
                 // gradient background needs to be given
                 decoration: BoxDecoration(

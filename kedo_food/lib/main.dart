@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kedo_food/screens/category_menu.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
 import 'package:kedo_food/screens/home.dart';
+import 'package:kedo_food/screens/item_detail.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         MyHomePage.routeName: (context) => MyHomePage(),
         CategoryTypeList.routeName: (context) => CategoryTypeList(),
         CategoryMenu.routeName: (context) => CategoryMenu(),
+        ItemDetail.routeName: (context) => ItemDetail(),
       },
     );
   }
