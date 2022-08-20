@@ -11,6 +11,26 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "#Fruits": {
+            "dynamicWrapping": true
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx#Apple": {
+            "dynamicWrapping": false,
+            "scaleInEditor": 1
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx#Blue": {
+            "dynamicWrapping": false
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx#Dust Particle": {
+            "dynamicWrapping": false
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx#Fruits": {
+            "dynamicWrapping": true,
+            "scaleInEditor": 1
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx#Terrain": {
+            "dynamicWrapping": false
+        },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/george_builder/assets/tiles/happy_map.tmx": {
             "scale": 0.75,
             "selectedLayer": 2,
@@ -69,11 +89,13 @@
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "C:/Users/vbelle/Documents/Pixel Art Icon Pack - RPG/Ore & Gem",
-    "map.height": 23,
+    "last.imagePath": "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/images/world",
+    "map.height": 40,
     "map.lastUsedFormat": "tmx",
     "map.layerDataFormat": null,
-    "map.width": 32,
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 80,
     "openFiles": [
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/leena/assets/tiles/map.tmx"
     ],
@@ -86,8 +108,8 @@
     "tileset.embedInMap": true,
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 32,
-        "width": 32
+        "height": 16,
+        "width": 16
     },
-    "tileset.type": 1
+    "tileset.type": 0
 }
