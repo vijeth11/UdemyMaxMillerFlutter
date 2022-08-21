@@ -4,6 +4,8 @@ class MarketItem {
   final bool isFavourite;
   final String image;
   final double rating;
+  final String description;
+  final String discussion;
   final List<Review> reviews;
 
   MarketItem(
@@ -12,13 +14,21 @@ class MarketItem {
       required this.isFavourite,
       required this.image,
       required this.rating,
-      required this.reviews
-      });
+      required this.reviews,
+      required this.description,
+      required this.discussion});
 }
 
 class Review {
   final String name;
   final String review;
   final double rating;
-  Review({required this.name, required this.review, required this.rating});
+  final DateTime date;
+  final String image;
+  Review(
+      {required this.name,
+      required this.review,
+      required this.rating,
+      required this.date,
+      required this.image});
 }

@@ -26,9 +26,41 @@ class _CategoryMenuState extends State<CategoryMenu> {
               isFavourite: true,
               image: 'item-brocoli.png',
               rating: 4.5,
+              description:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
+                  'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
+                  ' veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                  'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
+              discussion:
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
+                  'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
+                  ' veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                  'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
               reviews: [
                 Review(
-                    name: 'test', review: 'this is a great product', rating: 4)
+                    name: 'Jhon Leo',
+                    review:
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
+                        'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
+                    rating: 4,
+                    date: DateTime.now(),
+                    image: 'assets/images/user1.png'),
+                Review(
+                    name: 'Logan Tucker',
+                    review:
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
+                        'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
+                    rating: 4,
+                    date: DateTime.now(),
+                    image: 'assets/images/user2.png'),
+                Review(
+                    name: 'Jasmine James',
+                    review:
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
+                        'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
+                    rating: 4,
+                    date: DateTime.now(),
+                    image: 'assets/images/user3.png')
               ]));
   late TileDetail _categoryTile;
 

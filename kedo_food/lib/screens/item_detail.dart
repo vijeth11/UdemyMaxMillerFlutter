@@ -198,7 +198,11 @@ class _ItemDetailState extends State<ItemDetail> {
           Container(
             padding: EdgeInsets.only(
                 left: _leftRightPadding, right: _leftRightPadding, bottom: 15),
-            child: DetailTabs(),
+            child: DetailTabs(
+              description: _marketItem.description,
+              discussion: _marketItem.discussion,
+              reviews: _marketItem.reviews,
+            ),
           ),
         ])),
         displaySearchBar: false);
