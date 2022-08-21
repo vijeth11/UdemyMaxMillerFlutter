@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/infrastructure/backbutton.dart';
 import 'package:kedo_food/model/market_item.dart';
+import 'package:kedo_food/widgets/detail_tabs.dart';
 import 'package:kedo_food/widgets/expandable_appbar.dart';
 
 class ItemDetail extends StatefulWidget {
@@ -15,6 +16,7 @@ class ItemDetail extends StatefulWidget {
 class _ItemDetailState extends State<ItemDetail> {
   late MarketItem _marketItem;
   late PageController _pageController;
+  double _leftRightPadding = 20.0;
 
   @override
   void initState() {
@@ -65,8 +67,11 @@ class _ItemDetailState extends State<ItemDetail> {
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25)),
                   child: Container(
-                      padding: const EdgeInsets.only(
-                          left: 40.0, right: 40.0, bottom: 15, top: 30),
+                      padding: EdgeInsets.only(
+                          left: _leftRightPadding,
+                          right: _leftRightPadding,
+                          bottom: 15,
+                          top: 30),
                       color: Colors.white,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,13 +89,14 @@ class _ItemDetailState extends State<ItemDetail> {
                         ],
                       )))),
           Container(
-            padding: const EdgeInsets.only(left: 40.0, right: 40.0, bottom: 15),
+            padding: EdgeInsets.only(
+                left: _leftRightPadding, right: _leftRightPadding, bottom: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   '\$${_marketItem.cost}',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 35,
                       color: Colors.green,
                       fontWeight: FontWeight.w500),
@@ -105,8 +111,8 @@ class _ItemDetailState extends State<ItemDetail> {
                         children: [
                           IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.remove, size: 30)),
-                          Text(
+                              icon: const Icon(Icons.remove, size: 30)),
+                          const Text(
                             '4',
                             style: TextStyle(fontSize: 25),
                           ),
@@ -118,7 +124,82 @@ class _ItemDetailState extends State<ItemDetail> {
                     ))
               ],
             ),
-          )
+          ),
+          Container(
+            padding: EdgeInsets.only(
+                left: _leftRightPadding, right: _leftRightPadding, bottom: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: Color(0xFFFF8730),
+                      size: 30,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '${_marketItem.rating}',
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      '(${_marketItem.reviews.length} reviews)',
+                      style:
+                          TextStyle(fontSize: 20, color: Colors.grey.shade500),
+                    )
+                  ],
+                ),
+                Stack(
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage('assets/images/user1.png'),
+                              fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(50)),
+                    ),
+                    Container(
+                      width: 50,
+                      height: 50,
+                      margin: const EdgeInsets.only(left: 35),
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage('assets/images/user2.png'),
+                              fit: BoxFit.cover),
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(50)),
+                    ),
+                    Container(
+                      width: 50,
+                      height: 50,
+                      margin: const EdgeInsets.only(left: 65),
+                      decoration: BoxDecoration(
+                          image: const DecorationImage(
+                              image: AssetImage('assets/images/user3.png'),
+                              fit: BoxFit.cover),
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(50)),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(
+                left: _leftRightPadding, right: _leftRightPadding, bottom: 15),
+            child: DetailTabs(),
+          ),
         ])),
         displaySearchBar: false);
   }

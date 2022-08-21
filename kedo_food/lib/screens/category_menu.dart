@@ -21,10 +21,15 @@ class _CategoryMenuState extends State<CategoryMenu> {
   late List<MarketItem> menuItems = List.generate(
       20,
       (index) => MarketItem(
-          name: 'Avocado',
-          cost: 8.8,
-          isFavourite: true,
-          image: 'item-brocoli.png'));
+              name: 'Avocado',
+              cost: 8.8,
+              isFavourite: true,
+              image: 'item-brocoli.png',
+              rating: 4.5,
+              reviews: [
+                Review(
+                    name: 'test', review: 'this is a great product', rating: 4)
+              ]));
   late TileDetail _categoryTile;
 
   @override
