@@ -31,7 +31,7 @@ class _ItemDetailState extends State<ItemDetail> {
       return Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
         child: Container(
-          margin: EdgeInsets.all(5),
+          margin: const EdgeInsets.all(5),
           width: 35,
           height: 7,
           decoration: BoxDecoration(
@@ -67,28 +67,31 @@ class _ItemDetailState extends State<ItemDetail> {
         style: const TextStyle(color: Colors.black),
       ),
       // Image carousal with rectangle indcator
-      expandedTitleBackground: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          PageView.builder(
-              itemCount: 3,
-              pageSnapping: true,
-              onPageChanged: (page) {
-                setState(() {
-                  activePage = page;
-                });
-              },
-              itemBuilder: (context, index) => Container(
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/${_marketItem.image}'),
-                            fit: BoxFit.cover)),
-                  )),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: indicators(3, activePage))
-        ],
+      expandedTitleBackground: Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top,),
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            PageView.builder(
+                itemCount: 3,
+                pageSnapping: true,
+                onPageChanged: (page) {
+                  setState(() {
+                    activePage = page;
+                  });
+                },
+                itemBuilder: (context, index) => Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  'assets/images/${_marketItem.image}'),
+                              fit: BoxFit.cover)),
+                    )),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: indicators(3, activePage))
+          ],
+        ),
       ),
       appBody: SliverList(
           delegate: SliverChildListDelegate([
@@ -247,19 +250,19 @@ class _ItemDetailState extends State<ItemDetail> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: ElevatedButton(
                   onPressed: () {},
-                  child: Icon(
+                  child: const Icon(
                     Icons.favorite,
                     size: 40,
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.red,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
                 ),
               ),
             ),
@@ -279,7 +282,7 @@ class _ItemDetailState extends State<ItemDetail> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'ADD TO CART',
                             style: TextStyle(fontSize: 20),
                           ),

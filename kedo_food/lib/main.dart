@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/screens/cart_menu.dart';
 import 'package:kedo_food/screens/category_menu.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
 import 'package:kedo_food/screens/home.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         CategoryTypeList.routeName: (context) => CategoryTypeList(),
         CategoryMenu.routeName: (context) => CategoryMenu(),
         ItemDetail.routeName: (context) => ItemDetail(),
+        CartMenu.routeName: (context) => CartMenu(),
       },
     );
   }
