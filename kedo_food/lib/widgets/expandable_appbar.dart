@@ -7,6 +7,7 @@ class ExpandableAppBar extends StatefulWidget {
   final Widget? collapsedTitle;
   final Widget? expandedTitle;
   final Widget? expandedTitleBackground;
+  final Widget? bottomNavigationBar;
   final bool displaySearchBar;
   final Widget appBody;
   const ExpandableAppBar(
@@ -17,7 +18,8 @@ class ExpandableAppBar extends StatefulWidget {
       this.leading,
       this.collapsedTitle,
       this.expandedTitle,
-      this.expandedTitleBackground})
+      this.expandedTitleBackground,
+      this.bottomNavigationBar})
       : super(key: key);
 
   @override
@@ -60,6 +62,7 @@ class _ExpandableAppBarState extends State<ExpandableAppBar> {
   Widget build(BuildContext context) {
     fixedAppBarHeight = MediaQuery.of(context).padding.top + kToolbarHeight;
     return Scaffold(
+      bottomNavigationBar: widget.bottomNavigationBar,
       body: CustomScrollView(
         controller: scrollController,
         slivers: [

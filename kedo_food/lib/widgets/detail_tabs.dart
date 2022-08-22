@@ -71,7 +71,7 @@ class _DetailTabsState extends State<DetailTabs> with TickerProviderStateMixin {
       ),
       Container(
         width: double.infinity,
-        height: 400,
+        height: 300,
         child: TabBarView(
           controller: _controller,
           children: [
