@@ -68,7 +68,9 @@ class _ItemDetailState extends State<ItemDetail> {
       ),
       // Image carousal with rectangle indcator
       expandedTitleBackground: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).viewPadding.top,),
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).viewPadding.top,
+        ),
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -95,6 +97,7 @@ class _ItemDetailState extends State<ItemDetail> {
       ),
       appBody: SliverList(
           delegate: SliverChildListDelegate([
+        // name of the category and the item
         Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -126,6 +129,7 @@ class _ItemDetailState extends State<ItemDetail> {
                         )
                       ],
                     )))),
+        // Container for increasing the quantity
         Container(
           padding: EdgeInsets.only(
               left: _leftRightPadding, right: _leftRightPadding, bottom: 15),
@@ -163,6 +167,7 @@ class _ItemDetailState extends State<ItemDetail> {
             ],
           ),
         ),
+        // Rating and user profile image
         Container(
           padding: EdgeInsets.only(
               left: _leftRightPadding, right: _leftRightPadding, bottom: 15),
@@ -232,6 +237,7 @@ class _ItemDetailState extends State<ItemDetail> {
             ],
           ),
         ),
+        // Details and reviews tabs of the Item
         Container(
           padding: EdgeInsets.only(
               left: _leftRightPadding, right: _leftRightPadding, bottom: 15),
@@ -261,8 +267,8 @@ class _ItemDetailState extends State<ItemDetail> {
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.red,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 12)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12)),
                 ),
               ),
             ),

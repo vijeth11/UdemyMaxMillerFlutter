@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kedo_food/model/tile_detail.dart';
+import 'package:kedo_food/model/category_tile_detail.dart';
 import 'package:kedo_food/widgets/category_tile.dart';
 
 class CategoryTypeList extends StatelessWidget {

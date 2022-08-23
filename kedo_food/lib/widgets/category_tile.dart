@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:kedo_food/model/tile_detail.dart';
+import 'package:kedo_food/model/category_tile_detail.dart';
 import 'package:kedo_food/screens/category_menu.dart';
 
 class CategoryTile extends StatelessWidget {

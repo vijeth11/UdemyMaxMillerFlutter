@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/infrastructure/backbutton.dart';
 import 'package:kedo_food/model/market_item.dart';
-import 'package:kedo_food/model/tile_detail.dart';
+import 'package:kedo_food/model/category_tile_detail.dart';
 import 'package:kedo_food/screens/item_detail.dart';
 import 'package:kedo_food/widgets/expandable_appbar.dart';
 import 'package:kedo_food/widgets/item_card.dart';
