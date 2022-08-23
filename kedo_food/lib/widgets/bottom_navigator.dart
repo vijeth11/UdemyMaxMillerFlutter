@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/screens/cart_menu.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
+import 'package:kedo_food/screens/wish_list.dart';
 
 enum BottomIcons { Home, Categories, Cart, Favorite, Profile }
 
@@ -36,7 +37,9 @@ class BottomNavigator extends StatelessWidget {
                 color: active == BottomIcons.Favorite
                     ? Colors.green
                     : Colors.grey),
-            onPressed: () {}),
+            onPressed: () {
+              Navigator.of(context).pushNamed(WishList.routeName);
+            }),
         IconButton(
             icon: Icon(Icons.account_circle_sharp,
                 color:

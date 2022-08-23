@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kedo_food/infrastructure/backbutton.dart';
 import 'package:kedo_food/model/market_item.dart';
 import 'package:kedo_food/model/category_tile_detail.dart';
-import 'package:kedo_food/screens/item_detail.dart';
 import 'package:kedo_food/widgets/expandable_appbar.dart';
-import 'package:kedo_food/widgets/item_card.dart';
+import 'package:kedo_food/widgets/item_card_grid_display.dart';
 
 import 'category_type_list.dart';
 
@@ -23,7 +22,7 @@ class _CategoryMenuState extends State<CategoryMenu> {
       (index) => MarketItem(
               name: 'Avocado',
               cost: 8.8,
-              isFavourite: true,
+              isFavourite: false,
               image: 'item-brocoli.png',
               rating: 4.5,
               description:
@@ -100,22 +99,9 @@ class _CategoryMenuState extends State<CategoryMenu> {
       expandedTitleBackground: Container(
         color: Color(0xFF4CB32B),
       ),
-      appBody: SliverGrid(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            return ItemCard(
-              item: menuItems[index],
-              isCardLeft: (index % 2) == 0,
-              onClick: () {
-                Navigator.of(context).pushNamed(ItemDetail.routeName,
-                    arguments: menuItems[index]);
-              },
-            );
-          }, childCount: menuItems.length),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              mainAxisExtent: 250,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 5)),
+      appBody: ItemCardsGridDisplay(
+        menuItems: menuItems,
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:kedo_food/screens/category_menu.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
 import 'package:kedo_food/screens/home.dart';
 import 'package:kedo_food/screens/item_detail.dart';
+import 'package:kedo_food/screens/wish_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         CategoryMenu.routeName: (context) => CategoryMenu(),
         ItemDetail.routeName: (context) => ItemDetail(),
         CartMenu.routeName: (context) => CartMenu(),
+        WishList.routeName: (context) => WishList(),
       },
     );
   }
