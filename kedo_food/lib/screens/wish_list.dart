@@ -101,7 +101,7 @@ class _WishListState extends State<WishList> {
               padding: EdgeInsets.only(left: 65, top: 10),
               child: Text(
                 "Wishlist",
-                style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
               ),
             ),
           ),
