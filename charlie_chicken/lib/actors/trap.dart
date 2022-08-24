@@ -36,6 +36,7 @@ class TrapComponent extends SpriteAnimationComponent
             amount: 4, stepTime: 0.1, textureSize: srcSize));
     size = objSize;
     animation = flying;
+    //debugMode = true;
     add(RectangleHitbox()..collisionType = CollisionType.passive);
     return super.onLoad();
   }
@@ -61,8 +62,10 @@ class TrapComponent extends SpriteAnimationComponent
     // TODO: implement onCollision
     super.onCollision(intersectionPoints, other);
     if (other is Player) {
-      animation = flyingOff;
-      isFallingDown = true;
+      Future.delayed(Duration(seconds: 3)).then((value) {
+        isFallingDown = true;
+        animation = flyingOff;
+      });
     }
     if (other is Platform) {
       gameRef.remove(this);

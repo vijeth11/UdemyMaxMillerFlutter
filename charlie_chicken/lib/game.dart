@@ -1,7 +1,10 @@
 import 'package:charlie_chicken/actors/player.dart';
+import 'package:charlie_chicken/controlls/button.dart';
+import 'package:charlie_chicken/helpers/platform_loader.dart';
 import 'package:charlie_chicken/helpers/reward_loader.dart';
 import 'package:charlie_chicken/helpers/trap_loader.dart';
 import 'package:flame/components.dart';
+import 'package:flame/experimental.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
@@ -10,9 +13,10 @@ import 'package:flutter/material.dart';
 import 'package:tiled/tiled.dart';
 
 class CharliChickenGame extends FlameGame
-    with HasDraggables, HasCollisionDetection {
+    with HasDraggables, HasCollisionDetection, HasTappableComponents {
   final Player chicken = Player();
   late final JoystickComponent joystick;
+  late ButtonComponent jumpButton;
   late TiledComponent homeMap;
   late double mapViewHeight, mapViewWidth;
 
@@ -36,7 +40,8 @@ class CharliChickenGame extends FlameGame
       'world/Collected.png',
       'world/FallingPlatform.png',
       'ChickenIdel.png',
-      'ChickenHit.png'
+      'ChickenHit.png',
+      'jump.png'
     ]);
 
     var trapObjs = homeMap.tileMap.getLayer<ObjectGroup>('Traps');
@@ -45,6 +50,9 @@ class CharliChickenGame extends FlameGame
     var rewardObjs = homeMap.tileMap.getLayer<ObjectGroup>('Rewards');
     RewardLoader(this, rewardObjs!);
 
+    var platformObjs = homeMap.tileMap.getLayer<ObjectGroup>('Platform');
+    PlatformLoader(this, platformObjs!);
+
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
     joystick = JoystickComponent(
@@ -52,6 +60,10 @@ class CharliChickenGame extends FlameGame
         background: CircleComponent(radius: 60, paint: backgroundPaint),
         margin: const EdgeInsets.only(left: 40, bottom: 40));
     add(joystick);
+
+    jumpButton = ButtonComponent(
+        color: knobPaint, position: Vector2(size.x - 150, size.y - 80));
+    add(jumpButton);
 
     add(chicken..position = Vector2(100, 300));
 
@@ -78,13 +90,11 @@ class CharliChickenGame extends FlameGame
           joystick.direction == JoystickDirection.upRight) {
         if (chickenFacingLeft) {
           chicken.flipHorizontallyAroundCenter();
-          print(joystick.delta);
           chickenFacingLeft = false;
         }
         chicken.position += Vector2(joystick.delta.x * 2 * dt, 0);
       }
     }
-    print(joystick.direction);
     super.update(dt);
   }
 }

@@ -29,11 +29,14 @@ class RewardComponent extends SpriteAnimationComponent
             image: Flame.images.fromCache('world/Collected.png'),
             srcSize: Vector2(32, 32))
         .createAnimation(row: 0, stepTime: 0.1, from: 0, to: 6, loop: false)
-      ..completed.then((value) => gameRef.remove(this));
+      ..completed.then((value) => removeFromParent());
     animation =
         appleSheet.createAnimation(row: 0, stepTime: 0.1, from: 0, to: 17);
     size = Vector2(64, 64);
-    add(RectangleHitbox());
+    // this is added so collition does not stay active and stop animation changing
+    // on collision but allow animation to change and complete and end collision
+    var hitbox = RectangleHitbox.relative(Vector2(0.6, 0.6), parentSize: size);
+    add(hitbox..collisionType = CollisionType.passive);
     //debugMode = true;
     return super.onLoad();
   }
@@ -50,7 +53,7 @@ class RewardComponent extends SpriteAnimationComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     // TODO: implement onCollision
     super.onCollision(intersectionPoints, other);
-    if (other is Player && animation != collected) {
+    if (other is Player) {
       animation = collected;
     }
   }

@@ -1,3 +1,4 @@
+import 'package:charlie_chicken/actors/platform.dart';
 import 'package:charlie_chicken/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -6,12 +7,17 @@ import 'package:flame/flame.dart';
 enum PlayerAnimation { Running, Hit, Idel }
 
 class Player extends SpriteAnimationComponent
-    with HasGameRef<CharliChickenGame> {
+    with HasGameRef<CharliChickenGame>, CollisionCallbacks {
   late SpriteAnimation runAnimation;
   late SpriteAnimation idelAnimation;
   late SpriteAnimation hitAnimation;
   final Vector2 characterImageSize = Vector2(32, 34);
   final double animationFrameTime = 0.1;
+
+  List<PositionComponent> itemsCollidedwith = [];
+
+  double velocity = 1;
+  bool isOnGround = false;
   @override
   Future<void>? onLoad() {
     runAnimation = SpriteAnimation.fromFrameData(
@@ -35,7 +41,9 @@ class Player extends SpriteAnimationComponent
             textureSize: characterImageSize));
     animation = idelAnimation;
     size = Vector2.all(80);
-    add(RectangleHitbox());
+    debugMode = true;
+    add(RectangleHitbox.relative(Vector2(0.6, 1), parentSize: size));
+    anchor = Anchor.bottomCenter;
     return super.onLoad();
   }
 
@@ -45,6 +53,12 @@ class Player extends SpriteAnimationComponent
       position.x = gameRef.size.x - (size.x / 2);
     } else if (position.x <= 0) {
       position.x = 0;
+    }
+
+    if (!isOnGround && velocity > 0) {
+      velocity += gameRef.gravity;
+      velocity = velocity.clamp(0, 100);
+      position.y += velocity * dt;
     }
     super.update(dt);
   }
@@ -64,6 +78,46 @@ class Player extends SpriteAnimationComponent
       default:
         animation = idelAnimation;
         break;
+    }
+  }
+
+  @override
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    // TODO: implement onCollision
+    if (other is Platform) {
+      if (!itemsCollidedwith.any((element) => element == other)) {
+        itemsCollidedwith.add(other);
+      }
+      print("velocity $velocity");
+      velocity = 0;
+      if (!isOnGround &&
+          y - intersectionPoints.last.y >= 0 &&
+          y - intersectionPoints.last.y < 15) {
+        print("difference  ${y - intersectionPoints.last.y}");
+        isOnGround = true;
+        //y = y - (y - intersectionPoints.last.y) - 3;
+        y = other.y;
+      }
+      for (var point in intersectionPoints) {
+        if (y - 15 >= point[1]) {
+          position.x += gameRef.chickenFacingLeft ? 30 : -30;
+        }
+      }
+    }
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    // TODO: implement onCollisionEnd
+    super.onCollisionEnd(other);
+    if (other is Platform) {
+      itemsCollidedwith.remove(other);
+      print(itemsCollidedwith);
+      if (!itemsCollidedwith.any((element) => element is Platform)) {
+        isOnGround = false;
+        velocity = 1;
+      }
     }
   }
 }
