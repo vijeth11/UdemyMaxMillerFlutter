@@ -22,7 +22,7 @@ class CharliChickenGame extends FlameGame
 
   bool chickenFacingLeft = false;
   final double gravity = 8.0;
-  final double jumpSpeed = 120;
+  final double jumpSpeed = 320;
 
   int score = 0;
   int lifeLeft = 5;

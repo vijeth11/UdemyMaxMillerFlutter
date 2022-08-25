@@ -60,7 +60,7 @@ class Player extends SpriteAnimationComponent
 
     if (!isOnGround) {
       velocity += gameRef.gravity;
-      velocity = velocity.clamp(-170, maxPlayerVelocity);
+      velocity = velocity.clamp(-500, maxPlayerVelocity);
       position.y += velocity * dt;
     }
     super.update(dt);
