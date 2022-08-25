@@ -3,9 +3,11 @@ import 'package:charlie_chicken/game.dart';
 import 'package:charlie_chicken/helpers/platform_loader.dart';
 import 'package:charlie_chicken/helpers/reward_loader.dart';
 import 'package:charlie_chicken/helpers/trap_loader.dart';
+import 'package:charlie_chicken/overlays/game_over.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tiled/tiled.dart';
 
 class Level extends Component with HasGameRef<CharliChickenGame> {
@@ -14,9 +16,11 @@ class Level extends Component with HasGameRef<CharliChickenGame> {
   late TiledComponent homeMap;
   late double mapViewHeight, mapViewWidth;
 
+  bool displaFlagOver = false;
+  ValueNotifier<bool> gameOverFlag = ValueNotifier(false);
   @override
   Future<void>? onLoad() async {
-    homeMap = await TiledComponent.load('map.tmx', Vector2(16, 16));
+    homeMap = await TiledComponent.load('level1.tmx', Vector2(16, 16));
     add(homeMap);
     // these calculations are based on ratio (refer leena project)
     mapViewHeight = homeMap.tileMap.map.height.toDouble() * 16;
@@ -53,7 +57,8 @@ class Level extends Component with HasGameRef<CharliChickenGame> {
           chicken.flipHorizontallyAroundCenter();
           gameRef.chickenFacingLeft = true;
         }
-        chicken.position += Vector2((gameRef.joystick?.delta.x ?? 0.0) * 2 * dt, 0);
+        chicken.position +=
+            Vector2((gameRef.joystick?.delta.x ?? 0.0) * 2 * dt, 0);
       } else if (gameRef.joystick?.direction == JoystickDirection.right ||
           gameRef.joystick?.direction == JoystickDirection.downRight ||
           gameRef.joystick?.direction == JoystickDirection.upRight) {
@@ -61,7 +66,8 @@ class Level extends Component with HasGameRef<CharliChickenGame> {
           chicken.flipHorizontallyAroundCenter();
           gameRef.chickenFacingLeft = false;
         }
-        chicken.position += Vector2((gameRef.joystick?.delta.x ?? 0.0)* 2 * dt, 0);
+        chicken.position +=
+            Vector2((gameRef.joystick?.delta.x ?? 0.0) * 2 * dt, 0);
       }
     }
     super.update(dt);
@@ -81,5 +87,19 @@ class Level extends Component with HasGameRef<CharliChickenGame> {
     chicken.isOnGround = false;
     chicken.velocity = 1;
     chicken.isPlayerHit = false;
+    gameRef.lifeLeft -= 1;
+    if (gameRef.lifeLeft == 0) {
+      gameOver();
+    }
+  }
+
+  void gameOver() {
+    gameRef.gameOver = true;
+    if (gameRef.lifeLeft <= 0 || displaFlagOver) {
+      gameRef.pauseEngine();
+      gameRef.overlays.add(GameOver.name);
+    } else {
+      gameOverFlag.value = true;
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:charlie_chicken/actors/level.dart';
 import 'package:charlie_chicken/controlls/button.dart';
+import 'package:charlie_chicken/overlays/game_over.dart';
 import 'package:charlie_chicken/overlays/score.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
@@ -19,7 +20,10 @@ class CharliChickenGame extends FlameGame
   bool chickenFacingLeft = false;
   final double gravity = 8.0;
   final double jumpSpeed = 120;
+
   int score = 0;
+  int lifeLeft = 5;
+  bool gameOver = false;
 
   @override
   Future<void>? onLoad() async {
@@ -30,6 +34,8 @@ class CharliChickenGame extends FlameGame
       'world/AppleSheet.png',
       'world/Collected.png',
       'world/FallingPlatform.png',
+      'world/Checkpoint.png',
+      'world/CheckpointFlagOut.png',
       'ChickenIdel.png',
       'ChickenHit.png',
       'jump.png',
@@ -80,6 +86,12 @@ class CharliChickenGame extends FlameGame
   }
 
   void restartGame() {
+    if (overlays.isActive(GameOver.name)) {
+      overlays.remove(GameOver.name);
+    }
+    score = 0;
+    lifeLeft = 5;
+    gameOver = false;
     if (scoreText != null) {
       remove(scoreText!);
       scoreText = null;

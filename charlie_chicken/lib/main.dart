@@ -1,5 +1,5 @@
-
 import 'package:charlie_chicken/game.dart';
+import 'package:charlie_chicken/overlays/game_over.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +17,15 @@ class MyHome extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       home: Scaffold(
-        body: GameWidget(game: CharliChickenGame()),
+        body: GameWidget(
+          game: CharliChickenGame(),
+          overlayBuilderMap: {
+            GameOver.name: (ctx, CharliChickenGame game) => GameOver(                
+                game: game,
+              )
+          },
+        ),
       ),
     );
   }
 }
-

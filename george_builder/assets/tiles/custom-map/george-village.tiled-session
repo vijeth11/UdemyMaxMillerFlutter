@@ -15,11 +15,11 @@
             "dynamicWrapping": true
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx": {
-            "scale": 1,
+            "scale": 0.5,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 618,
-                "y": 342.5
+                "x": 1248,
+                "y": 245
             }
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx#Apple": {
@@ -29,6 +29,9 @@
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx#Blue": {
             "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx#Checkpoint": {
             "scaleInDock": 1
         },
         "C:/Users/vbelle/Documents/GitHub/UdemyMaxMillerFlutter/charlie_chicken/assets/tiles/map.tmx#Confetti": {
