@@ -4,7 +4,8 @@ import 'package:flame/components.dart';
 
 class Platform extends PositionComponent with CollisionCallbacks {
   final bool isEndBox;
-  Platform({required size, required position, required this.isEndBox})
+  final bool isBottomGround;
+  Platform({required size, required position, required this.isEndBox, required this.isBottomGround})
       : super(position: position, size: size);
 
   @override

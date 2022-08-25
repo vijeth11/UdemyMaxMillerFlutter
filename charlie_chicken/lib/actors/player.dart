@@ -1,4 +1,5 @@
 import 'package:charlie_chicken/actors/platform.dart';
+import 'package:charlie_chicken/actors/trap.dart';
 import 'package:charlie_chicken/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -8,16 +9,21 @@ enum PlayerAnimation { Running, Hit, Idel }
 
 class Player extends SpriteAnimationComponent
     with HasGameRef<CharliChickenGame>, CollisionCallbacks {
+  final Vector2 initialPosition;
   late SpriteAnimation runAnimation;
   late SpriteAnimation idelAnimation;
   late SpriteAnimation hitAnimation;
   final Vector2 characterImageSize = Vector2(32, 34);
   final double animationFrameTime = 0.1;
+  final double maxPlayerVelocity = 170;
 
   List<PositionComponent> itemsCollidedwith = [];
 
   double velocity = 1;
   bool isOnGround = false;
+  bool isPlayerHit = false;
+
+  Player(this.initialPosition);
   @override
   Future<void>? onLoad() {
     runAnimation = SpriteAnimation.fromFrameData(
@@ -44,6 +50,7 @@ class Player extends SpriteAnimationComponent
     debugMode = true;
     add(RectangleHitbox.relative(Vector2(0.6, 1), parentSize: size));
     anchor = Anchor.bottomCenter;
+    position = initialPosition;
     return super.onLoad();
   }
 
@@ -55,29 +62,31 @@ class Player extends SpriteAnimationComponent
       position.x = 0;
     }
 
-    if (!isOnGround && velocity > 0) {
+    if (!isOnGround) {
       velocity += gameRef.gravity;
-      velocity = velocity.clamp(0, 100);
+      velocity = velocity.clamp(-170, maxPlayerVelocity);
       position.y += velocity * dt;
     }
     super.update(dt);
   }
 
   void setAnimation(PlayerAnimation currentAnimation) {
-    switch (currentAnimation) {
-      case PlayerAnimation.Idel:
-        animation = idelAnimation;
-        break;
-      case PlayerAnimation.Hit:
-        animation = hitAnimation
-          ..onComplete = () => print("remove the player and reposition");
-        break;
-      case PlayerAnimation.Running:
-        animation = runAnimation;
-        break;
-      default:
-        animation = idelAnimation;
-        break;
+    if (!isPlayerHit) {
+      switch (currentAnimation) {
+        case PlayerAnimation.Idel:
+          animation = idelAnimation;
+          break;
+        case PlayerAnimation.Hit:
+          animation = hitAnimation
+            ..onComplete = () => print("remove the player and reposition");
+          break;
+        case PlayerAnimation.Running:
+          animation = runAnimation;
+          break;
+        default:
+          animation = idelAnimation;
+          break;
+      }
     }
   }
 
@@ -90,18 +99,27 @@ class Player extends SpriteAnimationComponent
         itemsCollidedwith.add(other);
       }
       print("velocity $velocity");
-      velocity = 0;
       if (!isOnGround &&
-          y - intersectionPoints.last.y >= 0 &&
-          y - intersectionPoints.last.y < 15) {
-        print("difference  ${y - intersectionPoints.last.y}");
-        isOnGround = true;
-        //y = y - (y - intersectionPoints.last.y) - 3;
+          other.isBottomGround &&
+          velocity == maxPlayerVelocity) {
+        velocity = 0;
+        isPlayerHit = true;
         y = other.y;
-      }
-      for (var point in intersectionPoints) {
-        if (y - 15 >= point[1]) {
-          position.x += gameRef.chickenFacingLeft ? 30 : -30;
+        animation = hitAnimation..completed.then((value) => playerRestart());
+      } else {
+        velocity = 0;
+        if (!isOnGround &&
+            y - intersectionPoints.last.y >= 0 &&
+            y - intersectionPoints.last.y < 15) {
+          print("difference  ${y - intersectionPoints.last.y}");
+          isOnGround = true;
+          //y = y - (y - intersectionPoints.last.y) - 3;
+          y = other.y;
+        }
+        for (var point in intersectionPoints) {
+          if (y - 15 >= point[1]) {
+            position.x += gameRef.chickenFacingLeft ? 30 : -30;
+          }
         }
       }
     }
@@ -116,8 +134,16 @@ class Player extends SpriteAnimationComponent
       print(itemsCollidedwith);
       if (!itemsCollidedwith.any((element) => element is Platform)) {
         isOnGround = false;
-        velocity = 1;
+        //velocity = 1;
       }
     }
+  }
+
+  void playerRestart() {
+    print("player restart");
+    position = initialPosition;
+    isOnGround = false;
+    velocity = 1;
+    isPlayerHit = false;
   }
 }

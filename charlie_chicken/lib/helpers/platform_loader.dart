@@ -1,7 +1,6 @@
 import 'package:charlie_chicken/actors/platform.dart';
 import 'package:charlie_chicken/game.dart';
 import 'package:flame/components.dart';
-import 'package:flame_tiled/flame_tiled.dart';
 import 'package:tiled/tiled.dart';
 
 void PlatformLoader(CharliChickenGame game, ObjectGroup platFormObj) {
@@ -9,6 +8,8 @@ void PlatformLoader(CharliChickenGame game, ObjectGroup platFormObj) {
     game.add(Platform(
         size: Vector2(platObj.width, platObj.height),
         position: Vector2(platObj.x, platObj.y),
-        isEndBox: platObj.class_.isNotEmpty && platObj.class_ == "EndPoint"));
+        isEndBox: platObj.class_.isNotEmpty && platObj.class_ == "EndPoint",
+        isBottomGround:
+            platObj.class_.isNotEmpty && platObj.class_ == "BottomGround"));
   }
 }

@@ -4,7 +4,6 @@ import 'package:charlie_chicken/helpers/platform_loader.dart';
 import 'package:charlie_chicken/helpers/reward_loader.dart';
 import 'package:charlie_chicken/helpers/trap_loader.dart';
 import 'package:flame/components.dart';
-import 'package:flame/experimental.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
@@ -13,15 +12,16 @@ import 'package:flutter/material.dart';
 import 'package:tiled/tiled.dart';
 
 class CharliChickenGame extends FlameGame
-    with HasDraggables, HasCollisionDetection, HasTappableComponents {
-  final Player chicken = Player();
+    with HasDraggables, HasCollisionDetection, HasTappables {
+  final Player chicken = Player(Vector2(100, 300));
   late final JoystickComponent joystick;
   late ButtonComponent jumpButton;
   late TiledComponent homeMap;
   late double mapViewHeight, mapViewWidth;
 
-  bool chickenFacingLeft = true;
-  double gravity = 8.0;
+  bool chickenFacingLeft = false;
+  final double gravity = 8.0;
+  final double jumpSpeed = 120;
 
   @override
   Future<void>? onLoad() async {
@@ -53,6 +53,9 @@ class CharliChickenGame extends FlameGame
     var platformObjs = homeMap.tileMap.getLayer<ObjectGroup>('Platform');
     PlatformLoader(this, platformObjs!);
 
+    add(chicken);
+    chicken.flipHorizontally();
+
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
     joystick = JoystickComponent(
@@ -62,10 +65,10 @@ class CharliChickenGame extends FlameGame
     add(joystick);
 
     jumpButton = ButtonComponent(
-        color: knobPaint, position: Vector2(size.x - 150, size.y - 80));
+        color: knobPaint,
+        position: Vector2(size.x - 150, size.y - 80),
+        onButtonTap: onJumpButtonClick);
     add(jumpButton);
-
-    add(chicken..position = Vector2(100, 300));
 
     return super.onLoad();
   }
@@ -96,5 +99,11 @@ class CharliChickenGame extends FlameGame
       }
     }
     super.update(dt);
+  }
+
+  void onJumpButtonClick() {
+    chicken.position += Vector2(0, -5);
+    chicken.velocity = -jumpSpeed;
+    chicken.isOnGround = false;
   }
 }

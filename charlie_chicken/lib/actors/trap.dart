@@ -58,17 +58,37 @@ class TrapComponent extends SpriteAnimationComponent
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
     // TODO: implement onCollision
     super.onCollision(intersectionPoints, other);
     if (other is Player) {
-      Future.delayed(Duration(seconds: 3)).then((value) {
-        isFallingDown = true;
-        animation = flyingOff;
-      });
+      final positionOfTrapfromPlayer =
+          (absoluteCenter - other.absoluteCenter).normalized();
+      var product = Vector2(0, -1).dot(positionOfTrapfromPlayer);
+      if (product < 0) {
+        other.isOnGround = true;
+        other.velocity = 0;
+        Future.delayed(Duration(seconds: 3)).then((value) {
+          isFallingDown = true;
+          animation = flyingOff;
+        });
+        print("collided from top");
+      }
     }
     if (other is Platform) {
       gameRef.remove(this);
     }
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    if (other is Player) {
+      other.isOnGround = false;
+      if (other.velocity == 0) {
+        other.velocity = 1;
+      }
+    }
+    super.onCollisionEnd(other);
   }
 }
