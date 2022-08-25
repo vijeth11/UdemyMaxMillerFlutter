@@ -1,10 +1,11 @@
+import 'package:charlie_chicken/actors/level.dart';
 import 'package:charlie_chicken/game.dart';
 import 'package:flame/components.dart';
 import 'package:tiled/tiled.dart';
 
 import '../actors/reward.dart';
 
-void RewardLoader(CharliChickenGame game, ObjectGroup rewardObjs){
+void RewardLoader(Level game, ObjectGroup rewardObjs){
   for (TiledObject rewardObj in rewardObjs.objects) {
       if (rewardObj.class_.isNotEmpty) {
         game.add(RewardComponent(

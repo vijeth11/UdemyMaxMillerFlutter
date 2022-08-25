@@ -12,7 +12,7 @@ class Platform extends PositionComponent with CollisionCallbacks {
   Future<void>? onLoad() {
     // TODO: implement onLoad
     add(RectangleHitbox());
-    debugMode = true;
+    //debugMode = true;
     return super.onLoad();
   }
 

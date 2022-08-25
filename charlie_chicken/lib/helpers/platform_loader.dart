@@ -1,9 +1,10 @@
+import 'package:charlie_chicken/actors/level.dart';
 import 'package:charlie_chicken/actors/platform.dart';
 import 'package:charlie_chicken/game.dart';
 import 'package:flame/components.dart';
 import 'package:tiled/tiled.dart';
 
-void PlatformLoader(CharliChickenGame game, ObjectGroup platFormObj) {
+void PlatformLoader(Level game, ObjectGroup platFormObj) {
   for (TiledObject platObj in platFormObj.objects) {
     game.add(Platform(
         size: Vector2(platObj.width, platObj.height),

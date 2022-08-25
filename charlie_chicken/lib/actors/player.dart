@@ -1,5 +1,4 @@
 import 'package:charlie_chicken/actors/platform.dart';
-import 'package:charlie_chicken/actors/trap.dart';
 import 'package:charlie_chicken/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -9,7 +8,6 @@ enum PlayerAnimation { Running, Hit, Idel }
 
 class Player extends SpriteAnimationComponent
     with HasGameRef<CharliChickenGame>, CollisionCallbacks {
-  final Vector2 initialPosition;
   late SpriteAnimation runAnimation;
   late SpriteAnimation idelAnimation;
   late SpriteAnimation hitAnimation;
@@ -23,7 +21,6 @@ class Player extends SpriteAnimationComponent
   bool isOnGround = false;
   bool isPlayerHit = false;
 
-  Player(this.initialPosition);
   @override
   Future<void>? onLoad() {
     runAnimation = SpriteAnimation.fromFrameData(
@@ -47,10 +44,9 @@ class Player extends SpriteAnimationComponent
             textureSize: characterImageSize));
     animation = idelAnimation;
     size = Vector2.all(80);
-    debugMode = true;
+    //debugMode = true;
     add(RectangleHitbox.relative(Vector2(0.6, 1), parentSize: size));
     anchor = Anchor.bottomCenter;
-    position = initialPosition;
     return super.onLoad();
   }
 
@@ -105,7 +101,8 @@ class Player extends SpriteAnimationComponent
         velocity = 0;
         isPlayerHit = true;
         y = other.y;
-        animation = hitAnimation..completed.then((value) => playerRestart());
+        hitAnimation.reset();
+        animation = hitAnimation..onComplete = gameRef.playerRestart;
       } else {
         velocity = 0;
         if (!isOnGround &&
@@ -137,13 +134,5 @@ class Player extends SpriteAnimationComponent
         //velocity = 1;
       }
     }
-  }
-
-  void playerRestart() {
-    print("player restart");
-    position = initialPosition;
-    isOnGround = false;
-    velocity = 1;
-    isPlayerHit = false;
   }
 }

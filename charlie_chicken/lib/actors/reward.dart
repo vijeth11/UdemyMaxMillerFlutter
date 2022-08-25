@@ -29,7 +29,10 @@ class RewardComponent extends SpriteAnimationComponent
             image: Flame.images.fromCache('world/Collected.png'),
             srcSize: Vector2(32, 32))
         .createAnimation(row: 0, stepTime: 0.1, from: 0, to: 6, loop: false)
-      ..completed.then((value) => removeFromParent());
+      ..completed.then((value) {
+        removeFromParent();
+        gameRef.score += 1;
+      });
     animation =
         appleSheet.createAnimation(row: 0, stepTime: 0.1, from: 0, to: 17);
     size = Vector2(64, 64);

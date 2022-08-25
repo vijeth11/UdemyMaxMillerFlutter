@@ -1,3 +1,4 @@
+import 'package:charlie_chicken/actors/level.dart';
 import 'package:charlie_chicken/actors/platform.dart';
 import 'package:charlie_chicken/actors/player.dart';
 import 'package:charlie_chicken/game.dart';
@@ -6,7 +7,7 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 
 class TrapComponent extends SpriteAnimationComponent
-    with CollisionCallbacks, HasGameRef<CharliChickenGame> {
+    with CollisionCallbacks, HasGameRef<CharliChickenGame>, ParentIsA<Level> {
   final Vector2 srcSize;
   final String imageName;
   final Vector2 objPosition;
@@ -15,6 +16,7 @@ class TrapComponent extends SpriteAnimationComponent
   late SpriteAnimation flying;
   late SpriteAnimation flyingOff;
 
+  final Duration fallingStart = Duration(seconds: 1);
   bool isFallingDown = false;
   double velocity = 0;
 
@@ -69,7 +71,8 @@ class TrapComponent extends SpriteAnimationComponent
       if (product < 0) {
         other.isOnGround = true;
         other.velocity = 0;
-        Future.delayed(Duration(seconds: 3)).then((value) {
+        other.y = y;
+        Future.delayed(fallingStart).then((value) {
           isFallingDown = true;
           animation = flyingOff;
         });
@@ -77,7 +80,7 @@ class TrapComponent extends SpriteAnimationComponent
       }
     }
     if (other is Platform) {
-      gameRef.remove(this);
+      parent.remove(this);
     }
   }
 

@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
@@ -30,7 +29,7 @@ class ButtonComponent extends Component with Tappable {
     // TODO: implement render
     super.render(canvas);
     canvas.drawCircle(
-        position.toOffset(), 50, BasicPalette.blue.withAlpha(200).paint());
+        position.toOffset(), 50, BasicPalette.blue.withAlpha(100).paint());
     buttonImage.render(
       canvas,
       position: position,

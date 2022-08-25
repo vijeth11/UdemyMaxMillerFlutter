@@ -1,37 +1,28 @@
-import 'package:charlie_chicken/actors/player.dart';
+import 'package:charlie_chicken/actors/level.dart';
 import 'package:charlie_chicken/controlls/button.dart';
-import 'package:charlie_chicken/helpers/platform_loader.dart';
-import 'package:charlie_chicken/helpers/reward_loader.dart';
-import 'package:charlie_chicken/helpers/trap_loader.dart';
+import 'package:charlie_chicken/overlays/score.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flame/input.dart' hide ButtonComponent;
 import 'package:flame/palette.dart';
-import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
-import 'package:tiled/tiled.dart';
 
 class CharliChickenGame extends FlameGame
     with HasDraggables, HasCollisionDetection, HasTappables {
-  final Player chicken = Player(Vector2(100, 300));
-  late final JoystickComponent joystick;
-  late ButtonComponent jumpButton;
-  late TiledComponent homeMap;
-  late double mapViewHeight, mapViewWidth;
+  late JoystickComponent? joystick;
+  late ButtonComponent? jumpButton;
+  late SpriteButtonComponent? restartButton;
+  late Score? scoreText;
+  late Level? gameLevel;
 
   bool chickenFacingLeft = false;
   final double gravity = 8.0;
   final double jumpSpeed = 120;
+  int score = 0;
 
   @override
   Future<void>? onLoad() async {
-    homeMap = await TiledComponent.load('map.tmx', Vector2(16, 16));
-    add(homeMap);
-    // these calculations are based on ratio (refer leena project)
-    mapViewHeight = homeMap.tileMap.map.height.toDouble() * 16;
-    mapViewWidth = mapViewHeight * (size.x / size.y);
-    camera.viewport =
-        FixedResolutionViewport(Vector2(mapViewWidth, mapViewHeight));
     await Flame.images.loadAll([
       'ChickenRun.png',
       'world/FallingPlatformOff.png',
@@ -41,69 +32,77 @@ class CharliChickenGame extends FlameGame
       'world/FallingPlatform.png',
       'ChickenIdel.png',
       'ChickenHit.png',
-      'jump.png'
+      'jump.png',
+      'restart.png',
     ]);
 
-    var trapObjs = homeMap.tileMap.getLayer<ObjectGroup>('Traps');
-    TrapLoader(this, trapObjs!);
+    gameLevel = Level();
+    add(gameLevel!);
 
-    var rewardObjs = homeMap.tileMap.getLayer<ObjectGroup>('Rewards');
-    RewardLoader(this, rewardObjs!);
+    return super.onLoad();
+  }
 
-    var platformObjs = homeMap.tileMap.getLayer<ObjectGroup>('Platform');
-    PlatformLoader(this, platformObjs!);
-
-    add(chicken);
-    chicken.flipHorizontally();
-
+  void addControlls() {
+    // called by level once view port is set
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
     joystick = JoystickComponent(
         knob: CircleComponent(radius: 30, paint: knobPaint),
         background: CircleComponent(radius: 60, paint: backgroundPaint),
         margin: const EdgeInsets.only(left: 40, bottom: 40));
-    add(joystick);
+    add(joystick!);
 
     jumpButton = ButtonComponent(
         color: knobPaint,
         position: Vector2(size.x - 150, size.y - 80),
         onButtonTap: onJumpButtonClick);
-    add(jumpButton);
+    add(jumpButton!);
 
-    return super.onLoad();
-  }
+    restartButton = SpriteButtonComponent(
+        onPressed: restartGame,
+        size: Vector2.all(50),
+        position: Vector2(100, 30),
+        button: Sprite(Flame.images.fromCache('restart.png')));
 
-  @override
-  void update(double dt) {
-    // TODO: implement update
-    if (joystick.direction == JoystickDirection.idle) {
-      chicken.setAnimation(PlayerAnimation.Idel);
-    } else {
-      chicken.setAnimation(PlayerAnimation.Running);
-      if (joystick.direction == JoystickDirection.left ||
-          joystick.direction == JoystickDirection.upLeft ||
-          joystick.direction == JoystickDirection.downLeft) {
-        if (!chickenFacingLeft) {
-          chicken.flipHorizontallyAroundCenter();
-          chickenFacingLeft = true;
-        }
-        chicken.position += Vector2(joystick.delta.x * 2 * dt, 0);
-      } else if (joystick.direction == JoystickDirection.right ||
-          joystick.direction == JoystickDirection.downRight ||
-          joystick.direction == JoystickDirection.upRight) {
-        if (chickenFacingLeft) {
-          chicken.flipHorizontallyAroundCenter();
-          chickenFacingLeft = false;
-        }
-        chicken.position += Vector2(joystick.delta.x * 2 * dt, 0);
-      }
-    }
-    super.update(dt);
+    add(restartButton!);
+
+    scoreText = Score();
+
+    add(scoreText!);
   }
 
   void onJumpButtonClick() {
-    chicken.position += Vector2(0, -5);
-    chicken.velocity = -jumpSpeed;
-    chicken.isOnGround = false;
+    gameLevel?.playerJump();
+  }
+
+  void playerRestart() {
+    gameLevel?.resetPlayerPosition();
+  }
+
+  void restartGame() {
+    if (scoreText != null) {
+      remove(scoreText!);
+      scoreText = null;
+    }
+    if (restartButton != null) {
+      remove(restartButton!);
+      restartButton = null;
+    }
+    if (joystick != null) {
+      remove(joystick!);
+      joystick = null;
+    }
+    if (jumpButton != null) {
+      remove(jumpButton!);
+      jumpButton = null;
+    }
+    if (gameLevel != null) {
+      remove(gameLevel!);
+      gameLevel = null;
+    }
+    Future.delayed(Duration(seconds: 1)).then((value) {
+      gameLevel = Level();
+      add(gameLevel!);
+    });
   }
 }

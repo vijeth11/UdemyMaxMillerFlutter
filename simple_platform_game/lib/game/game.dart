@@ -16,6 +16,7 @@ class SimplePlatformer extends FlameGame
     );
     await AudioManager.init();
     camera.viewport = FixedResolutionViewport(Vector2(960, 340), clip: false);
+    //game play is added in main_menu
     //add(GamePlay());
     return super.onLoad();
   }

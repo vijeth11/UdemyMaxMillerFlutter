@@ -1,9 +1,10 @@
+import 'package:charlie_chicken/actors/level.dart';
 import 'package:charlie_chicken/actors/trap.dart';
 import 'package:charlie_chicken/game.dart';
 import 'package:flame/components.dart';
 import 'package:tiled/tiled.dart';
 
-void TrapLoader(CharliChickenGame game, ObjectGroup trapObjs){
+void TrapLoader(Level game, ObjectGroup trapObjs){
   for (TiledObject trapObj in trapObjs.objects) {
       if (trapObj.class_.isNotEmpty) {
         game.add(TrapComponent(
