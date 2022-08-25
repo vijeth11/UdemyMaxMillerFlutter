@@ -1,6 +1,7 @@
 import 'package:charlie_chicken/actors/level.dart';
 import 'package:charlie_chicken/controlls/button.dart';
 import 'package:charlie_chicken/overlays/game_over.dart';
+import 'package:charlie_chicken/overlays/lives.dart';
 import 'package:charlie_chicken/overlays/score.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
@@ -15,6 +16,8 @@ class CharliChickenGame extends FlameGame
   late ButtonComponent? jumpButton;
   late SpriteButtonComponent? restartButton;
   late Score? scoreText;
+  late LivesRemaining? livesText;
+  late SpriteComponent? characterImage;
   late Level? gameLevel;
 
   bool chickenFacingLeft = false;
@@ -38,6 +41,7 @@ class CharliChickenGame extends FlameGame
       'world/CheckpointFlagOut.png',
       'ChickenIdel.png',
       'ChickenHit.png',
+      'Chicken.png',
       'jump.png',
       'restart.png',
     ]);
@@ -75,6 +79,17 @@ class CharliChickenGame extends FlameGame
     scoreText = Score();
 
     add(scoreText!);
+
+    characterImage = SpriteComponent(
+        sprite: Sprite(Flame.images.fromCache('Chicken.png'),
+            srcSize: Vector2(67, 65)),
+        position: Vector2(size.x - 250, 30),
+        size: Vector2.all(50));
+
+    add(characterImage!);
+
+    livesText = LivesRemaining();
+    add(livesText!);
   }
 
   void onJumpButtonClick() {
@@ -92,6 +107,15 @@ class CharliChickenGame extends FlameGame
     score = 0;
     lifeLeft = 5;
     gameOver = false;
+    if (livesText != null) {
+      remove(livesText!);
+      livesText = null;
+    }
+    if (characterImage != null) {
+      remove(characterImage!);
+      characterImage = null;
+    }
+
     if (scoreText != null) {
       remove(scoreText!);
       scoreText = null;
@@ -112,6 +136,7 @@ class CharliChickenGame extends FlameGame
       remove(gameLevel!);
       gameLevel = null;
     }
+
     Future.delayed(Duration(seconds: 1)).then((value) {
       gameLevel = Level();
       add(gameLevel!);

@@ -16,7 +16,7 @@ class TrapComponent extends SpriteAnimationComponent
   late SpriteAnimation flying;
   late SpriteAnimation flyingOff;
 
-  final Duration fallingStart = Duration(seconds: 5);
+  final Duration fallingStart = Duration(seconds: 1);
   bool isFallingDown = false;
   double velocity = 0;
 
