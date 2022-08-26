@@ -8,6 +8,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart' hide ButtonComponent;
 import 'package:flame/palette.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 class CharliChickenGame extends FlameGame
@@ -46,6 +47,8 @@ class CharliChickenGame extends FlameGame
       'restart.png',
     ]);
 
+    FlameAudio.bgm.initialize();
+    await FlameAudio.audioCache.load('background.mp3');
     gameLevel = Level();
     add(gameLevel!);
 
@@ -90,6 +93,7 @@ class CharliChickenGame extends FlameGame
 
     livesText = LivesRemaining();
     add(livesText!);
+    FlameAudio.bgm.play('background.mp3');
   }
 
   void onJumpButtonClick() {
@@ -101,6 +105,7 @@ class CharliChickenGame extends FlameGame
   }
 
   void restartGame() {
+    FlameAudio.bgm.stop();
     if (overlays.isActive(GameOver.name)) {
       overlays.remove(GameOver.name);
     }

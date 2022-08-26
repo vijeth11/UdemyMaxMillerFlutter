@@ -6,6 +6,8 @@ import 'package:charlie_chicken/helpers/trap_loader.dart';
 import 'package:charlie_chicken/overlays/game_over.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/audio_pool.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tiled/tiled.dart';
@@ -15,11 +17,16 @@ class Level extends Component with HasGameRef<CharliChickenGame> {
   final Player chicken = Player();
   late TiledComponent homeMap;
   late double mapViewHeight, mapViewWidth;
+  late AudioPool jumpGame;
+  late AudioPool gameLoose;
 
   bool displaFlagOver = false;
   ValueNotifier<bool> gameOverFlag = ValueNotifier(false);
   @override
   Future<void>? onLoad() async {
+    jumpGame =
+        await AudioPool.create('audio/sfx/chickenjump.wav', maxPlayers: 1);
+    gameLoose = await AudioPool.create('audio/sfx/gamelost.mp3', maxPlayers: 1);
     homeMap = await TiledComponent.load('level1.tmx', Vector2(16, 16));
     add(homeMap);
     // these calculations are based on ratio (refer leena project)
@@ -75,6 +82,7 @@ class Level extends Component with HasGameRef<CharliChickenGame> {
 
   void playerJump() {
     if (chicken.isOnGround) {
+      jumpGame.start(volume: 0.8);
       chicken.position += Vector2(0, -5);
       chicken.velocity = -gameRef.jumpSpeed;
       chicken.isOnGround = false;
@@ -96,6 +104,10 @@ class Level extends Component with HasGameRef<CharliChickenGame> {
   void gameOver() {
     gameRef.gameOver = true;
     if (gameRef.lifeLeft <= 0 || displaFlagOver) {
+      if (!displaFlagOver) {
+        FlameAudio.bgm.stop();
+        gameLoose.start(volume: 0.8);
+      }
       gameRef.pauseEngine();
       gameRef.overlays.add(GameOver.name);
     } else {

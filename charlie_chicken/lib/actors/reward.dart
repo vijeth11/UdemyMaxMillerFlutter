@@ -4,6 +4,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
+import 'package:flame_audio/audio_pool.dart';
 
 class RewardComponent extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<CharliChickenGame> {
@@ -13,6 +14,7 @@ class RewardComponent extends SpriteAnimationComponent
   final Vector2 objSize;
   late SpriteSheet appleSheet;
   late SpriteAnimation collected;
+  late AudioPool reward;
 
   RewardComponent(
       {required this.srcSize,
@@ -21,7 +23,9 @@ class RewardComponent extends SpriteAnimationComponent
       required this.objSize});
 
   @override
-  Future<void>? onLoad() {
+  Future<void>? onLoad() async {
+    reward =
+        await AudioPool.create('audio/sfx/collectfruit.wav', maxPlayers: 1);
     appleSheet = SpriteSheet(
         image: Flame.images.fromCache('world/AppleSheet.png'),
         srcSize: srcSize);

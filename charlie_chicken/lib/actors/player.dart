@@ -3,6 +3,7 @@ import 'package:charlie_chicken/game.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
+import 'package:flame_audio/audio_pool.dart';
 
 enum PlayerAnimation { Running, Hit, Idel }
 
@@ -14,6 +15,7 @@ class Player extends SpriteAnimationComponent
   final Vector2 characterImageSize = Vector2(32, 34);
   final double animationFrameTime = 0.1;
   final double maxPlayerVelocity = 170;
+  late AudioPool playerHit;
 
   List<PositionComponent> itemsCollidedwith = [];
 
@@ -22,7 +24,7 @@ class Player extends SpriteAnimationComponent
   bool isPlayerHit = false;
 
   @override
-  Future<void>? onLoad() {
+  Future<void>? onLoad() async {
     runAnimation = SpriteAnimation.fromFrameData(
         Flame.images.fromCache('ChickenRun.png'),
         SpriteAnimationData.sequenced(
@@ -47,6 +49,8 @@ class Player extends SpriteAnimationComponent
     //debugMode = true;
     add(RectangleHitbox.relative(Vector2(0.6, 1), parentSize: size));
     anchor = Anchor.bottomCenter;
+    playerHit =
+        await AudioPool.create('audio/sfx/chickendead.wav', maxPlayers: 1);
     return super.onLoad();
   }
 
@@ -98,6 +102,7 @@ class Player extends SpriteAnimationComponent
       if (!isOnGround &&
           other.isBottomGround &&
           velocity == maxPlayerVelocity) {
+        playerHit.start(volume: 0.8);
         velocity = 0;
         isPlayerHit = true;
         y = other.y;
