@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/infrastructure/backbutton.dart';
 import 'package:kedo_food/widgets/item_card_grid_display.dart';
+import 'package:kedo_food/widgets/page_header.dart';
 
 import '../model/market_item.dart';
 
@@ -91,20 +92,7 @@ class _WishListState extends State<WishList> {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).viewPadding.top,
-          ),
-          ListTile(
-            iconColor: Colors.black,
-            leading: AppBackButton(context),
-            title: const Padding(
-              padding: EdgeInsets.only(left: 65, top: 10),
-              child: Text(
-                "Wishlist",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
+          ...getPageHeader("Wishlist", context, titlePladding: 65),
           Expanded(
             child: CustomScrollView(
                 controller: scrollController,
