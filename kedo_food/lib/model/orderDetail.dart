@@ -6,6 +6,7 @@ enum Payment { Card, Cash, UPI }
 
 class OrderDetail {
   final String orderId;
+  final String invoiceNo;
   final DateTime orderDate;
   final Payment orderPayement;
   final Status orderStatus;
@@ -17,6 +18,7 @@ class OrderDetail {
 
   OrderDetail(
       {required this.orderId,
+      required this.invoiceNo,
       required this.orderDate,
       required this.orderPayement,
       required this.orderStatus,
@@ -32,7 +34,7 @@ class OrderDetail {
 
   double get totalCost {
     return orderItems
-        .map((e) => e.itemCost)
+        .map((e) => e.itemCost * e.quantity)
         .reduce((value, element) => value + element);
   }
 }

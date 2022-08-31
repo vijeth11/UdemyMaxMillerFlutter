@@ -4,6 +4,7 @@ import 'package:kedo_food/screens/category_menu.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
 import 'package:kedo_food/screens/home.dart';
 import 'package:kedo_food/screens/item_detail.dart';
+import 'package:kedo_food/screens/message_bot.dart';
 import 'package:kedo_food/screens/my_orders.dart';
 import 'package:kedo_food/screens/order_detail_screen.dart';
 import 'package:kedo_food/screens/user_profile.dart';
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
         UserProfileOption.routeName: (context) => UserProfileOption(),
         UserProfile.routeName: (context) => UserProfile(),
         MyOrders.routeName: (context) => MyOrders(),
-        OrderDetailScreen.routeName :(context) => OrderDetailScreen()
+        OrderDetailScreen.routeName :(context) => OrderDetailScreen(),
+        MessageBot.routeName:(context) => MessageBot()
       },
     );
   }

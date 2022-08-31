@@ -11,7 +11,8 @@ class MyOrders extends StatefulWidget {
 
   List<OrderDetail> orders = [
     OrderDetail(
-        orderId: getRandomString(10),
+        orderId: getRandomString(15),
+        invoiceNo: getRandomString(15),
         orderDate: DateTime.now(),
         orderPayement: Payment.Card,
         orderStatus: Status.Delivered,
@@ -35,7 +36,8 @@ class MyOrders extends StatefulWidget {
         deliveryUserName: "RichBrown",
         deliveryUserPhone: "(+91) 123 456 7890"),
     OrderDetail(
-        orderId: getRandomString(10),
+        orderId: getRandomString(15),
+        invoiceNo: getRandomString(15),
         orderDate: DateTime.now(),
         orderPayement: Payment.Card,
         orderStatus: Status.Delivered,
@@ -65,7 +67,8 @@ class MyOrders extends StatefulWidget {
         deliveryUserName: "RichBrown",
         deliveryUserPhone: "(+91) 123 456 7890"),
     OrderDetail(
-        orderId: getRandomString(10),
+        orderId: getRandomString(15),
+        invoiceNo: getRandomString(15),
         orderDate: DateTime.now(),
         orderPayement: Payment.Card,
         orderStatus: Status.Canceled,

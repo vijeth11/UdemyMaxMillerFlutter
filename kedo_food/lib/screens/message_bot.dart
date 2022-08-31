@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:kedo_food/widgets/page_header.dart';
 
 class MessageBot extends StatefulWidget {
   static const String routeName = 'MessageBot';
@@ -11,6 +12,12 @@ class MessageBot extends StatefulWidget {
 class _MessageBotState extends State<MessageBot> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Column(
+        children: [
+          ...getPageHeader("Message", context, titlePladding: 65),
+        ],
+      ),
+    );
   }
 }
