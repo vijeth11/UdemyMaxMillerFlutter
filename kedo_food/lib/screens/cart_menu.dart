@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/model/cart_item.dart';
+import 'package:kedo_food/screens/cart_checkout.dart';
 import 'package:kedo_food/widgets/bottom_navigator.dart';
 
 class CartMenu extends StatefulWidget {
@@ -61,7 +62,9 @@ class _CartMenuState extends State<CartMenu> {
                       color: Colors.grey.shade800),
                 ),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(CartCheckout.routeName);
+                    },
                     child: Text(
                       "Checkout",
                       style:

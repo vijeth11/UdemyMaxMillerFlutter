@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/screens/cart_checkout.dart';
 import 'package:kedo_food/screens/cart_menu.dart';
 import 'package:kedo_food/screens/category_menu.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         UserProfile.routeName: (context) => UserProfile(),
         MyOrders.routeName: (context) => MyOrders(),
         OrderDetailScreen.routeName :(context) => OrderDetailScreen(),
-        MessageBot.routeName:(context) => MessageBot()
+        MessageBot.routeName:(context) => MessageBot(),
+        CartCheckout.routeName: (context) => CartCheckout()
       },
     );
   }
