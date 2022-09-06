@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/infrastructure/page_button.dart';
 
 class PaymentInfoForm extends StatefulWidget {
   final Function getTextInput;
   final VoidCallback onPress;
-  const PaymentInfoForm({Key? key, required this.getTextInput, required this.onPress})
+  const PaymentInfoForm(
+      {Key? key, required this.getTextInput, required this.onPress})
       : super(key: key);
 
   @override
@@ -113,20 +115,7 @@ class _PaymentInfoFormState extends State<PaymentInfoForm>
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: widget.onPress,
-              child: const Text("BUY"),
-              style: ButtonStyle(
-                  textStyle: MaterialStateProperty.all(const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w500)),
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.green.shade500),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20))),
-                  alignment: Alignment.center,
-                  minimumSize: MaterialStateProperty.all(
-                      const Size(double.infinity, 60))),
-            ),
+            getPageButton("BUY", widget.onPress),
           ],
         ));
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/infrastructure/page_button.dart';
 
 class ShippingAddressForm extends StatefulWidget {
   final Function getTextInput;
@@ -132,20 +133,7 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
           const SizedBox(
             height: 20,
           ),
-          ElevatedButton(
-            onPressed: widget.onPress,
-            child: const Text("NEXT"),
-            style: ButtonStyle(
-                textStyle: MaterialStateProperty.all(
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.green.shade500),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20))),
-                alignment: Alignment.center,
-                minimumSize:
-                    MaterialStateProperty.all(const Size(double.infinity, 60))),
-          ),
+          getPageButton("NEXT", widget.onPress),
           const SizedBox(
             height: 10,
           )

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kedo_food/infrastructure/backbutton.dart';
 import 'package:kedo_food/widgets/item_card_grid_display.dart';
 import 'package:kedo_food/widgets/page_header.dart';
 
@@ -45,50 +44,7 @@ class _WishListState extends State<WishList> {
 
   @override
   Widget build(BuildContext context) {
-    List<MarketItem> menuItems = List.generate(
-        20,
-        (index) => MarketItem(
-                name: 'Avocado',
-                cost: 8.8,
-                isFavourite: true,
-                image: 'item-brocoli.png',
-                rating: 4.5,
-                description:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                    'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
-                    ' veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-                    'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                discussion:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                    'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
-                    ' veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-                    'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-                reviews: [
-                  Review(
-                      name: 'Jhon Leo',
-                      review:
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                          'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
-                      rating: 4,
-                      date: DateTime.now(),
-                      image: 'assets/images/user1.png'),
-                  Review(
-                      name: 'Logan Tucker',
-                      review:
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                          'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
-                      rating: 4,
-                      date: DateTime.now(),
-                      image: 'assets/images/user2.png'),
-                  Review(
-                      name: 'Jasmine James',
-                      review:
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                          'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
-                      rating: 4,
-                      date: DateTime.now(),
-                      image: 'assets/images/user3.png')
-                ]));
+    
     return Scaffold(
       body: Column(
         children: [
