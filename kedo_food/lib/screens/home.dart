@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(left: 22),
+        padding: const EdgeInsets.only(left: 22),
         child: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 20,
             ),
             getSectionTitle("Categories"),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             // Iamge Carousal for categories
@@ -116,7 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 80,
               child: PageView.builder(
                 controller: _controller,
-                physics: ScrollPhysics(parent: BouncingScrollPhysics()),
+                physics:
+                    const ScrollPhysics(parent: const BouncingScrollPhysics()),
                 itemCount: categoryTiles.length,
                 onPageChanged: (index) {
                   if (index == 5) _controller.jumpToPage(4);
@@ -130,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Container(
                     width: 50,
                     height: 40,
-                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: const Color.fromARGB(211, 77, 179, 43)),
@@ -145,25 +146,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             getSectionTitle("Trending Deals"),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             SizedBox(
                 height: (heightOfGridRow * trendingItemsCount).toDouble(),
                 child: GridView.builder(
                   //suppress the inner gridview scroller and allow page scroll
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: trendingItemsCount,
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 200,
                       mainAxisExtent: 250,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 5),
-                  padding: EdgeInsets.only(top: 0),
+                  padding: const EdgeInsets.only(top: 0),
                   itemBuilder: (context, index) {
                     return ItemCard(
                       item: menuItems[index],
@@ -175,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   },
                 )),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             getPageButton("LOAD MORE", () {
@@ -198,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Text(sectionName,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
         IconButton(
-            padding: EdgeInsets.only(right: 30),
+            padding: const EdgeInsets.only(right: 30),
             onPressed: () {
               Navigator.of(context).pushNamed(CategoryTypeList.routeName);
             },
