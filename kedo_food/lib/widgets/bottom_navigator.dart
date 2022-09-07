@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/screens/cart_menu.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
+import 'package:kedo_food/screens/home.dart';
 import 'package:kedo_food/screens/user_profile_options.dart';
 import 'package:kedo_food/screens/wish_list.dart';
 
@@ -20,7 +21,9 @@ class BottomNavigator extends StatelessWidget {
             icon: Icon(Icons.home,
                 size: iconSize,
                 color: active == BottomIcons.Home ? Colors.green : Colors.grey),
-            onPressed: () {}),
+            onPressed: () {
+              Navigator.of(context).pushNamed(MyHomePage .routeName);
+            }),
         IconButton(
             icon: Icon(Icons.sync_alt,
                 size: iconSize,
