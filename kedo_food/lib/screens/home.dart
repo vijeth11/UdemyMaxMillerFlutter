@@ -19,7 +19,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String userName = "Test Tester";
-  int trendingItemsCount = 4;
+  late int trendingItemsCount;
   final int heightOfGridRow = 127;
   final PageController _controller =
       PageController(viewportFraction: 1 / 3, initialPage: 1);
@@ -42,6 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
       "summary": "Best Recipe Of the Week"
     }
   ];
+
+  @override
+  void initState() {
+    trendingItemsCount = 4;
+    super.initState();
+  }
 
   @override
   void dispose() {

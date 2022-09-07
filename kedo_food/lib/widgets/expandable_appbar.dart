@@ -55,7 +55,7 @@ class _ExpandableAppBarState extends State<ExpandableAppBar> {
   @override
   void dispose() {
     scrollController.removeListener(listener);
-    super.initState();
+    super.dispose();
   }
 
   @override
