@@ -6,6 +6,8 @@ class OrderDetailScreen extends StatelessWidget {
   static const String routeName = "OrderDetail";
   late OrderDetail order;
 
+  OrderDetailScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

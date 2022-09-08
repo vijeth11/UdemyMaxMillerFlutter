@@ -9,11 +9,30 @@ class AuthScreen extends StatefulWidget {
   State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _AuthScreenState extends State<AuthScreen>
+    with SingleTickerProviderStateMixin {
   bool displaySignInPage = true;
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(milliseconds: 300),
+    vsync: this,
+  );
+
+  late final Animation<Offset> _offsetAnimation = Tween<Offset>(
+    begin: const Offset(0.0, 1),
+    end: Offset.zero,
+  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 0))
+        .then((value) => _controller.forward());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).viewPadding.top;
     return Scaffold(
       body: Column(
         children: [
@@ -24,11 +43,15 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Stack(
               fit: StackFit.loose,
               children: [
-                const Image(
-                  image: const AssetImage('assets/images/login.png'),
-                ),
+                SizedBox(
+                    width: double.infinity,
+                    height: screenHeight / 2,
+                    child: const Image(
+                      image: const AssetImage('assets/images/login.png'),
+                      fit: BoxFit.cover,
+                    )),
                 Positioned.fill(
-                  top: 265,
+                  top: screenHeight / 2 - 100,
                   child: Container(
                     decoration: const BoxDecoration(
                         color: Colors.white,
@@ -41,8 +64,12 @@ class _AuthScreenState extends State<AuthScreen> {
                           horizontal: 22.0, vertical: 30),
                       child: SingleChildScrollView(
                         child: displaySignInPage
-                            ? getSiginPage()
-                            : getSignupPage(),
+                            ? SlideTransition(
+                                position: _offsetAnimation,
+                                child: getSiginPage())
+                            : SlideTransition(
+                                position: _offsetAnimation,
+                                child: getSignupPage()),
                       ),
                     ),
                   ),
@@ -109,6 +136,8 @@ class _AuthScreenState extends State<AuthScreen> {
           setState(() {
             displaySignInPage = false;
           });
+          _controller.reset();
+          _controller.forward();
         }),
       ],
     );
@@ -177,9 +206,13 @@ class _AuthScreenState extends State<AuthScreen> {
                   padding: MaterialStateProperty.all(EdgeInsets.zero),
                   backgroundColor:
                       MaterialStateProperty.all(Colors.transparent)),
-              onPressed: () => setState(() {
-                    displaySignInPage = true;
-                  }),
+              onPressed: () {
+                setState(() {
+                  displaySignInPage = true;
+                });
+                _controller.reset();
+                _controller.forward();
+              },
               child: Container(
                 height: 35,
                 width: 35,
