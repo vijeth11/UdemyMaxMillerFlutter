@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/helper/utils.dart';
 import 'package:kedo_food/model/user_details.dart';
 import 'package:kedo_food/widgets/page_header.dart';
 
@@ -11,7 +12,8 @@ class UserProfile extends StatelessWidget {
       "(+91) 123 456 7890",
       "info@test.com",
       "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu",
-      'assets/images/user3.png');
+      'assets/images/user3.png',
+      getRandomString(10));
   @override
   Widget build(BuildContext context) {
     // TODO: Edit Profile Needs to be implemented

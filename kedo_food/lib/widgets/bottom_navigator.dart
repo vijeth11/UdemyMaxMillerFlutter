@@ -22,7 +22,7 @@ class BottomNavigator extends StatelessWidget {
                 size: iconSize,
                 color: active == BottomIcons.Home ? Colors.green : Colors.grey),
             onPressed: () {
-              Navigator.of(context).pushNamed(MyHomePage .routeName);
+              Navigator.of(context).pushReplacementNamed(MyHomePage.routeName);
             }),
         IconButton(
             icon: Icon(Icons.sync_alt,
