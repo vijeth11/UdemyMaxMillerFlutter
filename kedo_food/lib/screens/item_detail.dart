@@ -85,8 +85,7 @@ class _ItemDetailState extends State<ItemDetail> {
                 itemBuilder: (context, index) => Container(
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/${_marketItem.image}'),
+                              image: NetworkImage(_marketItem.image),
                               fit: BoxFit.cover)),
                     )),
             Row(
@@ -99,10 +98,9 @@ class _ItemDetailState extends State<ItemDetail> {
           delegate: SliverChildListDelegate([
         // name of the category and the item
         Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/item-brocoli.png'),
-                    fit: BoxFit.cover)),
+                    image: NetworkImage(_marketItem.image), fit: BoxFit.cover)),
             child: ClipRRect(
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(25),

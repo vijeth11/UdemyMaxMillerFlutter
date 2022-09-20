@@ -22,9 +22,9 @@ class ItemCard extends StatelessWidget {
           header: GridTileBar(
             leading: IconButton(
               onPressed: () {},
-              icon: const Icon(
+              icon: Icon(
                 Icons.favorite,
-                color: Colors.red,
+                color: item.isFavourite ? Colors.red : Colors.white,
                 size: 30,
               ),
             ),
@@ -58,8 +58,7 @@ class ItemCard extends StatelessWidget {
                     image: DecorationImage(
                         colorFilter: ColorFilter.mode(
                             Colors.black.withOpacity(1.0), BlendMode.softLight),
-                        image:
-                            const AssetImage('assets/images/item-brocoli.png'),
+                        image: NetworkImage(item.image),
                         fit: BoxFit.cover)),
               )),
         ),

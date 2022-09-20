@@ -22,13 +22,13 @@ class MyOrders extends StatefulWidget {
               itemName: 'Grapes',
               quantity: 5,
               itemCost: 5.7,
-              itemImage: 'item-brocoli.png'),
+              itemImage: 'avacado.png'),
           CartItem(
               categoryName: 'Mushroom',
               itemName: 'Oyster Mushroom',
               quantity: 4,
               itemCost: 2.7,
-              itemImage: 'item-brocoli.png')
+              itemImage: 'avacado.png')
         ],
         deliveryDate: DateTime.now().add(const Duration(days: 3)),
         deliveryAddress:
@@ -47,19 +47,19 @@ class MyOrders extends StatefulWidget {
               itemName: 'Broccoli',
               quantity: 3,
               itemCost: 6.3,
-              itemImage: 'item-brocoli.png'),
+              itemImage: 'avacado.png'),
           CartItem(
               categoryName: 'Fruit',
               itemName: 'Grapes',
               quantity: 5,
               itemCost: 5.7,
-              itemImage: 'item-brocoli.png'),
+              itemImage: 'avacado.png'),
           CartItem(
               categoryName: 'Mushroom',
               itemName: 'Oyster Mushroom',
               quantity: 4,
               itemCost: 2.7,
-              itemImage: 'item-brocoli.png')
+              itemImage: 'avacado.png')
         ],
         deliveryDate: DateTime.now().add(const Duration(days: 3)),
         deliveryAddress:
@@ -78,19 +78,19 @@ class MyOrders extends StatefulWidget {
               itemName: 'Banana',
               quantity: 4,
               itemCost: 7.2,
-              itemImage: 'item-brocoli.png'),
+              itemImage: 'avacado.png'),
           CartItem(
               categoryName: 'Vegetable',
               itemName: 'Broccoli',
               quantity: 3,
               itemCost: 6.3,
-              itemImage: 'item-brocoli.png'),
+              itemImage: 'avacado.png'),
           CartItem(
               categoryName: 'Fruit',
               itemName: 'Grapes',
               quantity: 5,
               itemCost: 5.7,
-              itemImage: 'item-brocoli.png'),
+              itemImage: 'avacado.png'),
         ],
         deliveryDate: DateTime.now().add(const Duration(days: 3)),
         deliveryAddress:

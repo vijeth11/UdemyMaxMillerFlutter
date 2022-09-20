@@ -39,52 +39,52 @@ class _MessageBotState extends State<MessageBot> {
               child: Column(
                 children: messages.map((e) {
                   if (e.fromId == botId) {
-                    return Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(bottom: 20),
-                        alignment: Alignment.center,
-                        constraints: BoxConstraints(
-                            maxWidth:
-                                (MediaQuery.of(context).size.width / 2) + 25),
-                        decoration: BoxDecoration(
-                            color: Colors.grey.shade600,
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20))),
-                        child: Text(
-                          e.message,
-                          style: const TextStyle(color: Colors.white),
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          margin: const EdgeInsets.only(bottom: 20),
+                          alignment: Alignment.center,
+                          constraints: BoxConstraints(
+                              maxWidth:
+                                  (MediaQuery.of(context).size.width / 2) + 25),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade600,
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomRight: Radius.circular(20))),
+                          child: Text(
+                            e.message,
+                            style: const TextStyle(color: Colors.white),
+                          ),
                         ),
-                      ),
+                      ],
                     );
                   } else {
-                    return Align(
-                      alignment: Alignment.centerRight,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(15),
-                            margin: const EdgeInsets.only(bottom: 20),
-                            alignment: Alignment.center,
-                            constraints: BoxConstraints(
-                                maxWidth:
-                                    (MediaQuery.of(context).size.width / 2) +
-                                        25),
-                            decoration: BoxDecoration(
-                                color: Colors.green.shade500,
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20))),
-                            child: Text(e.message,
-                                style: const TextStyle(color: Colors.white)),
-                          ),
-                        ],
-                      ),
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          margin: const EdgeInsets.only(bottom: 20),
+                          constraints: BoxConstraints(
+                              maxWidth:
+                                  (MediaQuery.of(context).size.width / 2) + 25),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: Colors.green.shade500,
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20))),
+                          child: Text(e.message,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              )),
+                        )
+                      ],
                     );
                   }
                 }).toList(),

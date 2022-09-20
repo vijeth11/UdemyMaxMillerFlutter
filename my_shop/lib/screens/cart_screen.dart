@@ -17,6 +17,9 @@ class _CartScreenState extends State<CartScreen> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
+    // The build method is called whenever the data in the below provider is changed or
+    // updated as it is listening. If you do not want to call build just set listen attribute
+    // to false or use Consumer wrapping the widget which needs to update whenever data changes.
     final cartListener = Provider.of<cartData.Cart>(context);
     final orderListner = Provider.of<Orders>(context, listen: false);
     return Scaffold(

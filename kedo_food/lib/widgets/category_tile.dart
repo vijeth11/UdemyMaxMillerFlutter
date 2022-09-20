@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:kedo_food/model/category_tile_detail.dart';
+import 'package:kedo_food/providers/products.dart';
 import 'package:kedo_food/screens/category_menu.dart';
+import 'package:provider/provider.dart';
 
 class CategoryTile extends StatelessWidget {
   final TileDetail categoryTileData;
@@ -42,9 +44,12 @@ class CategoryTile extends StatelessWidget {
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold),
                             )),
-                        Text(
-                          '${categoryTileData.itemCount} items',
-                          style: const TextStyle(color: Colors.white, fontSize: 20),
+                        Consumer<Products>(
+                          builder: (context, value, _) => Text(
+                            '${value.items.where((element) => element.categoryName == categoryTileData.title).toList().length} items',
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
                         )
                       ],
                     ),
