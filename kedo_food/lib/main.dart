@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/providers/cart_item_provider.dart';
 import 'package:kedo_food/providers/products.dart';
 import 'package:kedo_food/screens/auth_screen.dart';
 import 'package:kedo_food/screens/cart_checkout.dart';
@@ -31,8 +32,16 @@ class _MyAppState extends State<MyApp> {
   bool isAuthenticated = false;
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Products(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => Products()),
+        ChangeNotifierProxyProvider<Products, CartItemProvider>(
+            create: (_) => CartItemProvider([], [], true),
+            update: (_, products, previousCartItem) => CartItemProvider(
+                products.items,
+                previousCartItem?.items ?? [],
+                previousCartItem?.loadDataFromDatabase ?? true)),
+      ],
       child: MaterialApp(
         title: 'Kedo Food',
         theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),

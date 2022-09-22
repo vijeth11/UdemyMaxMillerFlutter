@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/infrastructure/backbutton.dart';
 import 'package:kedo_food/model/market_item.dart';
+import 'package:kedo_food/providers/cart_item_provider.dart';
+import 'package:kedo_food/screens/cart_menu.dart';
 import 'package:kedo_food/widgets/detail_tabs.dart';
 import 'package:kedo_food/widgets/expandable_appbar.dart';
+import 'package:provider/provider.dart';
 
 class ItemDetail extends StatefulWidget {
   static const String routeName = 'ItemDetail';
@@ -275,7 +278,13 @@ class _ItemDetailState extends State<ItemDetail> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<CartItemProvider>(context, listen: false)
+                        .addItemToCart(_marketItem.id);
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        CartMenu.routeName,
+                        (route) => route.settings.name == "/");
+                  },
                   style:
                       ElevatedButton.styleFrom(primary: Colors.green.shade500),
                   child: Container(

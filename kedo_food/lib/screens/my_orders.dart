@@ -18,12 +18,14 @@ class MyOrders extends StatefulWidget {
         orderStatus: Status.Delivered,
         orderItems: [
           CartItem(
+              itemId: getRandomString(10),
               categoryName: 'Fruit',
               itemName: 'Grapes',
               quantity: 5,
               itemCost: 5.7,
               itemImage: 'avacado.png'),
           CartItem(
+              itemId: getRandomString(10),
               categoryName: 'Mushroom',
               itemName: 'Oyster Mushroom',
               quantity: 4,
@@ -43,18 +45,21 @@ class MyOrders extends StatefulWidget {
         orderStatus: Status.Delivered,
         orderItems: [
           CartItem(
+              itemId: getRandomString(10),
               categoryName: 'Vegetable',
               itemName: 'Broccoli',
               quantity: 3,
               itemCost: 6.3,
               itemImage: 'avacado.png'),
           CartItem(
+              itemId: getRandomString(10),
               categoryName: 'Fruit',
               itemName: 'Grapes',
               quantity: 5,
               itemCost: 5.7,
               itemImage: 'avacado.png'),
           CartItem(
+              itemId: getRandomString(10),
               categoryName: 'Mushroom',
               itemName: 'Oyster Mushroom',
               quantity: 4,
@@ -74,18 +79,21 @@ class MyOrders extends StatefulWidget {
         orderStatus: Status.Canceled,
         orderItems: [
           CartItem(
+              itemId: getRandomString(10),
               categoryName: 'Fruit',
               itemName: 'Banana',
               quantity: 4,
               itemCost: 7.2,
               itemImage: 'avacado.png'),
           CartItem(
+              itemId: getRandomString(10),
               categoryName: 'Vegetable',
               itemName: 'Broccoli',
               quantity: 3,
               itemCost: 6.3,
               itemImage: 'avacado.png'),
           CartItem(
+              itemId: getRandomString(10),
               categoryName: 'Fruit',
               itemName: 'Grapes',
               quantity: 5,

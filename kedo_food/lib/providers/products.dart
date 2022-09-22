@@ -64,6 +64,10 @@ class Products with ChangeNotifier {
               image: review['image']));
         }
         _items.add(MarketItem(
+            id: extractedData.entries
+                .where((element) => element.value == product)
+                .first
+                .key,
             name: product['name'],
             cost: product['cost'],
             categoryName: product['categoryName'],

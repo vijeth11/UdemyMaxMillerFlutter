@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/model/cart_item.dart';
+import 'package:kedo_food/providers/cart_item_provider.dart';
 import 'package:kedo_food/screens/cart_checkout.dart';
 import 'package:kedo_food/widgets/bottom_navigator.dart';
+import 'package:provider/provider.dart';
 
 class CartMenu extends StatefulWidget {
   static const String routeName = 'CartMenu';
-  List<CartItem> cartItems = [
-    CartItem(
-        categoryName: 'Fruit',
-        itemName: 'Banana',
-        quantity: 4,
-        itemCost: 7.2,
-        itemImage: 'avacado.png'),
-    CartItem(
-        categoryName: 'Vegetable',
-        itemName: 'Broccoli',
-        quantity: 3,
-        itemCost: 6.3,
-        itemImage: 'avacado.png'),
-    CartItem(
-        categoryName: 'Fruit',
-        itemName: 'Grapes',
-        quantity: 5,
-        itemCost: 5.7,
-        itemImage: 'avacado.png'),
-    CartItem(
-        categoryName: 'Mushroom',
-        itemName: 'Oyster Mushroom',
-        quantity: 4,
-        itemCost: 2.7,
-        itemImage: 'avacado.png')
-  ];
+  // List<CartItem> cartItems = [
+  //   CartItem(
+  //       categoryName: 'Fruit',
+  //       itemName: 'Banana',
+  //       quantity: 4,
+  //       itemCost: 7.2,
+  //       itemImage: 'avacado.png'),
+  //   CartItem(
+  //       categoryName: 'Vegetable',
+  //       itemName: 'Broccoli',
+  //       quantity: 3,
+  //       itemCost: 6.3,
+  //       itemImage: 'avacado.png'),
+  //   CartItem(
+  //       categoryName: 'Fruit',
+  //       itemName: 'Grapes',
+  //       quantity: 5,
+  //       itemCost: 5.7,
+  //       itemImage: 'avacado.png'),
+  //   CartItem(
+  //       categoryName: 'Mushroom',
+  //       itemName: 'Oyster Mushroom',
+  //       quantity: 4,
+  //       itemCost: 2.7,
+  //       itemImage: 'avacado.png')
+  // ];
   CartMenu({Key? key}) : super(key: key);
 
   @override
@@ -42,6 +44,7 @@ class _CartMenuState extends State<CartMenu> {
 
   @override
   Widget build(BuildContext context) {
+    var cartItemProvider = Provider.of<CartItemProvider>(context);
     return Scaffold(
       body: Column(
         children: [
@@ -62,7 +65,8 @@ class _CartMenuState extends State<CartMenu> {
                       color: Colors.grey.shade800),
                 ),
                 TextButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await cartItemProvider.removeAll();
                       Navigator.of(context).pushNamed(CartCheckout.routeName);
                     },
                     child: Text(
@@ -78,15 +82,18 @@ class _CartMenuState extends State<CartMenu> {
             child: Padding(
               padding: EdgeInsets.only(
                   left: leftRightPadding, right: leftRightPadding),
-              child: ListView.builder(
-                  // changing padding helps to add gap for top of the list
-                  padding: EdgeInsets.only(top: 30),
-                  itemCount: 20,
-                  itemBuilder: (context, index) {
-                    CartItem item =
-                        widget.cartItems[index % widget.cartItems.length];
-                    return getCartItem(item);
-                  }),
+              // Display circular loader for first time when app starts and feches data from
+              // sqlite database
+              child: cartItemProvider.loadDataFromDatabase
+                  ? FutureBuilder(
+                      future: cartItemProvider.fetchDataFromDatabase(),
+                      builder: (ctx, state) {
+                        cartItemProvider.loadDataFromDatabase = false;
+                        return state.connectionState == ConnectionState.waiting
+                            ? CircularProgressIndicator()
+                            : getCartItemList(cartItemProvider);
+                      })
+                  : getCartItemList(cartItemProvider),
             ),
           )
         ],
@@ -95,7 +102,22 @@ class _CartMenuState extends State<CartMenu> {
     );
   }
 
-  Widget getCartItem(CartItem item) {
+  Widget getCartItemList(CartItemProvider provider) {
+    // returns a list of cart items with quantity and cost
+    return provider.items.length > 0
+        ? ListView.builder(
+            // changing padding helps to add gap for top of the list
+            padding: EdgeInsets.only(top: 30),
+            itemCount: provider.items.length,
+            itemBuilder: (context, index) =>
+                getCartItem(provider.items[index], provider))
+        : Center(
+            child: Text("Please add some items"),
+          );
+  }
+
+  Widget getCartItem(CartItem item, CartItemProvider provider) {
+    // return a single cart tile with image, cost, quantity and increase or decrease button
     return Padding(
       padding: const EdgeInsets.only(bottom: 30.0),
       child: Row(children: [
@@ -108,8 +130,7 @@ class _CartMenuState extends State<CartMenu> {
             alignment: Alignment.bottomCenter,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/${item.itemImage}'),
-                    fit: BoxFit.cover)),
+                    image: NetworkImage(item.itemImage), fit: BoxFit.cover)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
               child: Container(
@@ -167,14 +188,18 @@ class _CartMenuState extends State<CartMenu> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    provider.removeItemFromCart(item.itemId);
+                                  },
                                   icon: const Icon(Icons.remove, size: 30)),
-                              const Text(
-                                '4',
+                              Text(
+                                item.quantity.toString(),
                                 style: TextStyle(fontSize: 20),
                               ),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    provider.addItemToCart(item.itemId);
+                                  },
                                   icon: const Icon(Icons.add, size: 30))
                             ],
                           ),

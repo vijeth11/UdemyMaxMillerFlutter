@@ -1,4 +1,7 @@
+import 'package:kedo_food/helper/utils.dart';
+
 class MarketItem {
+  final String id;
   final String name;
   final double cost;
   final String categoryName;
@@ -10,7 +13,9 @@ class MarketItem {
   final List<Review> reviews;
 
   MarketItem(
-      {required this.name,
+      {
+      required this.id,
+      required this.name,
       required this.cost,
       required this.categoryName,
       required this.isFavourite,
@@ -38,6 +43,7 @@ class Review {
 List<MarketItem> menuItems = List.generate(
     20,
     (index) => MarketItem(
+            id: getRandomString(10),
             name: 'Avocado',
             cost: 8.8,
             categoryName: "Fruit",

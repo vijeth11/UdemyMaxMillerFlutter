@@ -59,7 +59,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       body: FutureBuilder(
-        future: productProvider.fetchProducts(),
+        future: productProvider.items.length == 0
+            ? productProvider.fetchProducts()
+            : null,
         builder: (context, snapShot) => snapShot.connectionState ==
                 ConnectionState.waiting
             ? Center(
@@ -179,6 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         const SizedBox(
                           height: 10,
                         ),
+                        // display button only for 3 loads
                         Consumer<Products>(
                           builder: (context, value, child) =>
                               value.pageNumber < 3
