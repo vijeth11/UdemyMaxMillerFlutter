@@ -12,6 +12,6 @@ class UserDetails {
       this.emailAddress, this.shippingAddress, this.image, this.userId);
 
   String get fullName {
-    return firstName + " " + lastName;
+    return "$firstName $lastName";
   }
 }

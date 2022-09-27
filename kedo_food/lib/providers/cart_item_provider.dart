@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:kedo_food/helper/db_helper.dart';
@@ -41,7 +40,7 @@ class CartItemProvider extends ChangeNotifier {
           itemName: _items[index].itemName,
           quantity: _items[index].quantity + 1);
       _items[index] = updateItem;
-      await DBHelper.update('cart_items', updateItem.toMap());
+      await DBHelper.update('cart_items', updateItem.toMap(),'itemId = ?',[updateItem.itemId]);
     } else {
       MarketItem product =
           marketItems.firstWhere((element) => element.id == itemId);
@@ -70,10 +69,10 @@ class CartItemProvider extends ChangeNotifier {
             itemName: _items[index].itemName,
             quantity: _items[index].quantity - 1);
         _items[index] = updateItem;
-        await DBHelper.update('cart_items', updateItem.toMap());
+        await DBHelper.update('cart_items', updateItem.toMap(),'itemId = ?',[updateItem.itemId]);
       } else {
         _items.removeAt(index);
-        await DBHelper.remove('cart_items', itemId);
+        await DBHelper.remove('cart_items','itemId = ?',[itemId]);
       }
       notifyListeners();
     } else {

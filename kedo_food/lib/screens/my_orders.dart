@@ -1,112 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kedo_food/helper/utils.dart';
-import 'package:kedo_food/model/cart_item.dart';
 import 'package:kedo_food/model/orderDetail.dart';
+import 'package:kedo_food/providers/order_items_provider.dart';
 import 'package:kedo_food/screens/order_detail_screen.dart';
 import 'package:kedo_food/widgets/page_header.dart';
+import 'package:provider/provider.dart';
 
 class MyOrders extends StatefulWidget {
   static const String routeName = 'MyOrders';
-
-  List<OrderDetail> orders = [
-    OrderDetail(
-        orderId: getRandomString(15),
-        invoiceNo: getRandomString(15),
-        orderDate: DateTime.now(),
-        orderPayement: Payment.Card,
-        orderStatus: Status.Delivered,
-        orderItems: [
-          CartItem(
-              itemId: getRandomString(10),
-              categoryName: 'Fruit',
-              itemName: 'Grapes',
-              quantity: 5,
-              itemCost: 5.7,
-              itemImage: 'avacado.png'),
-          CartItem(
-              itemId: getRandomString(10),
-              categoryName: 'Mushroom',
-              itemName: 'Oyster Mushroom',
-              quantity: 4,
-              itemCost: 2.7,
-              itemImage: 'avacado.png')
-        ],
-        deliveryDate: DateTime.now().add(const Duration(days: 3)),
-        deliveryAddress:
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu",
-        deliveryUserName: "RichBrown",
-        deliveryUserPhone: "(+91) 123 456 7890"),
-    OrderDetail(
-        orderId: getRandomString(15),
-        invoiceNo: getRandomString(15),
-        orderDate: DateTime.now(),
-        orderPayement: Payment.Card,
-        orderStatus: Status.Delivered,
-        orderItems: [
-          CartItem(
-              itemId: getRandomString(10),
-              categoryName: 'Vegetable',
-              itemName: 'Broccoli',
-              quantity: 3,
-              itemCost: 6.3,
-              itemImage: 'avacado.png'),
-          CartItem(
-              itemId: getRandomString(10),
-              categoryName: 'Fruit',
-              itemName: 'Grapes',
-              quantity: 5,
-              itemCost: 5.7,
-              itemImage: 'avacado.png'),
-          CartItem(
-              itemId: getRandomString(10),
-              categoryName: 'Mushroom',
-              itemName: 'Oyster Mushroom',
-              quantity: 4,
-              itemCost: 2.7,
-              itemImage: 'avacado.png')
-        ],
-        deliveryDate: DateTime.now().add(const Duration(days: 3)),
-        deliveryAddress:
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu",
-        deliveryUserName: "RichBrown",
-        deliveryUserPhone: "(+91) 123 456 7890"),
-    OrderDetail(
-        orderId: getRandomString(15),
-        invoiceNo: getRandomString(15),
-        orderDate: DateTime.now(),
-        orderPayement: Payment.Card,
-        orderStatus: Status.Canceled,
-        orderItems: [
-          CartItem(
-              itemId: getRandomString(10),
-              categoryName: 'Fruit',
-              itemName: 'Banana',
-              quantity: 4,
-              itemCost: 7.2,
-              itemImage: 'avacado.png'),
-          CartItem(
-              itemId: getRandomString(10),
-              categoryName: 'Vegetable',
-              itemName: 'Broccoli',
-              quantity: 3,
-              itemCost: 6.3,
-              itemImage: 'avacado.png'),
-          CartItem(
-              itemId: getRandomString(10),
-              categoryName: 'Fruit',
-              itemName: 'Grapes',
-              quantity: 5,
-              itemCost: 5.7,
-              itemImage: 'avacado.png'),
-        ],
-        deliveryDate: DateTime.now().add(const Duration(days: 3)),
-        deliveryAddress:
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu",
-        deliveryUserName: "RichBrown",
-        deliveryUserPhone: "(+91) 123 456 7890")
-  ];
-
   MyOrders({Key? key}) : super(key: key);
 
   @override
@@ -121,16 +22,33 @@ class _MyOrdersState extends State<MyOrders> {
         children: [
           ...getPageHeader("My Orders", context, titlePladding: 50),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ...widget.orders.map((e) => getOrderCard(e))
-                ],
-              ),
-            ),
+            child: FutureBuilder(
+                future: Provider.of<OrderItemProvider>(context, listen: false)
+                    .fetchOrderDetails(),
+                builder: (context, snapShot) {
+                  return snapShot.connectionState == ConnectionState.waiting
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : RefreshIndicator(
+                          onRefresh: () => Provider.of<OrderItemProvider>(
+                                  context,
+                                  listen: false)
+                              .fetchOrderDetails(),
+                          child: SingleChildScrollView(
+                            child: Consumer<OrderItemProvider>(
+                                builder: (context, orderItem, _) {
+                              return Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  ...orderItem.items.map((e) => getOrderCard(e))
+                                ],
+                              );
+                            }),
+                          ));
+                }),
           )
         ],
       ),
@@ -161,7 +79,9 @@ class _MyOrdersState extends State<MyOrders> {
                         borderRadius: BorderRadius.circular(50),
                         color: detail.orderStatus == Status.Delivered
                             ? Colors.green
-                            : Colors.red,
+                            : detail.orderStatus == Status.InProgress
+                                ? Colors.yellow.shade600
+                                : Colors.red,
                       ),
                     ),
                     const SizedBox(width: 15),
@@ -188,15 +108,15 @@ class _MyOrdersState extends State<MyOrders> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Total Cost",
-                        style: const TextStyle(
+                    const Text("Total Cost",
+                        style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w500)),
                     Text("\$${detail.totalCost}",
                         style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w500))
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Text("${detail.orderItemsCount} items",
@@ -229,7 +149,9 @@ class _MyOrdersState extends State<MyOrders> {
                       style: TextStyle(
                           color: detail.orderStatus == Status.Delivered
                               ? Colors.green
-                              : Colors.red,
+                              : detail.orderStatus == Status.InProgress
+                                  ? Colors.yellow.shade800
+                                  : Colors.red,
                           fontSize: 18),
                     )
                   ],

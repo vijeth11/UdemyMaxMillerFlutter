@@ -5,10 +5,12 @@ class DBHelper {
   static Future<sql.Database> database() async {
     final dbPath = await sql.getDatabasesPath();
     print(dbPath);
-    return sql.openDatabase(path.join(dbPath, 'cartitem.db'),
+    return sql.openDatabase(path.join(dbPath, 'kedoFood.db'),
         onCreate: (db, version) {
-      return db.execute(
-          'create table cart_items(itemId TEXT  PRIMAY KEY, itemName TEXT, itemImage TEXT, quantity INT, itemCost REAL, categoryName TEXT)');
+      return db.execute('''
+          create table cart_items(itemId TEXT  PRIMAY KEY, itemName TEXT, itemImage TEXT, quantity INT, itemCost REAL, categoryName TEXT);
+          create table shipping_address(deliveryUserName TEXT,deliveryUserPhone TEXT,deliveryUserEmail TEXT,deliveryAddress TEXT,deliveryZipCode TEXT,deliveryCity TEXT,deliveryCountry TEXT);
+          ''');
     }, version: 1);
   }
 
@@ -18,15 +20,16 @@ class DBHelper {
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  static Future<void> update(String table, Map<String, Object> data) async {
+  static Future<void> update(String table, Map<String, Object> data,
+      String? where, List<Object?>? whereArgs) async {
     final db = await DBHelper.database();
-    await db
-        .update(table, data, where: 'itemId = ?', whereArgs: [data['itemId']]);
+    await db.update(table, data, where: where, whereArgs: whereArgs);
   }
 
-  static Future<void> remove(String table, String itemId) async {
+  static Future<void> remove(
+      String table, String? where, List<Object?>? whereArgs) async {
     final db = await DBHelper.database();
-    await db.delete(table, where: 'itemId = ?', whereArgs: [itemId]);
+    await db.delete(table, where: where, whereArgs: whereArgs);
   }
 
   static Future<List<Map<String, Object?>>> getData(String table) async {

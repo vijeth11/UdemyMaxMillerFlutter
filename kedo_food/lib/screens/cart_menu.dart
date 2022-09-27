@@ -65,14 +65,19 @@ class _CartMenuState extends State<CartMenu> {
                       color: Colors.grey.shade800),
                 ),
                 TextButton(
-                    onPressed: () async {
-                      await cartItemProvider.removeAll();
-                      Navigator.of(context).pushNamed(CartCheckout.routeName);
-                    },
+                    onPressed: cartItemProvider.items.length == 0
+                        ? null
+                        : () {
+                            Navigator.of(context)
+                                .pushNamed(CartCheckout.routeName);
+                          },
                     child: Text(
                       "Checkout",
-                      style:
-                          TextStyle(color: Colors.green.shade400, fontSize: 20),
+                      style: TextStyle(
+                          color: cartItemProvider.items.length == 0
+                              ? Colors.grey.shade700
+                              : Colors.green.shade400,
+                          fontSize: 20),
                     ))
               ],
             ),

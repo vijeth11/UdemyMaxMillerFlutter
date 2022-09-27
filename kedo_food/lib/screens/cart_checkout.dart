@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/helper/db_helper.dart';
+import 'package:kedo_food/helper/utils.dart';
+import 'package:kedo_food/model/orderDetail.dart';
+import 'package:kedo_food/providers/cart_item_provider.dart';
+import 'package:kedo_food/providers/order_items_provider.dart';
 import 'package:kedo_food/screens/home.dart';
 import 'package:kedo_food/screens/my_orders.dart';
 import 'package:kedo_food/widgets/page_header.dart';
 import 'package:kedo_food/widgets/payment_info_form.dart';
 import 'package:kedo_food/widgets/shipping_address_form.dart';
+import 'package:provider/provider.dart';
 
 class CartCheckout extends StatefulWidget {
   static const String routeName = "checkout";
@@ -16,12 +22,15 @@ class CartCheckout extends StatefulWidget {
 class _CartCheckoutState extends State<CartCheckout> {
   late bool isDisplayingShippingAddress;
   late bool shippingAddressCompleted;
+  late OrderDetail orderDetail;
+  late Future<OrderDetail> _loadingShippingAddress;
 
   ScrollController _controller = ScrollController();
   @override
   void initState() {
     isDisplayingShippingAddress = true;
     shippingAddressCompleted = false;
+    _loadingShippingAddress = getInitialOrderDetail();
     super.initState();
   }
 
@@ -129,24 +138,73 @@ class _CartCheckoutState extends State<CartCheckout> {
                     horizontal: 20.0,
                   ),
                   child: isDisplayingShippingAddress
-                      ? ShippingAddressForm(
-                          getTextInput: getTextInput,
-                          onPress: () {
-                            setState(() {
-                              shippingAddressCompleted = true;
-                              isDisplayingShippingAddress = false;
-                              _controller.jumpTo(0);
-                            });
-                          },
-                        )
+                      ? FutureBuilder<OrderDetail>(
+                          future: _loadingShippingAddress,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              return ShippingAddressForm(
+                                getTextInput: getTextInput,
+                                shippingData: snapshot.data!,
+                                onPress: (OrderDetail detail,
+                                    bool saveShippingAddress) async {
+                                  if (saveShippingAddress) {
+                                    await DBHelper.RemoveAll(
+                                        'shipping_address');
+                                    await DBHelper.insert('shipping_address', {
+                                      'deliveryUserName':
+                                          detail.deliveryUserName,
+                                      'deliveryUserPhone':
+                                          detail.deliveryUserPhone,
+                                      'deliveryUserEmail':
+                                          detail.deliveryUserEmail,
+                                      'deliveryAddress': detail.deliveryAddress,
+                                      'deliveryZipCode': detail.deliveryZipCode,
+                                      'deliveryCity': detail.deliveryCity,
+                                      'deliveryCountry': detail.deliveryCountry
+                                    });
+                                  } else {
+                                    await DBHelper.RemoveAll(
+                                        'shipping_address');
+                                  }
+                                  setState(() {
+                                    shippingAddressCompleted = true;
+                                    isDisplayingShippingAddress = false;
+                                    orderDetail = detail;
+                                    _controller.jumpTo(0);
+                                  });
+                                },
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          })
                       : PaymentInfoForm(
                           getTextInput: getTextInput,
-                          onPress: () {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                MyOrders.routeName,
-                                (route) =>
-                                    route.settings.name ==
-                                    MyHomePage.routeName);
+                          onPress: (Payment payment) {
+                            // set the invoiceId, orderId, payment, cart items
+                            // send it to server and updated provider
+                            var cartItemProvider =
+                                Provider.of<CartItemProvider>(context,
+                                    listen: false);
+                            orderDetail = orderDetail.copyWith(
+                                orderPayement: payment,
+                                orderId: getRandomString(10),
+                                invoiceNo: getRandomString(10),
+                                orderItems: [...cartItemProvider.items]);
+                            print(orderDetail);
+                            cartItemProvider.removeAll();
+                            Provider.of<OrderItemProvider>(context,
+                                    listen: false)
+                                .addOrderDetails(orderDetail)
+                                .then((value) => Navigator.of(context)
+                                    .pushNamedAndRemoveUntil(
+                                        MyOrders.routeName,
+                                        (route) =>
+                                            route.settings.name ==
+                                            MyHomePage.routeName));
                           },
                         )),
             ),
@@ -156,14 +214,53 @@ class _CartCheckoutState extends State<CartCheckout> {
     );
   }
 
-  Widget getTextInput({int maxLines = 1}) {
+  Widget getTextInput(
+      {int maxLines = 1,
+      FocusNode? node,
+      TextInputAction? inputAction,
+      TextInputType? inputType,
+      String? initialValue,
+      Function(String?)? onSaved,
+      String? Function(String?)? validate}) {
     return TextFormField(
+      initialValue: initialValue,
+      textInputAction: inputAction,
+      keyboardType: inputType,
+      focusNode: node,
+      onSaved: onSaved,
       maxLines: maxLines,
+      validator: validate,
       style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
       decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
     );
+  }
+
+  Future<OrderDetail> getInitialOrderDetail() async {
+    var data = (await DBHelper.getData('shipping_address'));
+    return OrderDetail(
+        orderId: '',
+        invoiceNo: '',
+        orderDate: DateTime.now(),
+        orderPayement: Payment.Cash,
+        orderStatus: Status.InProgress,
+        orderItems: [],
+        deliveryDate: DateTime.now().add(Duration(days: 3)),
+        deliveryAddress:
+            data.length > 0 ? data.first['deliveryAddress'] as String : '',
+        deliveryCity:
+            data.length > 0 ? data.first['deliveryCity'] as String : '',
+        deliveryCountry:
+            data.length > 0 ? data.first['deliveryCountry'] as String : '',
+        deliveryZipCode:
+            data.length > 0 ? data.first['deliveryZipCode'] as String : '',
+        deliveryUserName:
+            data.length > 0 ? data.first['deliveryUserName'] as String : '',
+        deliveryUserPhone:
+            data.length > 0 ? data.first['deliveryUserPhone'] as String : '',
+        deliveryUserEmail:
+            data.length > 0 ? data.first['deliveryUserEmail'] as String : '');
   }
 }

@@ -77,7 +77,7 @@ class OrderDetailScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 15.0, vertical: 5),
                             child: Text(
-                              order.deliveryAddress,
+                              order.Address,
                               style: const TextStyle(fontSize: 16),
                             ),
                           ),
@@ -144,8 +144,7 @@ class OrderDetailScreen extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
-                image: AssetImage("assets/images/${e.itemImage}"),
-                fit: BoxFit.cover)),
+                image: NetworkImage(e.itemImage), fit: BoxFit.cover)),
       ),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
