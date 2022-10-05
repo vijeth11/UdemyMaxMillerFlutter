@@ -241,6 +241,7 @@ class _CartCheckoutState extends State<CartCheckout> {
   Future<OrderDetail> getInitialOrderDetail() async {
     var data = (await DBHelper.getData('shipping_address'));
     return OrderDetail(
+        userId: '',
         orderId: '',
         invoiceNo: '',
         orderDate: DateTime.now(),

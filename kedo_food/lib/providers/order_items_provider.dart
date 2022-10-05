@@ -8,9 +8,10 @@ import 'package:http/http.dart' as http;
 
 class OrderItemProvider with ChangeNotifier {
   late String url;
-
-  OrderItemProvider() {
+  late String _userId;
+  OrderItemProvider(String userId) {
     url = "https://flutter-kedo-food-default-rtdb.firebaseio.com/orders.json";
+    _userId = userId;
   }
 
   List<OrderDetail> _items = [];
@@ -21,6 +22,7 @@ class OrderItemProvider with ChangeNotifier {
 
   Future<void> addOrderDetails(OrderDetail detail) async {
     try {
+      detail = detail.copyWith(userId: _userId);
       await http.post(Uri.parse(url), body: json.encode(detail.toMap()));
       _items.add(detail);
       notifyListeners();
@@ -37,12 +39,15 @@ class OrderItemProvider with ChangeNotifier {
       _items = [];
       for (var order in orderData.values) {
         _items.add(OrderDetail(
+            userId: order['userId'] as String,
             orderId: order['orderId'] as String,
             invoiceNo: order['invoiceNo'] as String,
             orderDate:
                 DateFormat('dd/mm/yyyy hh:mm:ss').parse(order['orderDate']),
-            orderPayement: Payment.values.firstWhere((e)=>e.toString()==order['orderPayement']),
-            orderStatus: Status.values.firstWhere((e)=>e.toString()==order['orderStatus']),
+            orderPayement: Payment.values
+                .firstWhere((e) => e.toString() == order['orderPayement']),
+            orderStatus: Status.values
+                .firstWhere((e) => e.toString() == order['orderStatus']),
             orderItems: _getOrderItems(order['orderItems']),
             deliveryDate:
                 DateFormat('dd/mm/yyyy hh:mm:ss').parse(order['deliveryDate']),

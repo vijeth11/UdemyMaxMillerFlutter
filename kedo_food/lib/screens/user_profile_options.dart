@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/providers/auth_provider.dart';
 import 'package:kedo_food/screens/message_bot.dart';
 import 'package:kedo_food/screens/my_orders.dart';
 import 'package:kedo_food/screens/user_profile.dart';
 import 'package:kedo_food/widgets/page_header.dart';
+import 'package:provider/provider.dart';
 
 class UserProfileOption extends StatelessWidget {
   static const String routeName = 'UserProfileOption';
@@ -17,6 +19,7 @@ class UserProfileOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    var authProvider = Provider.of<Auth>(context, listen: false);
     return Scaffold(
         body: Column(children: [
       ...getPageHeader('User', context, titlePladding: 85),
@@ -32,7 +35,8 @@ class UserProfileOption extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () => navigateToPage(context, e.keys.first),
+                  onTap: () =>
+                      navigateToPage(context, e.keys.first, authProvider),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 20),
@@ -66,7 +70,7 @@ class UserProfileOption extends StatelessWidget {
     ]));
   }
 
-  void navigateToPage(BuildContext context, String name) {
+  void navigateToPage(BuildContext context, String name, Auth provider) {
     switch (name) {
       case 'MY PROFILE':
         Navigator.of(context).pushNamed(UserProfile.routeName);
@@ -79,6 +83,7 @@ class UserProfileOption extends StatelessWidget {
         break;
       case 'LOGOUT':
         // TODO: logout and display a sign in page
+        provider.logout();
         Navigator.of(context).pop();
         break;
     }

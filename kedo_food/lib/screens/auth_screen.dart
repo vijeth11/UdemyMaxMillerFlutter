@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kedo_food/infrastructure/page_button.dart';
 
 class AuthScreen extends StatefulWidget {
-  final VoidCallback onPress;
+  final Function(bool isSignup, String email, String password,
+      {String username}) onPress;
   const AuthScreen({Key? key, required this.onPress}) : super(key: key);
 
   @override
@@ -12,6 +13,9 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   bool displaySignInPage = true;
+  bool displayLoading = false;
+  Map<String, String> _authData = {'email': '', 'passowrd': '', 'username': ''};
+  final GlobalKey<FormState> _formKey = GlobalKey();
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 300),
     vsync: this,
@@ -27,6 +31,24 @@ class _AuthScreenState extends State<AuthScreen>
     Future.delayed(const Duration(seconds: 0))
         .then((value) => _controller.forward());
     super.initState();
+  }
+
+  void _submit() async{
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    setState(() {
+      displayLoading = true;
+    });
+    _formKey.currentState!.save();
+    if (displaySignInPage) {
+      await widget.onPress(displaySignInPage, _authData['email'] as String,
+          _authData['password'] as String);
+    } else {
+      await widget.onPress(displaySignInPage, _authData['email'] as String,
+          _authData['password'] as String,
+          username: _authData['username'] as String);
+    }
   }
 
   @override
@@ -86,6 +108,7 @@ class _AuthScreenState extends State<AuthScreen>
       {int maxLines = 1,
       TextInputType type = TextInputType.text,
       bool obscureText = false,
+      Function(String?)? saved,
       String initialValue = ""}) {
     return TextFormField(
       maxLines: maxLines,
@@ -97,95 +120,125 @@ class _AuthScreenState extends State<AuthScreen>
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
+      onSaved: saved,
     );
   }
 
   Widget getSiginPage() {
-    return Column(
-      children: [
-        getPageTitleHeader("Sign In"),
-        const SizedBox(
-          height: 20,
-        ),
-        getTextInput(
-            type: TextInputType.emailAddress, initialValue: "info@example.com"),
-        const SizedBox(
-          height: 10,
-        ),
-        getTextInput(
-            type: TextInputType.visiblePassword,
-            initialValue: "test",
-            obscureText: true),
-        const SizedBox(
-          height: 20,
-        ),
-        TextButton(
-            onPressed: () {},
-            child: Text(
-              "Forgot Password?",
-              style: TextStyle(color: Colors.green.shade300, fontSize: 18),
-            )),
-        const SizedBox(
-          height: 20,
-        ),
-        getPageButton("SIGN IN", widget.onPress),
-        const SizedBox(
-          height: 10,
-        ),
-        getPageButton("CREATE AN ACCOUNT", () {
-          setState(() {
-            displaySignInPage = false;
-          });
-          _controller.reset();
-          _controller.forward();
-        }),
-      ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          getPageTitleHeader("Sign In"),
+          const SizedBox(
+            height: 20,
+          ),
+          getTextInput(
+              type: TextInputType.emailAddress,
+              saved: (value) {
+                _authData['email'] = value ?? '';
+              }),
+          const SizedBox(
+            height: 10,
+          ),
+          getTextInput(
+              type: TextInputType.visiblePassword,
+              obscureText: true,
+              saved: (value) {
+                _authData['password'] = value ?? '';
+              }),
+          const SizedBox(
+            height: 20,
+          ),
+          TextButton(
+              onPressed: () {},
+              child: Text(
+                "Forgot Password?",
+                style: TextStyle(color: Colors.green.shade300, fontSize: 18),
+              )),
+          const SizedBox(
+            height: 20,
+          ),
+          if(!displayLoading)
+          getPageButton("SIGN IN", _submit)
+          else
+          Center(child: CircularProgressIndicator(),),
+          const SizedBox(
+            height: 10,
+          ),
+          getPageButton("CREATE AN ACCOUNT", () {
+            setState(() {
+              displaySignInPage = false;
+            });
+            _controller.reset();
+            _controller.forward();
+          }),
+        ],
+      ),
     );
   }
 
   Widget getSignupPage() {
     double inputWidth = MediaQuery.of(context).size.width / 2 - 32;
 
-    return Column(
-      children: [
-        getPageTitleHeader("Create your account"),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            SizedBox(
-                width: inputWidth, child: getTextInput(initialValue: "Smith")),
-            const SizedBox(
-              width: 20,
-            ),
-            SizedBox(
-                width: inputWidth, child: getTextInput(initialValue: "Jhons"))
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        getTextInput(
-            type: TextInputType.emailAddress, initialValue: "info@example.com"),
-        const SizedBox(height: 10),
-        getTextInput(
-            type: TextInputType.visiblePassword,
-            initialValue: "test",
-            obscureText: true),
-        const SizedBox(
-          height: 10,
-        ),
-        const Text(
-          "By tapping Sign up you accept all terms and condition",
-          style: const TextStyle(fontSize: 18),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        getPageButton("CREATE AN ACCOUNT", widget.onPress),
-      ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          getPageTitleHeader("Create your account"),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              SizedBox(
+                  width: inputWidth,
+                  child: getTextInput(saved: (value) {
+                    _authData['username'] = value ?? '';
+                  })),
+              const SizedBox(
+                width: 20,
+              ),
+              SizedBox(
+                  width: inputWidth,
+                  child: getTextInput(saved: (value) {
+                    _authData['username'] =
+                        '${_authData['username']!} ${value ?? ''}';
+                  }))
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          getTextInput(
+              type: TextInputType.emailAddress,
+              saved: (value) {
+                _authData['email'] = value ?? '';
+              }),
+          const SizedBox(height: 10),
+          getTextInput(
+              type: TextInputType.visiblePassword,
+              obscureText: true,
+              saved: (value) {
+                _authData['password'] = value ?? '';
+              }),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text(
+            "By tapping Sign up you accept all terms and condition",
+            style: const TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          if(!displayLoading)
+          getPageButton("CREATE AN ACCOUNT", _submit)
+          else
+          Center(child: CircularProgressIndicator(),),
+        ],
+      ),
     );
   }
 

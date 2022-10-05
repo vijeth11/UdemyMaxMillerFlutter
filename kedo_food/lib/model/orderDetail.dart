@@ -8,6 +8,7 @@ enum Status { Delivered, Canceled, PaymentFailed, InProgress }
 enum Payment { Card, Cash, UPI }
 
 class OrderDetail {
+  final String userId;
   final String orderId;
   final String invoiceNo;
   final DateTime orderDate;
@@ -24,7 +25,8 @@ class OrderDetail {
   final String deliveryUserEmail;
 
   OrderDetail(
-      {required this.orderId,
+      {required this.userId,
+      required this.orderId,
       required this.invoiceNo,
       required this.orderDate,
       required this.orderPayement,
@@ -60,7 +62,8 @@ class OrderDetail {
   }
 
   OrderDetail copyWith(
-          {String? orderId,
+          {String? userId,
+          String? orderId,
           String? invoiceNo,
           DateTime? orderDate,
           Payment? orderPayement,
@@ -75,6 +78,7 @@ class OrderDetail {
           String? deliveryUserPhone,
           String? deliveryUserEmail}) =>
       OrderDetail(
+          userId: userId ?? this.userId,
           orderId: orderId ?? this.orderId,
           invoiceNo: invoiceNo ?? this.invoiceNo,
           orderDate: orderDate ?? this.orderDate,
@@ -100,9 +104,9 @@ class OrderDetail {
       'orderItems': orderItems.map((e) => e.toMap()).toList(),
       'deliveryDate': DateFormat('dd/mm/yyyy hh:mm:ss').format(deliveryDate),
       'deliveryAddress': deliveryAddress,
-      'deliveryZipCode':deliveryZipCode,
-      'deliveryCity':deliveryCity,
-      'deliveryCountry':deliveryCountry,
+      'deliveryZipCode': deliveryZipCode,
+      'deliveryCity': deliveryCity,
+      'deliveryCountry': deliveryCountry,
       'deliveryUserName': deliveryUserName,
       'deliveryUserPhone': deliveryUserPhone,
       'deliveryUserEmail': deliveryUserEmail

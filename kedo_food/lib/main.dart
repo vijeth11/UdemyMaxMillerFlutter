@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/providers/auth_provider.dart';
 import 'package:kedo_food/providers/cart_item_provider.dart';
 import 'package:kedo_food/providers/order_items_provider.dart';
 import 'package:kedo_food/providers/products.dart';
@@ -35,8 +36,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => Products()),        
-        ChangeNotifierProvider(create:(context) => OrderItemProvider()),
+        ChangeNotifierProvider(create: (ctx) => Auth()),
+        ChangeNotifierProvider(create: (context) => Products()),
+        ChangeNotifierProxyProvider<Auth, OrderItemProvider>(
+          create: (_) => OrderItemProvider(''),
+          update: (_, auth, previousOrderItem) =>
+              OrderItemProvider(auth.userId),
+        ),
         ChangeNotifierProxyProvider<Products, CartItemProvider>(
             create: (_) => CartItemProvider([], [], true),
             update: (_, products, previousCartItem) => CartItemProvider(
@@ -44,30 +50,47 @@ class _MyAppState extends State<MyApp> {
                 previousCartItem?.items ?? [],
                 previousCartItem?.loadDataFromDatabase ?? true)),
       ],
-      child: MaterialApp(
-        title: 'Kedo Food',
-        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
-        home: isAuthenticated
-            ? const MyHomePage()
-            : AuthScreen(
-                onPress: () => setState(() {
-                  isAuthenticated = true;
-                }),
-              ),
-        routes: {
-          //MyHomePage.routeName: (context) => MyHomePage(),
-          CategoryTypeList.routeName: (context) => CategoryTypeList(),
-          CategoryMenu.routeName: (context) => CategoryMenu(),
-          ItemDetail.routeName: (context) => ItemDetail(),
-          CartMenu.routeName: (context) => CartMenu(),
-          WishList.routeName: (context) => const WishList(),
-          UserProfileOption.routeName: (context) => UserProfileOption(),
-          UserProfile.routeName: (context) => UserProfile(),
-          MyOrders.routeName: (context) => MyOrders(),
-          OrderDetailScreen.routeName: (context) => OrderDetailScreen(),
-          MessageBot.routeName: (context) => const MessageBot(),
-          CartCheckout.routeName: (context) => const CartCheckout()
-        },
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          title: 'Kedo Food',
+          theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Poppins'),
+          home: auth.isAuth
+              ? const MyHomePage()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (context, state) {
+                    if (state.connectionState == ConnectionState.waiting) {
+                      // needs to be changed to splash screen or auto scroll
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    return AuthScreen(
+                      onPress: (bool isSignIn, String email, String password,
+                          {String username = ''}) async{
+                        if (isSignIn) {
+                          await auth.login(email, password);
+                        } else {                          
+                          await auth.signup(email, password, username);
+                        }
+                      },
+                    );
+                  }),
+          routes: {
+            //MyHomePage.routeName: (context) => MyHomePage(),
+            CategoryTypeList.routeName: (context) => CategoryTypeList(),
+            CategoryMenu.routeName: (context) => CategoryMenu(),
+            ItemDetail.routeName: (context) => ItemDetail(),
+            CartMenu.routeName: (context) => CartMenu(),
+            WishList.routeName: (context) => const WishList(),
+            UserProfileOption.routeName: (context) => UserProfileOption(),
+            UserProfile.routeName: (context) => UserProfile(),
+            MyOrders.routeName: (context) => MyOrders(),
+            OrderDetailScreen.routeName: (context) => OrderDetailScreen(),
+            MessageBot.routeName: (context) => const MessageBot(),
+            CartCheckout.routeName: (context) => const CartCheckout()
+          },
+        ),
       ),
     );
   }
