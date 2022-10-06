@@ -96,6 +96,7 @@ class OrderDetail {
 
   Map<String, Object> toMap() {
     return {
+      'userId':userId,
       'orderId': orderId,
       'invoiceNo': invoiceNo,
       'orderDate': DateFormat('dd/mm/yyyy hh:mm:ss').format(orderDate),

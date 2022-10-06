@@ -70,6 +70,7 @@ class Auth extends ChangeNotifier {
       throw HttpException(responseData['error']['message']);
     } else {
       _userName = responseData['displayName'];
+      await _storeLoggedInUserData();
     }
   }
 
@@ -83,13 +84,17 @@ class Auth extends ChangeNotifier {
       throw HttpException(responseData['error']['message']);
     } else {
       _token = responseData['idToken'];
-       _userId = responseData['localId'];
-    _expiryDate = DateTime.now().add(Duration(seconds: int.parse(responseData['expiresIn'])));
-     await _storeLoggedInUserData();
+      _userId = responseData['localId'];
+      _expiryDate = DateTime.now()
+          .add(Duration(seconds: int.parse(responseData['expiresIn'])));
+      if (isLogin) {
+        _userName = responseData['displayName'];
+        await _storeLoggedInUserData();
+      }
     }
   }
 
-  Future<void> _storeLoggedInUserData() async {   
+  Future<void> _storeLoggedInUserData() async {
     print(_token);
     _autoLogout();
     notifyListeners();
@@ -97,7 +102,8 @@ class Auth extends ChangeNotifier {
     final userdata = json.encode({
       'token': _token,
       'userId': _userId,
-      'expiryDate': _expiryDate?.toIso8601String()
+      'expiryDate': _expiryDate?.toIso8601String(),
+      'userName': _userName
     });
     prefs.setString('userData', userdata);
   }
@@ -117,6 +123,7 @@ class Auth extends ChangeNotifier {
     _token = extractData['token'];
     _userId = extractData['userId'];
     _expiryDate = expiryDate;
+    _userName = extractData['userName'];
     notifyListeners();
     _autoLogout();
     return true;

@@ -35,23 +35,70 @@ class _MyOrdersState extends State<MyOrders> {
                                   context,
                                   listen: false)
                               .fetchOrderDetails(),
-                          child: SingleChildScrollView(
-                            child: Consumer<OrderItemProvider>(
-                                builder: (context, orderItem, _) {
-                              return Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  ...orderItem.items.map((e) => getOrderCard(e))
-                                ],
-                              );
-                            }),
-                          ));
+                          child: Consumer<OrderItemProvider>(
+                              builder: (context, orderItem, _) {
+                            if (orderItem.items.length == 0) {
+                              return Center(child: getNoOrdersAvailableCard());
+                            }
+                            return SingleChildScrollView(
+                                child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ...orderItem.items.map((e) => getOrderCard(e))
+                              ],
+                            ));
+                          }),
+                        );
                 }),
           )
         ],
       ),
+    );
+  }
+
+  Widget getNoOrdersAvailableCard() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 50,
+        ),
+        Image.asset('assets/images/ordersEmpty.png'),
+        const SizedBox(
+          height: 20,
+        ),
+        const Text(
+          "No Orders Yet",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Looks like you, haven't",
+          style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
+        ),
+        Text("made your menu yet.",
+            style: TextStyle(fontSize: 20, color: Colors.grey.shade600)),
+        const SizedBox(
+          height: 40,
+        ),
+        OutlinedButton(
+            style: ButtonStyle(
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20)),
+                side: MaterialStateProperty.all(
+                    const BorderSide(color: Colors.green, width: 2))),
+            onPressed: () {
+              Navigator.of(context)
+                  .popUntil((route) => route.settings.name == '/');
+            },
+            child: const Text(
+              "Shop Now",
+              style: TextStyle(color: Colors.green, fontSize: 18),
+            ))
+      ],
     );
   }
 

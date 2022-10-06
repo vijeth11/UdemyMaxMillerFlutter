@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kedo_food/infrastructure/page_button.dart';
 import 'package:kedo_food/model/category_tile_detail.dart';
+import 'package:kedo_food/providers/auth_provider.dart';
 import 'package:kedo_food/providers/products.dart';
 import 'package:kedo_food/screens/category_menu.dart';
 import 'package:kedo_food/screens/category_type_list.dart';
@@ -18,7 +19,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String userName = "Test Tester";
   final int heightOfGridRow = 127;
   final PageController _controller =
       PageController(viewportFraction: 1 / 3, initialPage: 1);
@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     var productProvider = Provider.of<Products>(context, listen: false);
-
+    var authProvider = Provider.of<Auth>(context, listen: false);
     return Scaffold(
       body: FutureBuilder(
         future: productProvider.items.length == 0
@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           height: 10,
                         ),
                         Text(
-                          userName,
+                          authProvider.displayName,
                           style: const TextStyle(
                               fontSize: 25, fontWeight: FontWeight.w600),
                         ),

@@ -33,7 +33,7 @@ class _AuthScreenState extends State<AuthScreen>
     super.initState();
   }
 
-  void _submit() async{
+  void _submit() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -41,13 +41,21 @@ class _AuthScreenState extends State<AuthScreen>
       displayLoading = true;
     });
     _formKey.currentState!.save();
-    if (displaySignInPage) {
-      await widget.onPress(displaySignInPage, _authData['email'] as String,
-          _authData['password'] as String);
-    } else {
-      await widget.onPress(displaySignInPage, _authData['email'] as String,
-          _authData['password'] as String,
-          username: _authData['username'] as String);
+    try {
+      if (displaySignInPage) {
+        await widget.onPress(displaySignInPage, _authData['email'] as String,
+            _authData['password'] as String);
+      } else {
+        await widget.onPress(displaySignInPage, _authData['email'] as String,
+            _authData['password'] as String,
+            username: _authData['username'] as String);
+      }
+    } on Exception catch (error) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.toString())));
+      setState(() {
+        displayLoading = false;
+      });
     }
   }
 
@@ -129,7 +137,7 @@ class _AuthScreenState extends State<AuthScreen>
       key: _formKey,
       child: Column(
         children: [
-          getPageTitleHeader("Sign In"),
+          getPageTitleHeader("Sign In", displayCrossIcon: false),
           const SizedBox(
             height: 20,
           ),
@@ -159,10 +167,12 @@ class _AuthScreenState extends State<AuthScreen>
           const SizedBox(
             height: 20,
           ),
-          if(!displayLoading)
-          getPageButton("SIGN IN", _submit)
+          if (!displayLoading)
+            getPageButton("SIGN IN", _submit)
           else
-          Center(child: CircularProgressIndicator(),),
+            Center(
+              child: CircularProgressIndicator(),
+            ),
           const SizedBox(
             height: 10,
           ),
@@ -233,16 +243,18 @@ class _AuthScreenState extends State<AuthScreen>
           const SizedBox(
             height: 20,
           ),
-          if(!displayLoading)
-          getPageButton("CREATE AN ACCOUNT", _submit)
+          if (!displayLoading)
+            getPageButton("CREATE AN ACCOUNT", _submit)
           else
-          Center(child: CircularProgressIndicator(),),
+            Center(
+              child: CircularProgressIndicator(),
+            ),
         ],
       ),
     );
   }
 
-  Widget getPageTitleHeader(String title) {
+  Widget getPageTitleHeader(String title, {bool displayCrossIcon = true}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -250,34 +262,35 @@ class _AuthScreenState extends State<AuthScreen>
           title,
           style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
         ),
-        SizedBox(
-          height: 35,
-          width: 35,
-          child: ElevatedButton(
-              style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(0),
-                  padding: MaterialStateProperty.all(EdgeInsets.zero),
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.transparent)),
-              onPressed: () {
-                setState(() {
-                  displaySignInPage = true;
-                });
-                _controller.reset();
-                _controller.forward();
-              },
-              child: Container(
-                height: 35,
-                width: 35,
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(50)),
-                child: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                ),
-              )),
-        )
+        if (displayCrossIcon)
+          SizedBox(
+            height: 35,
+            width: 35,
+            child: ElevatedButton(
+                style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(0),
+                    padding: MaterialStateProperty.all(EdgeInsets.zero),
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.transparent)),
+                onPressed: () {
+                  setState(() {
+                    displaySignInPage = true;
+                  });
+                  _controller.reset();
+                  _controller.forward();
+                },
+                child: Container(
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(50)),
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                )),
+          )
       ],
     );
   }
