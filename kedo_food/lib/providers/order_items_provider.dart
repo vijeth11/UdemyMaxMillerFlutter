@@ -9,8 +9,10 @@ import 'package:http/http.dart' as http;
 class OrderItemProvider with ChangeNotifier {
   late String url;
   late String _userId;
-  OrderItemProvider(String userId) {
-    url = "https://flutter-kedo-food-default-rtdb.firebaseio.com/orders.json";
+  OrderItemProvider(String userId, String authToken) {
+    url =
+        'https://flutter-kedo-food-default-rtdb.firebaseio.com/orders.json?auth=$authToken';
+    print(url);
     _userId = userId;
   }
 
@@ -33,7 +35,8 @@ class OrderItemProvider with ChangeNotifier {
 
   Future<void> fetchOrderDetails() async {
     try {
-      var response = await http.get(Uri.parse(url));
+      var response = await http
+          .get(Uri.parse(url + '&orderBy="userId"&equalTo="$_userId"'));
       _items = [];
       if (response.body != "null") {
         final orderData = json.decode(response.body) as Map<String, dynamic>;

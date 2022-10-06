@@ -39,9 +39,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProvider(create: (context) => Products()),
         ChangeNotifierProxyProvider<Auth, OrderItemProvider>(
-          create: (_) => OrderItemProvider(''),
+          create: (_) => OrderItemProvider('', ''),
           update: (_, auth, previousOrderItem) =>
-              OrderItemProvider(auth.userId),
+              OrderItemProvider(auth.userId, auth.token ?? ''),
         ),
         ChangeNotifierProxyProvider<Products, CartItemProvider>(
             create: (_) => CartItemProvider([], [], true),
@@ -67,10 +67,10 @@ class _MyAppState extends State<MyApp> {
                     }
                     return AuthScreen(
                       onPress: (bool isSignIn, String email, String password,
-                          {String username = ''}) async{                        
+                          {String username = ''}) async {
                         if (isSignIn) {
                           await auth.login(email, password);
-                        } else {                          
+                        } else {
                           await auth.signup(email, password, username);
                         }
                       },
