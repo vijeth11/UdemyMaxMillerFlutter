@@ -12,7 +12,6 @@ class OrderItemProvider with ChangeNotifier {
   OrderItemProvider(String userId, String authToken) {
     url =
         'https://flutter-kedo-food-default-rtdb.firebaseio.com/orders.json?auth=$authToken';
-    print(url);
     _userId = userId;
   }
 

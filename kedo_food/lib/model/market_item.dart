@@ -13,8 +13,7 @@ class MarketItem {
   final List<Review> reviews;
 
   MarketItem(
-      {
-      required this.id,
+      {required this.id,
       required this.name,
       required this.cost,
       required this.categoryName,
@@ -24,6 +23,30 @@ class MarketItem {
       required this.reviews,
       required this.description,
       required this.discussion});
+
+  MarketItem copyTo({
+    String? id,
+    String? name,
+    double? cost,
+    String? categoryName,
+    bool? isFavourite,
+    String? image,
+    double? rating,
+    String? description,
+    String? discussion,
+    List<Review>? reviews,
+  }) =>
+      MarketItem(
+          id: id ?? this.id,
+          name: name ?? this.name,
+          cost: cost ?? this.cost,
+          categoryName: categoryName ?? this.categoryName,
+          isFavourite: isFavourite ?? this.isFavourite,
+          image: image ?? this.image,
+          rating: rating ?? this.rating,
+          reviews: reviews ?? this.reviews,
+          description: description ?? this.description,
+          discussion: discussion ?? this.discussion);
 }
 
 class Review {

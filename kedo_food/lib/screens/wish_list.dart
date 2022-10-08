@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/providers/products.dart';
 import 'package:kedo_food/widgets/item_card_grid_display.dart';
 import 'package:kedo_food/widgets/page_header.dart';
-
-import '../model/market_item.dart';
+import 'package:provider/provider.dart';
 
 class WishList extends StatefulWidget {
   static const String routeName = 'WishList';
@@ -44,15 +44,15 @@ class _WishListState extends State<WishList> {
 
   @override
   Widget build(BuildContext context) {
-    
+    var productProvider = Provider.of<Products>(context);
     return Scaffold(
       body: Column(
         children: [
           ...getPageHeader("Wishlist", context, titlePladding: 65),
           Expanded(
-            child: CustomScrollView(
-                controller: scrollController,
-                slivers: [ItemCardsGridDisplay(menuItems: menuItems)]),
+            child: CustomScrollView(controller: scrollController, slivers: [
+              ItemCardsGridDisplay(menuItems: productProvider.favouriteItems())
+            ]),
           )
         ],
       ),

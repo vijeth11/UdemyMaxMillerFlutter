@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/model/market_item.dart';
+import 'package:kedo_food/providers/products.dart';
+import 'package:provider/provider.dart';
 
 class ItemCard extends StatelessWidget {
   final MarketItem item;
@@ -13,6 +15,7 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var productProvider = Provider.of<Products>(context, listen: false);
     return Padding(
       padding: EdgeInsets.fromLTRB(
           isCardLeft ? 20.0 : 5.0, 9.0, isCardLeft ? 5.0 : 20.0, 9.0),
@@ -21,7 +24,13 @@ class ItemCard extends StatelessWidget {
         child: GridTile(
           header: GridTileBar(
             leading: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                if (item.isFavourite) {
+                  productProvider.removeFavourite(item.id);
+                } else {
+                  productProvider.addFavourite(item.id);
+                }
+              },
               icon: Icon(
                 Icons.favorite,
                 color: item.isFavourite ? Colors.red : Colors.white,

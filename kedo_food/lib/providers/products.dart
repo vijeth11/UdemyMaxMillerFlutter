@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:kedo_food/model/category_tile_detail.dart';
@@ -8,8 +9,10 @@ import 'package:intl/intl.dart';
 
 class Products with ChangeNotifier {
   late String url;
+  late String authToken;
+  late String userId;
 
-  Products() {
+  Products(this.authToken, this.userId) {
     url = "https://flutter-kedo-food-default-rtdb.firebaseio.com/products.json";
   }
 
@@ -29,9 +32,14 @@ class Products with ChangeNotifier {
   }
 
   List<MarketItem> _items = [];
+  List<Map<String, String>> _favouriteMarketItems = [];
 
   List<MarketItem> get items {
     return [..._items];
+  }
+
+  List<MarketItem> favouriteItems() {
+    return items.where((element) => element.isFavourite).toList();
   }
 
   List<MarketItem> trendingItems() {
@@ -51,6 +59,7 @@ class Products with ChangeNotifier {
   Future<void> fetchProducts() async {
     try {
       var response = await http.get(Uri.parse(url));
+      await fetchFavourite();
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       print(extractedData.values);
       for (var product in extractedData.values) {
@@ -63,15 +72,17 @@ class Products with ChangeNotifier {
               date: DateFormat('dd/mm/yyyy').parse(review['date']),
               image: review['image']));
         }
+        String productId = extractedData.entries
+            .where((element) => element.value == product)
+            .first
+            .key;
         _items.add(MarketItem(
-            id: extractedData.entries
-                .where((element) => element.value == product)
-                .first
-                .key,
+            id: productId,
             name: product['name'],
             cost: product['cost'],
             categoryName: product['categoryName'],
-            isFavourite: product['isFavourite'],
+            isFavourite: _favouriteMarketItems
+                .any((element) => element["itemId"] == productId),
             image: product['image'],
             rating: product['rating'] as double,
             reviews: [...reviews],
@@ -87,5 +98,72 @@ class Products with ChangeNotifier {
   void addProductItem(MarketItem item) {
     _items.add(item);
     notifyListeners();
+  }
+
+  Future<void> addFavourite(String itemId) async {
+    try {
+      String url =
+          'https://flutter-kedo-food-default-rtdb.firebaseio.com/userfavourite.json?auth=$authToken';
+      var response = await http.post(Uri.parse(url),
+          body: json.encode({'marketItemId': itemId, 'userId': userId}));
+      var responseBody = json.decode(response.body) as Map<String, dynamic>;
+      print(responseBody);
+      _favouriteMarketItems.add({"id": responseBody["name"], "itemId": itemId});
+      MarketItem item = _items.firstWhere((element) => element.id == itemId);
+      int index = _items.indexOf(item);
+      item = item.copyTo(isFavourite: true);
+      _items[index] = item;
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> removeFavourite(String itemId) async {
+    try {
+      var favObj = _favouriteMarketItems
+          .where((element) => element['itemId'] == itemId)
+          .first;
+      String keyId = favObj["id"] ?? "";
+      String url =
+          'https://flutter-kedo-food-default-rtdb.firebaseio.com/userfavourite/$keyId.json?auth=$authToken';
+      print(url);
+      await http.delete(Uri.parse(url));
+      _favouriteMarketItems.remove(favObj);
+      MarketItem item = _items.firstWhere((element) => element.id == itemId);
+      int index = _items.indexOf(item);
+      item = item.copyTo(isFavourite: false);
+      _items[index] = item;
+      notifyListeners();
+    } catch (error) {
+      print(error.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> fetchFavourite() async {
+    try {
+      String url =
+          'https://flutter-kedo-food-default-rtdb.firebaseio.com/userfavourite.json?auth=$authToken&orderBy="userId"&equalTo="$userId"';
+      _favouriteMarketItems = [];
+      var response = await http.get(Uri.parse(url));
+      var responseData = json.decode(response.body);
+
+      if (responseData['error'] != null) {
+        throw HttpException(responseData['error']['message']);
+      } else if (response.body != "null") {
+        for (var itemIds in responseData.values) {
+          _favouriteMarketItems.add({
+            "id": responseData.entries
+                .where((element) => element.value == itemIds)
+                .first
+                .key,
+            "itemId": itemIds['marketItemId'] as String
+          });
+        }
+      }
+    } catch (error) {
+      rethrow;
+    }
   }
 }

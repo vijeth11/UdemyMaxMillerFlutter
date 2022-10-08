@@ -37,7 +37,11 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
-        ChangeNotifierProvider(create: (context) => Products()),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (_) => Products('', ''),
+          update: (_, auth, previousProduct) =>
+              Products(auth.token ?? '', auth.userId),
+        ),
         ChangeNotifierProxyProvider<Auth, OrderItemProvider>(
           create: (_) => OrderItemProvider('', ''),
           update: (_, auth, previousOrderItem) =>

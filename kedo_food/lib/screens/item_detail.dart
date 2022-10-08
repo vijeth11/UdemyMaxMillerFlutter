@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kedo_food/infrastructure/backbutton.dart';
 import 'package:kedo_food/model/market_item.dart';
 import 'package:kedo_food/providers/cart_item_provider.dart';
+import 'package:kedo_food/providers/products.dart';
 import 'package:kedo_food/screens/cart_menu.dart';
 import 'package:kedo_food/widgets/detail_tabs.dart';
 import 'package:kedo_food/widgets/expandable_appbar.dart';
@@ -261,7 +262,12 @@ class _ItemDetailState extends State<ItemDetail> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: !_marketItem.isFavourite
+                      ? () {
+                          Provider.of<Products>(context, listen: false)
+                              .addFavourite(_marketItem.id);
+                        }
+                      : null,
                   child: const Icon(
                     Icons.favorite,
                     size: 40,
