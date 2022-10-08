@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kedo_food/helper/db_helper.dart';
 import 'package:kedo_food/helper/utils.dart';
 import 'package:kedo_food/model/orderDetail.dart';
@@ -221,7 +222,9 @@ class _CartCheckoutState extends State<CartCheckout> {
       TextInputType? inputType,
       String? initialValue,
       Function(String?)? onSaved,
-      String? Function(String?)? validate}) {
+      String? Function(String?)? validate,
+      String? placeholderText,
+      List<TextInputFormatter>? textFormatter}) {
     return TextFormField(
       initialValue: initialValue,
       textInputAction: inputAction,
@@ -231,7 +234,9 @@ class _CartCheckoutState extends State<CartCheckout> {
       maxLines: maxLines,
       validator: validate,
       style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+      inputFormatters: textFormatter,      
       decoration: InputDecoration(
+        hintText: placeholderText,
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),

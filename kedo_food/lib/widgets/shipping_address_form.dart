@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kedo_food/infrastructure/page_button.dart';
 import 'package:kedo_food/model/orderDetail.dart';
 
@@ -27,6 +28,19 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
   final _city = FocusNode();
   final _country = FocusNode();
   final _formKey = GlobalKey<FormState>();
+  final List<String> countries = [
+    "Australia",
+    "Brazil",
+    "Canada",
+    "India",
+    "Mongolia",
+    "USA",
+    "China",
+    "Russia",
+    "Germany",
+    "France",
+    "Italy",
+  ];
 
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 300),
@@ -39,12 +53,23 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
   ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
   bool saveShippingAddress = false;
+  late String countrySelected;
+
+  _ShippingAddressFormState() {
+    countries.sort(
+      (a, b) => a.compareTo(b),
+    );
+  }
 
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0))
         .then((value) => _controller.forward());
     saveShippingAddress = widget.shippingData.deliveryUserName.isNotEmpty;
+    countrySelected = widget.shippingData.deliveryCountry.isEmpty
+        ? "USA"
+        : widget.shippingData.deliveryCountry;
+
     super.initState();
   }
 
@@ -74,6 +99,7 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
                 node: _fullNameNode,
                 initialValue: widget.shippingData.deliveryUserName,
                 inputAction: TextInputAction.next,
+                placeholderText: "Full Name",
                 validate: (value) {
                   if (value.toString().isEmpty) {
                     return "Full name is required";
@@ -99,6 +125,7 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
                 inputAction: TextInputAction.next,
                 initialValue: widget.shippingData.deliveryUserEmail,
                 node: _email,
+                placeholderText: "Email Address",
                 validate: (value) {
                   if (value!.isEmpty || !value.contains('@')) {
                     return 'Invalid Email';
@@ -125,6 +152,8 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
                 inputType: TextInputType.phone,
                 initialValue: widget.shippingData.deliveryUserPhone,
                 node: _phone,
+                placeholderText: "Phone Number",
+                textFormatter: [TextMasking("(xxx) xxxx-xxxx)")],
                 validate: (value) {
                   if (value.toString().isEmpty) {
                     return "phone number is required";
@@ -156,6 +185,7 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
                 inputAction: TextInputAction.newline,
                 initialValue: widget.shippingData.deliveryAddress,
                 node: _address,
+                placeholderText: "Address",
                 validate: (value) {
                   if (value.toString().isEmpty) {
                     return "Address is required";
@@ -190,6 +220,7 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
                             inputType: TextInputType.number,
                             initialValue: widget.shippingData.deliveryZipCode,
                             node: _zipCode,
+                            placeholderText: "Zip Code",
                             validate: (value) {
                               if (value.toString().isEmpty) {
                                 return "Zip code is required";
@@ -223,6 +254,7 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
                             inputAction: TextInputAction.next,
                             inputType: TextInputType.text,
                             initialValue: widget.shippingData.deliveryCity,
+                            placeholderText: "City",
                             validate: (value) {
                               if (value.toString().isEmpty) {
                                 return "City is required";
@@ -253,24 +285,34 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
               height: 10,
             ),
             // Convert this to a dropdown
-            widget.getTextInput(
-                node: _country,
-                inputType: TextInputType.text,
-                inputAction: TextInputAction.done,
-                initialValue: widget.shippingData.deliveryCountry,
-                validate: (value) {
-                  if (value.toString().isEmpty) {
-                    return "Country is required";
-                  }
-                  if (value.toString().contains(RegExp('[0-9]+'))) {
-                    return "Country cannot have numbers";
-                  }
-                },
-                onSaved: (value) {
-                  print("after submitted");
-                  widget.shippingData =
-                      widget.shippingData.copyWith(deliveryCountry: value);
-                }),
+            DropdownButtonFormField(
+              items: countries
+                  .map((country) => DropdownMenuItem<String>(
+                        child: Text(
+                          country,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        value: country,
+                      ))
+                  .toList(),
+              focusNode: _country,
+              value: countrySelected,
+              iconSize: 45,
+              decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20))),
+              onChanged: (value) {
+                setState(() {
+                  countrySelected = value as String;
+                });
+              },
+              onSaved: (value) {
+                widget.shippingData = widget.shippingData
+                    .copyWith(deliveryCountry: value as String);
+              },
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -309,6 +351,35 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
           ],
         ),
       ),
+    );
+  }
+}
+
+class TextMasking extends TextInputFormatter {
+  // masking should contain xxx ex:(xxx) xxxx-xxxx
+  final String format;
+
+  TextMasking(this.format);
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    // TODO: implement formatEditUpdate
+    String value = newValue.text.replaceAll(RegExp(r'[^a-z0-9]'), "");
+    String finalValue = format.toLowerCase();
+    for (var i in value.characters) {
+      finalValue = finalValue.replaceFirst(RegExp(r'x'), i);
+    }
+    if (finalValue.contains('x')) {
+      finalValue = finalValue.substring(0, finalValue.indexOf('x'));
+    }
+    if (finalValue.contains('-') &&
+        finalValue.indexOf('-') == finalValue.length - 1) {
+      finalValue = finalValue.substring(0, finalValue.length - 1);
+    }
+    return TextEditingValue(
+      text: finalValue.trim(),
+      selection: TextSelection.collapsed(offset: finalValue.length),
     );
   }
 }
