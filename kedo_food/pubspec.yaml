@@ -41,6 +41,11 @@ dependencies:
   http: ^0.13.5
   sqflite: ^2.0.3+1
   shared_preferences: ^2.0.15
+  image_picker: ^0.8.6
+  path_provider: ^2.0.11
+  path: ^1.8.1
+  firebase_storage: ^10.3.11
+  firebase_core: ^1.24.0
 
 dev_dependencies:
   flutter_test:

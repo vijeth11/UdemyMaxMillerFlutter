@@ -2,8 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kedo_food/helper/utils.dart';
+import 'package:kedo_food/model/user_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth extends ChangeNotifier {
@@ -12,7 +15,7 @@ class Auth extends ChangeNotifier {
   late String? _userId;
   Timer? _authTimer;
   late String? _userName;
-
+  late UserDetails userDetails;
   bool get isAuth {
     return token != null;
   }
@@ -39,7 +42,9 @@ class Auth extends ChangeNotifier {
       const url =
           "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBFXqo6Vc2qCLbNJ8RkTGzz0DCifEhlTz0";
       await _authenticate(email, password, url, false);
-      return _updateUserProfile(username);
+      userDetails = UserDetails('', '', username, '', email, '', '', userId);
+      await updateUserProfile();
+      return _storeLoggedInUserData();
     } catch (error) {
       rethrow;
     }
@@ -49,29 +54,25 @@ class Auth extends ChangeNotifier {
     try {
       const url =
           "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBFXqo6Vc2qCLbNJ8RkTGzz0DCifEhlTz0";
-      return _authenticate(email, password, url, true);
+      await _authenticate(email, password, url, true);
+      await fetchUserDetails();
     } catch (error) {
       rethrow;
     }
   }
 
-  Future<void> _updateUserProfile(String username) async {
-    var response = await http.post(
+  Future<void> updateUserProfile() async {
+    var response = await http.put(
         Uri.parse(
-            "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBFXqo6Vc2qCLbNJ8RkTGzz0DCifEhlTz0"),
-        body: json.encode({
-          "idToken": _token,
-          "displayName": username,
-          "photoUrl": "",
-          "returnSecureToken": true
-        }));
+            'https://flutter-kedo-food-default-rtdb.firebaseio.com/users.json?auth=$_token'),
+        body: json.encode(userDetails.toMap()));
     var responseData = json.decode(response.body);
     if (responseData['error'] != null) {
       throw HttpException(responseData['error']['message']);
     } else {
-      _userName = responseData['displayName'];
-      await _storeLoggedInUserData();
+      _userName = userDetails.userName;
     }
+    notifyListeners();
   }
 
   Future<void> _authenticate(
@@ -108,6 +109,24 @@ class Auth extends ChangeNotifier {
     prefs.setString('userData', userdata);
   }
 
+  Future<void> fetchUserDetails() async {
+    var response = await http.get(Uri.parse(
+        'https://flutter-kedo-food-default-rtdb.firebaseio.com/users/$userId.json?auth=$_token'));
+    if (response.body != "null") {
+      final userdetails = json.decode(response.body) as Map<String, dynamic>;
+      print(userdetails);
+      userDetails = UserDetails(
+          userdetails['firstName'],
+          userdetails['lastName'],
+          userdetails['userName'],
+          userdetails['phone'],
+          userdetails['emailAddress'],
+          userdetails['shippingAddress'],
+          userdetails['image'],
+          userId);
+    }
+  }
+
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('userData')) {
@@ -124,6 +143,10 @@ class Auth extends ChangeNotifier {
     _userId = extractData['userId'];
     _expiryDate = expiryDate;
     _userName = extractData['userName'];
+    await fetchUserDetails();
+    if (_userName == null || _userName!.isEmpty) {
+      _userName = userDetails.userName;
+    }
     notifyListeners();
     _autoLogout();
     return true;
@@ -152,5 +175,14 @@ class Auth extends ChangeNotifier {
       print('auto logout');
       logout();
     });
+  }
+
+  Future<void> uploadUserProfile(File userProfile) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final userProfileImage =
+        storageRef.child('UserProfileImage').child('${_userName!}.png');
+    await userProfileImage.putFile(userProfile);
+    userDetails =
+        userDetails.copyTo(image: await userProfileImage.getDownloadURL());
   }
 }

@@ -12,7 +12,7 @@ class Products with ChangeNotifier {
   late String authToken;
   late String userId;
 
-  Products(this.authToken, this.userId) {
+  Products(this.authToken, this.userId, this._items) {
     url = "https://flutter-kedo-food-default-rtdb.firebaseio.com/products.json";
   }
 

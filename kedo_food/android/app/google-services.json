@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "852431000005",
+    "firebase_url": "https://flutter-kedo-food-default-rtdb.firebaseio.com",
+    "project_id": "flutter-kedo-food",
+    "storage_bucket": "flutter-kedo-food.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852431000005:android:71c9a839b6fe0d15a4fbac",
+        "android_client_info": {
+          "package_name": "com.example.kedo_food"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852431000005-hes44geqmk1q90jb8c25b1usi04feka2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_tiySQlatKMwZe1bffGHRIlPQ007TJy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852431000005-hes44geqmk1q90jb8c25b1usi04feka2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

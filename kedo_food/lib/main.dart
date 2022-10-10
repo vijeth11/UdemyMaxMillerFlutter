@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:kedo_food/firebase_options.dart';
 import 'package:kedo_food/providers/auth_provider.dart';
 import 'package:kedo_food/providers/cart_item_provider.dart';
 import 'package:kedo_food/providers/order_items_provider.dart';
@@ -18,7 +20,11 @@ import 'package:kedo_food/screens/user_profile_options.dart';
 import 'package:kedo_food/screens/wish_list.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -38,9 +44,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProxyProvider<Auth, Products>(
-          create: (_) => Products('', ''),
-          update: (_, auth, previousProduct) =>
-              Products(auth.token ?? '', auth.userId),
+          create: (_) => Products('', '', []),
+          update: (_, auth, previousProduct) => Products(
+              auth.token ?? '', auth.userId, previousProduct?.items ?? []),
         ),
         ChangeNotifierProxyProvider<Auth, OrderItemProvider>(
           create: (_) => OrderItemProvider('', ''),

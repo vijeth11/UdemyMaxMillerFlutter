@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>852431000005-27q9l5qlgas6ddn6d49rd24q7rbbg65m.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.852431000005-27q9l5qlgas6ddn6d49rd24q7rbbg65m</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCng_0UsR0PjHhts15pL0eYQ9jEhq2wyVs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>852431000005</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.kedoFood</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-kedo-food</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-kedo-food.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:852431000005:ios:8874c5f14e73f346a4fbac</string>
+	<key>DATABASE_URL</key>
+	<string>https://flutter-kedo-food-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

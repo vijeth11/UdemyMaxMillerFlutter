@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kedo_food/infrastructure/page_button.dart';
 
+import '../helper/utils.dart';
+
 class AuthScreen extends StatefulWidget {
   final Function(bool isSignup, String email, String password,
       {String username}) onPress;
@@ -112,25 +114,7 @@ class _AuthScreenState extends State<AuthScreen>
     );
   }
 
-  Widget getTextInput(
-      {int maxLines = 1,
-      TextInputType type = TextInputType.text,
-      bool obscureText = false,
-      Function(String?)? saved,
-      String initialValue = ""}) {
-    return TextFormField(
-      maxLines: maxLines,
-      keyboardType: type,
-      initialValue: initialValue,
-      obscureText: obscureText,
-      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-      decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
-      onSaved: saved,
-    );
-  }
+  
 
   Widget getSiginPage() {
     return Form(
