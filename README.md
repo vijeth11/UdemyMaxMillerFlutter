@@ -40,13 +40,16 @@ and providers for handling data.
 # Flutter Chat
 
 A new Flutter chatting application which uses Firebase cloud services for providing a unique chatting experience.
+It uses firebase flutter packages to access store and upload images, authentication and realtime database and messaging via firebase flutter package. 
 
 ![Flutter Chat](https://user-images.githubusercontent.com/21109775/179480502-4b0374bb-5d66-48a9-994d-26cbb93b4d52.gif)
  
  # Kedo Food
  
  A grocery app where users can order fresh fruits, vegetables and other grocery items, and get them delivered to their
- door step.
+ door step. It uses Firebase realtime database to store products and user orders. It also use shared preferences to store user shipping address
+ and sqlite to store cart items of the user which are ready for checkout. It uses flutter SVg to display SVG files and provider to communicate 
+ within the app. Image picker is used to select a profile image from the gallery and upload it to Firebase store.
 
 # Cute Girl 
  
