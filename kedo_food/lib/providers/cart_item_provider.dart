@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:kedo_food/helper/db_helper.dart';
 import 'package:kedo_food/model/cart_item.dart';
@@ -27,7 +26,7 @@ class CartItemProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addItemToCart(String itemId) async {
+  void addItemToCart(String itemId, {int quantity = 1}) async {
     if (_items.any(
       (element) => element.itemId == itemId,
     )) {
@@ -38,9 +37,10 @@ class CartItemProvider extends ChangeNotifier {
           itemId: itemId,
           itemImage: _items[index].itemImage,
           itemName: _items[index].itemName,
-          quantity: _items[index].quantity + 1);
+          quantity: _items[index].quantity + quantity);
       _items[index] = updateItem;
-      await DBHelper.update('cart_items', updateItem.toMap(),'itemId = ?',[updateItem.itemId]);
+      await DBHelper.update(
+          'cart_items', updateItem.toMap(), 'itemId = ?', [updateItem.itemId]);
     } else {
       MarketItem product =
           marketItems.firstWhere((element) => element.id == itemId);
@@ -48,7 +48,7 @@ class CartItemProvider extends ChangeNotifier {
           categoryName: product.categoryName,
           itemName: product.name,
           itemId: itemId,
-          quantity: 1,
+          quantity: quantity,
           itemCost: product.cost,
           itemImage: product.image);
       _items.add(newItem);
@@ -69,10 +69,11 @@ class CartItemProvider extends ChangeNotifier {
             itemName: _items[index].itemName,
             quantity: _items[index].quantity - 1);
         _items[index] = updateItem;
-        await DBHelper.update('cart_items', updateItem.toMap(),'itemId = ?',[updateItem.itemId]);
+        await DBHelper.update('cart_items', updateItem.toMap(), 'itemId = ?',
+            [updateItem.itemId]);
       } else {
         _items.removeAt(index);
-        await DBHelper.remove('cart_items','itemId = ?',[itemId]);
+        await DBHelper.remove('cart_items', 'itemId = ?', [itemId]);
       }
       notifyListeners();
     } else {

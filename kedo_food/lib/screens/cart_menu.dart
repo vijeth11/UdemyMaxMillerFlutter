@@ -107,6 +107,49 @@ class _CartMenuState extends State<CartMenu> {
     );
   }
 
+  Widget getNoCartItemsAvailableCard() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 50,
+        ),
+        Image.asset('assets/images/cart-empty-template.png'),
+        const SizedBox(
+          height: 20,
+        ),
+        const Text(
+          "Cart is Empty",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Text(
+          "You don't have any items in your cart",
+          style: TextStyle(fontSize: 20, color: Colors.grey.shade600),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        OutlinedButton(
+            style: ButtonStyle(
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20)),
+                side: MaterialStateProperty.all(
+                    const BorderSide(color: Colors.green, width: 2))),
+            onPressed: () {
+              Navigator.of(context)
+                  .popUntil((route) => route.settings.name == '/');
+            },
+            child: const Text(
+              "Shop Now",
+              style: TextStyle(color: Colors.green, fontSize: 18),
+            ))
+      ],
+    );
+  }
+
   Widget getCartItemList(CartItemProvider provider) {
     // returns a list of cart items with quantity and cost
     return provider.items.length > 0
@@ -117,7 +160,7 @@ class _CartMenuState extends State<CartMenu> {
             itemBuilder: (context, index) =>
                 getCartItem(provider.items[index], provider))
         : Center(
-            child: Text("Please add some items"),
+            child: getNoCartItemsAvailableCard(),
           );
   }
 

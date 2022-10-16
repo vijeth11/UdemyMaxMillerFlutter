@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kedo_food/infrastructure/page_button.dart';
 import 'package:kedo_food/model/orderDetail.dart';
+import 'package:kedo_food/screens/order_item_review.dart';
 import 'package:kedo_food/widgets/page_header.dart';
 
 class OrderDetailScreen extends StatelessWidget {
@@ -126,7 +128,20 @@ class OrderDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                  child: getPageButton("Give Feedback", () {
+                    Navigator.of(context)
+                        .pushNamed(OrderItemReview.routeName, arguments: order);
+                  }),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           ))

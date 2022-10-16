@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:kedo_food/helper/utils.dart';
 
 class MarketItem {
@@ -50,62 +51,44 @@ class MarketItem {
 }
 
 class Review {
-  final String name;
+  final String userName;
   final String review;
   final double rating;
   final DateTime date;
-  final String image;
+  final String userImage;
+  final String productId;
   Review(
-      {required this.name,
+      {required this.userName,
       required this.review,
       required this.rating,
       required this.date,
-      required this.image});
-}
+      required this.userImage,
+      required this.productId});
 
-List<MarketItem> menuItems = List.generate(
-    20,
-    (index) => MarketItem(
-            id: getRandomString(10),
-            name: 'Avocado',
-            cost: 8.8,
-            categoryName: "Fruit",
-            isFavourite: true,
-            image: 'avacado.png',
-            rating: 4.5,
-            description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
-                ' veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-                'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-            discussion:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
-                ' veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-                'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-            reviews: [
-              Review(
-                  name: 'Jhon Leo',
-                  review:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                      'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
-                  rating: 4,
-                  date: DateTime.now(),
-                  image: 'assets/images/user1.png'),
-              Review(
-                  name: 'Logan Tucker',
-                  review:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                      'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
-                  rating: 4,
-                  date: DateTime.now(),
-                  image: 'assets/images/user2.png'),
-              Review(
-                  name: 'Jasmine James',
-                  review:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do'
-                      'eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim',
-                  rating: 4,
-                  date: DateTime.now(),
-                  image: 'assets/images/user3.png')
-            ]));
+  Map<String, dynamic> toMap() {
+    return {
+      "userName": userName,
+      "review": review,
+      "rating": rating,
+      "date": DateFormat('dd/mm/yyyy hh:mm:ss').format(date),
+      "userImage": userImage,
+      "productId": productId
+    };
+  }
+
+  Review copyTo(
+      {String? userName,
+      String? review,
+      double? rating,
+      DateTime? date,
+      String? userImage,
+      String? productId}) {
+    return Review(
+        userName: userName ?? this.userName,
+        review: review ?? this.review,
+        rating: rating ?? this.rating,
+        date: date ?? this.date,
+        userImage: userImage ?? this.userImage,
+        productId: productId ?? this.productId);
+  }
+}

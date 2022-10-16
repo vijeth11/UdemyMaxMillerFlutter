@@ -63,7 +63,7 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Edit Profile Needs to be implemented
+    
     authProvider = Provider.of<Auth>(context);
     return Scaffold(
         body:

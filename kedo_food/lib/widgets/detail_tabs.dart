@@ -24,19 +24,19 @@ class _DetailTabsState extends State<DetailTabs> with TickerProviderStateMixin {
   List<Widget> tabs = [
     Container(
       width: 105,
-      child: Tab(
+      child: const Tab(
         text: 'Description',
       ),
     ),
     Container(
       width: 65,
-      child: Tab(
+      child: const Tab(
         text: 'Review',
       ),
     ),
     Container(
       width: 130,
-      child: Tab(
+      child: const Tab(
         text: 'Disscussion',
       ),
     )
@@ -57,6 +57,7 @@ class _DetailTabsState extends State<DetailTabs> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
+      //Tab bar details
       Container(
         child: TabBar(
           indicatorSize: TabBarIndicatorSize.label,
@@ -64,7 +65,8 @@ class _DetailTabsState extends State<DetailTabs> with TickerProviderStateMixin {
           controller: _controller,
           indicatorColor: Colors.green.shade700,
           labelColor: Colors.black87,
-          labelStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+          labelStyle:
+              const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
           unselectedLabelColor: Colors.grey.shade500,
           tabs: tabs,
         ),
@@ -75,80 +77,94 @@ class _DetailTabsState extends State<DetailTabs> with TickerProviderStateMixin {
         child: TabBarView(
           controller: _controller,
           children: [
+            //Discussion
             Text(
               widget.description,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
-            ListView(
-              children: [
-                ...widget.reviews.map(
-                  (Review review) => ListTile(
-                      leading: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            image: DecorationImage(
-                                image: AssetImage(review.image))),
-                      ),
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 100,
-                                child: Text(
-                                  review.name,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500),
+            //Review
+            if (widget.reviews.isNotEmpty)
+              ListView(
+                children: [
+                  ...widget.reviews.map(
+                    (Review review) => ListTile(
+                        leading: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              image: DecorationImage(
+                                  image: NetworkImage(review.userImage))),
+                        ),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: 100,
+                                  child: Text(
+                                    review.userName,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
-                              ),
-                              RatingBar(
-                                initialRating: review.rating,
-                                minRating: 0,
-                                maxRating: 5,
-                                itemSize: 25,
-                                glow: false,
-                                ignoreGestures: true,
-                                onRatingUpdate: (double rating) {},
-                                ratingWidget: RatingWidget(
-                                    empty: Icon(Icons.star),
-                                    half: Icon(Icons.star_half),
-                                    full: Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    )),
-                              )
-                            ],
-                          ),
-                          Text(
-                            DateFormat('dd MMMM yyyy').format(review.date),
-                            style: TextStyle(color: Colors.grey.shade600),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            review.review,
-                            style: TextStyle(color: Colors.grey.shade600),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Divider(
-                            thickness: 2,
-                          )
-                        ],
-                      )),
+                                RatingBar(
+                                  initialRating: review.rating,
+                                  minRating: 0,
+                                  maxRating: 5,
+                                  itemSize: 25,
+                                  glow: false,
+                                  ignoreGestures: true,
+                                  onRatingUpdate: (double rating) {},
+                                  ratingWidget: RatingWidget(
+                                      empty: const Icon(Icons.star),
+                                      half: const Icon(Icons.star_half),
+                                      full: const Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      )),
+                                )
+                              ],
+                            ),
+                            Text(
+                              DateFormat('dd MMMM yyyy').format(review.date),
+                              style: TextStyle(color: Colors.grey.shade600),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              review.review,
+                              style: TextStyle(color: Colors.grey.shade600),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Divider(
+                              thickness: 2,
+                            )
+                          ],
+                        )),
+                  ),
+                ],
+              ),
+            if (widget.reviews.isEmpty)
+              Center(
+                child: Text(
+                  "Now reviews yet",
+                  style: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500),
                 ),
-              ],
-            ),
+              ),
+            //Discussion
             Text(
               widget.discussion,
-              style: TextStyle(fontSize: 20),
+              style: const TextStyle(fontSize: 20),
             ),
           ],
         ),

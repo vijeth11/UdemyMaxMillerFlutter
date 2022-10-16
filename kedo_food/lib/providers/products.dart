@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -63,19 +64,11 @@ class Products with ChangeNotifier {
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       print(extractedData.values);
       for (var product in extractedData.values) {
-        var reviews = [];
-        for (var review in product['reviews']) {
-          reviews.add(Review(
-              name: review['name'],
-              review: review['review'],
-              rating: (review['rating'] as int).toDouble(),
-              date: DateFormat('dd/mm/yyyy').parse(review['date']),
-              image: review['image']));
-        }
         String productId = extractedData.entries
             .where((element) => element.value == product)
             .first
             .key;
+        var reviews = await fetchProductReviews(productId);
         _items.add(MarketItem(
             id: productId,
             name: product['name'],
@@ -165,5 +158,45 @@ class Products with ChangeNotifier {
     } catch (error) {
       rethrow;
     }
+  }
+
+  Future<List<Review>> fetchProductReviews(String productId) async {
+    try {
+      String url =
+          'https://flutter-kedo-food-default-rtdb.firebaseio.com/productreview.json?auth=$authToken&orderBy="productId"&equalTo="$productId"';
+      List<Review> reviews = [];
+      var response = await http.get(Uri.parse(url));
+      var responseData = json.decode(response.body);
+
+      if (responseData['error'] != null) {
+        throw HttpException(responseData['error']['message']);
+      } else if (response.body != "null") {
+        for (var review in responseData.values) {
+          reviews.add(Review(
+              userName: review['userName'],
+              review: review['review'],
+              rating: review['rating'] as double,
+              date: DateFormat('dd/mm/yyyy').parse(review['date']),
+              userImage: review['userImage'],
+              productId: productId));
+        }
+      }
+      return reviews;
+    } catch (error) {
+      print(error);
+      rethrow;
+    }
+  }
+
+  Future<void> addProductReview(Review review) async {
+    String url =
+        'https://flutter-kedo-food-default-rtdb.firebaseio.com/productreview.json?auth=$authToken';
+    await http.post(Uri.parse(url), body: json.encode(review.toMap()));
+    MarketItem item =
+        _items.where((element) => element.id == review.productId).first;
+    int index = _items.indexOf(item);
+    item.reviews.add(review);
+    _items[index] = item;
+    notifyListeners();
   }
 }

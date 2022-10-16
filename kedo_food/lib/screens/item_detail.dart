@@ -21,7 +21,7 @@ class _ItemDetailState extends State<ItemDetail> {
   late MarketItem _marketItem;
   late PageController _pageController;
   double _leftRightPadding = 20.0;
-  double quantity = 0.0;
+  int quantity = 1;
   int activePage = 1;
 
   @override
@@ -154,14 +154,24 @@ class _ItemDetailState extends State<ItemDetail> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (quantity > 1) {
+                                setState(() {
+                                  quantity -= 1;
+                                });
+                              }
+                            },
                             icon: const Icon(Icons.remove, size: 30)),
-                        const Text(
-                          '4',
+                        Text(
+                          quantity.toString(),
                           style: TextStyle(fontSize: 25),
                         ),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                quantity += 1;
+                              });
+                            },
                             icon: const Icon(Icons.add, size: 30))
                       ],
                     ),
@@ -201,41 +211,10 @@ class _ItemDetailState extends State<ItemDetail> {
                   )
                 ],
               ),
-              Stack(
-                children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        image: const DecorationImage(
-                            image: AssetImage('assets/images/user1.png'),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(50)),
-                  ),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    margin: const EdgeInsets.only(left: 35),
-                    decoration: BoxDecoration(
-                        image: const DecorationImage(
-                            image: AssetImage('assets/images/user2.png'),
-                            fit: BoxFit.cover),
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(50)),
-                  ),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    margin: const EdgeInsets.only(left: 65),
-                    decoration: BoxDecoration(
-                        image: const DecorationImage(
-                            image: AssetImage('assets/images/user3.png'),
-                            fit: BoxFit.cover),
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(50)),
-                  )
-                ],
-              )
+              if (_marketItem.reviews.isNotEmpty)
+                Stack(
+                  children: [...getTheReviewUserProfile()],
+                )
             ],
           ),
         ),
@@ -286,7 +265,7 @@ class _ItemDetailState extends State<ItemDetail> {
                 child: ElevatedButton(
                   onPressed: () {
                     Provider.of<CartItemProvider>(context, listen: false)
-                        .addItemToCart(_marketItem.id);
+                        .addItemToCart(_marketItem.id, quantity: quantity);
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         CartMenu.routeName,
                         (route) => route.settings.name == "/");
@@ -319,5 +298,26 @@ class _ItemDetailState extends State<ItemDetail> {
         ),
       ),
     );
+  }
+
+  List<Widget> getTheReviewUserProfile() {
+    List<Widget> images = [];
+    int imagesLength =
+        _marketItem.reviews.length >= 3 ? 3 : _marketItem.reviews.length;
+    for (int i = 0; i < imagesLength; i++) {
+      images.add(
+        Container(
+          width: 50,
+          height: 50,
+          margin: EdgeInsets.only(left: i * 35),
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(_marketItem.reviews[0].userImage),
+                  fit: BoxFit.cover),
+              borderRadius: BorderRadius.circular(50)),
+        ),
+      );
+    }
+    return images;
   }
 }

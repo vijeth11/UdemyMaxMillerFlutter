@@ -15,6 +15,7 @@ import 'package:kedo_food/screens/item_detail.dart';
 import 'package:kedo_food/screens/message_bot.dart';
 import 'package:kedo_food/screens/my_orders.dart';
 import 'package:kedo_food/screens/order_detail_screen.dart';
+import 'package:kedo_food/screens/order_item_review.dart';
 import 'package:kedo_food/screens/user_profile.dart';
 import 'package:kedo_food/screens/user_profile_options.dart';
 import 'package:kedo_food/screens/wish_list.dart';
@@ -98,7 +99,8 @@ class _MyAppState extends State<MyApp> {
             MyOrders.routeName: (context) => MyOrders(),
             OrderDetailScreen.routeName: (context) => OrderDetailScreen(),
             MessageBot.routeName: (context) => const MessageBot(),
-            CartCheckout.routeName: (context) => const CartCheckout()
+            CartCheckout.routeName: (context) => const CartCheckout(),
+            OrderItemReview.routeName: (context) => const OrderItemReview()
           },
         ),
       ),
