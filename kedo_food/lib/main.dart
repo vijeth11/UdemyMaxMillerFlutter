@@ -77,14 +77,7 @@ class _MyAppState extends State<MyApp> {
                       );
                     }
                     return AuthScreen(
-                      onPress: (bool isSignIn, String email, String password,
-                          {String username = ''}) async {
-                        if (isSignIn) {
-                          await auth.login(email, password);
-                        } else {
-                          await auth.signup(email, password, username);
-                        }
-                      },
+                      auth: auth,
                     );
                   }),
           routes: {

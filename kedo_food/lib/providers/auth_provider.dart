@@ -127,6 +127,35 @@ class Auth extends ChangeNotifier {
     }
   }
 
+  Future<void> forgotPassword(String email) async {
+    final response = await http.post(
+        Uri.parse(
+            "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBFXqo6Vc2qCLbNJ8RkTGzz0DCifEhlTz0"),
+        body: json.encode({"email": email, "requestType": "PASSWORD_RESET"}));
+    final responseData = json.decode(response.body);
+    if (responseData['error'] != null) {
+      throw HttpException(responseData['error']['message']);
+    }
+  }
+
+  Future<void> passwordReset(String email, String password, String code) async {
+    String url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:resetPassword?key=AIzaSyBFXqo6Vc2qCLbNJ8RkTGzz0DCifEhlTz0";
+    var response =
+        await http.post(Uri.parse(url), body: json.encode({"oobCode": code}));
+    var responseData = json.decode(response.body);
+    if (responseData['error'] != null) {
+      throw HttpException(responseData['error']['message']);
+    } else {
+      response = await http.post(Uri.parse(url),
+          body: json.encode({"oobCode": code, "newPassword": password}));
+      responseData = json.decode(response.body);
+      if (responseData['error'] != null) {
+        throw HttpException(responseData['error']['message']);
+      }
+    }
+  }
+
   Future<bool> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey('userData')) {

@@ -15,11 +15,15 @@ Widget getTextInput(
     bool obscureText = false,
     Function(String?)? saved,
     List<TextInputFormatter>? textFormatter,
-    String initialValue = "",
+    TextEditingController? controller,
+    String? Function(String?)? validate,
+    String? initialValue,
     String placeHolder = ""}) {
   return TextFormField(
     maxLines: maxLines,
     keyboardType: type,
+    controller: controller,
+    validator: validate,
     initialValue: initialValue,
     obscureText: obscureText,
     inputFormatters: textFormatter,
