@@ -234,9 +234,9 @@ class _CartCheckoutState extends State<CartCheckout> {
       maxLines: maxLines,
       validator: validate,
       style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-      inputFormatters: textFormatter,      
+      inputFormatters: textFormatter,
       decoration: InputDecoration(
-        hintText: placeholderText,
+          hintText: placeholderText,
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20))),

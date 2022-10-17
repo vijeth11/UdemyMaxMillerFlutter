@@ -153,7 +153,7 @@ class _ShippingAddressFormState extends State<ShippingAddressForm>
                 initialValue: widget.shippingData.deliveryUserPhone,
                 node: _phone,
                 placeholderText: "Phone Number",
-                textFormatter: [TextMasking("(xxx) xxxx-xxxx)")],
+                textFormatter: [TextMasking("(xxx) xxxx-xxxx")],
                 validate: (value) {
                   if (value.toString().isEmpty) {
                     return "phone number is required";

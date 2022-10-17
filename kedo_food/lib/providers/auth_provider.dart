@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:kedo_food/helper/utils.dart';
 import 'package:kedo_food/model/user_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

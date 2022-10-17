@@ -6,11 +6,13 @@ class DBHelper {
     final dbPath = await sql.getDatabasesPath();
     print(dbPath);
     return sql.openDatabase(path.join(dbPath, 'kedoFood.db'),
-        onCreate: (db, version) {
-      return db.execute('''
-          create table cart_items(itemId TEXT  PRIMAY KEY, itemName TEXT, itemImage TEXT, quantity INT, itemCost REAL, categoryName TEXT);
-          create table shipping_address(deliveryUserName TEXT,deliveryUserPhone TEXT,deliveryUserEmail TEXT,deliveryAddress TEXT,deliveryZipCode TEXT,deliveryCity TEXT,deliveryCountry TEXT);
+        onCreate: (db, version) async {
+      await db.execute('''
+          create table cart_items(itemId TEXT  PRIMAY KEY, itemName TEXT, itemImage TEXT, quantity INT, itemCost REAL, categoryName TEXT)
           ''');
+      return db.execute('''
+          create table shipping_address(deliveryUserName TEXT,deliveryUserPhone TEXT,deliveryUserEmail TEXT,deliveryAddress TEXT,deliveryZipCode TEXT,deliveryCity TEXT,deliveryCountry TEXT)
+      ''');
     }, version: 1);
   }
 
