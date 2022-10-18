@@ -50,6 +50,8 @@ It uses firebase flutter packages to access store and upload images, authenticat
  door step. It uses Firebase realtime database to store products and user orders. It also use shared preferences to store user shipping address
  and sqlite to store cart items of the user which are ready for checkout. It uses flutter SVg to display SVG files and provider to communicate 
  within the app. Image picker is used to select a profile image from the gallery and upload it to Firebase store via firebase_storage flutter package.
+ 
+ design:-https://preview.themeforest.net/item/grocery-mobile-app/full_screen_preview/31024594?_ga=2.84780954.280251949.1657966076-47749527.1657966076
 
 # Cute Girl 
  
