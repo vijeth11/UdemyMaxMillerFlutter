@@ -47,6 +47,7 @@ dependencies:
   firebase_storage: ^10.3.11
   firebase_core: ^1.24.0
   flutter_animated_dialog: ^2.0.1
+  dialog_flowtter: ^0.3.3
 
 dev_dependencies:
   flutter_test:
