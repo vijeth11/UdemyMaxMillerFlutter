@@ -53,6 +53,11 @@ It uses firebase flutter packages to access store and upload images, authenticat
  
  design:-https://preview.themeforest.net/item/grocery-mobile-app/full_screen_preview/31024594?_ga=2.84780954.280251949.1657966076-47749527.1657966076
 
+# Google Docs Clone
+
+A clone of google docs app which works in realtime and users can update one doc at the same time. It uses flutter_quill for viewing doc page for editting and
+flutter_socket_client for achieving realtime.In backend express js server is used with socket.io for broadcasting changes to multiple clients and mongodb is used to store the data. 
+
 # Cute Girl 
  
 This is a demo for using Sprite Animation in flame game. The spritesheet used is created by adding set of images to TexturePackerGUI
