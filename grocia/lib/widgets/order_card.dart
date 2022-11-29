@@ -9,6 +9,19 @@ class OrderCard extends StatelessWidget {
 
   const OrderCard({super.key, required this.order});
 
+  List<Color> getStatusColor(Status orderStatus) {
+    switch (orderStatus) {
+      case Status.Delivered:
+        return [kGreenColor, kGreenColor.withOpacity(0.7)];
+      case Status.InProgress:
+        return [kOrangeColor, kOrangeColor.withOpacity(0.7)];
+      case Status.Canceled:
+        return [kRedColor, kRedColor.withOpacity(0.7)];
+      case Status.PaymentFailed:
+        return [kRedColor, kRedColor.withOpacity(0.7)];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -30,10 +43,7 @@ class OrderCard extends StatelessWidget {
                           gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [
-                                kGreenColor,
-                                kGreenColor.withOpacity(0.7)
-                              ])),
+                              colors: getStatusColor(order.orderStatus))),
                       child: Text(
                         order.orderStatus.name,
                         style: const TextStyle(

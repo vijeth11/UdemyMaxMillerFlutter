@@ -15,7 +15,8 @@ class OrderScreen extends StatelessWidget {
     TabBar tabBar = const TabBar(
         indicatorColor: kGreenColor,
         labelColor: kGreenColor,
-        labelStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: appFontSize),
+        labelStyle:
+            TextStyle(fontWeight: FontWeight.w600, fontSize: appFontSize),
         unselectedLabelColor: kGreyColor,
         unselectedLabelStyle: TextStyle(fontSize: appFontSize),
         tabs: [
@@ -46,7 +47,9 @@ class OrderScreen extends StatelessWidget {
                 toolbarHeight: orderScreenToolBarHeight,
                 actions: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // TODO: open a drawer on click of menu
+                      },
                       icon: const Icon(
                         Icons.menu,
                         color: kBlackColor,
@@ -58,13 +61,21 @@ class OrderScreen extends StatelessWidget {
           },
           body: TabBarView(children: [
             OrderList(
-              orders: dummyOrderList,
+              orders: dummyOrderList
+                  .where((element) => element.orderStatus == Status.Delivered)
+                  .toList(),
             ),
             OrderList(
-              orders: dummyOrderList,
+              orders: dummyOrderList
+                  .where((element) => element.orderStatus == Status.InProgress)
+                  .toList(),
             ),
             OrderList(
-              orders: dummyOrderList,
+              orders: dummyOrderList
+                  .where((element) =>
+                      element.orderStatus == Status.Canceled ||
+                      element.orderStatus == Status.PaymentFailed)
+                  .toList(),
             )
           ]),
         ),

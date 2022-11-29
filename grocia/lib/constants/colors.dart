@@ -5,3 +5,5 @@ const kGreyColor = Color(0xFF6c757d);
 const kGreyLightColor = Color(0xFFF0F2F5);
 const kBlackColor = Colors.black;
 const kWhiteColor = Colors.white;
+const kOrangeColor = Colors.orange;
+const kRedColor = Colors.red;

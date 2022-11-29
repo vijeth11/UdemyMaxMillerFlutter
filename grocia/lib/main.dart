@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocia/screen/account_screen.dart';
 import 'package:grocia/screen/cart_screen.dart';
 import 'package:grocia/screen/home_screen.dart';
+import 'package:grocia/screen/order_detail_screen.dart';
 import 'package:grocia/screen/order_screen.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -20,11 +21,14 @@ class MyApp extends StatelessWidget {
             onUnknownRoute: (_) => const Redirect(HomeScreen.routeName),
             routes: {
               HomeScreen.routeName: (routeData) =>
-                  MaterialPage(child: HomeScreen()),
+                  const MaterialPage(child: HomeScreen()),
               CartScreen.routeName: (routeData) =>
                   const MaterialPage(child: CartScreen()),
               OrderScreen.routeName: (routeData) =>
                   const MaterialPage(child: OrderScreen()),
+              "${OrderScreen.routeName}/:id": (routeData) => MaterialPage(
+                  child: OrderDetailScreen(
+                      OrderId: routeData.pathParameters['id']??'')),
               AccountScreen.routeName: (routeData) =>
                   const MaterialPage(child: AccountScreen())
             }),
