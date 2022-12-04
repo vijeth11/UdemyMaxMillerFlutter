@@ -39,15 +39,15 @@ final dummyOrderAddress = AddressModel(
     UserEmail: "test");
 final dummyCartItems = [
   CartItemModel(
-      itemName: "Bread", itemCost: 12.5, quantity: 1, itemImage: "", offer: 10),
+      itemName: "Bread", itemCost: 12.5, quantity: 1, itemImage: "g2.png", offer: 10),
   CartItemModel(
       itemName: "Spinach",
       itemCost: 12.5,
       quantity: 1,
-      itemImage: "",
+      itemImage: "g2.png",
       offer: 0),
   CartItemModel(
-      itemName: "Chilli", itemCost: 12.5, quantity: 1, itemImage: "", offer: 0),
+      itemName: "Chilli", itemCost: 12.5, quantity: 1, itemImage: "g2.png", offer: 0),
 ];
 final dummyOrderList = [
   OrderDetailModel(

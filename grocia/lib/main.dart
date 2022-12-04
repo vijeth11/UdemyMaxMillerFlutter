@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:grocia/model/order_detail_model.dart';
+import 'package:grocia/provider/order_detail_provider.dart';
 import 'package:grocia/screen/account_screen.dart';
 import 'package:grocia/screen/cart_screen.dart';
 import 'package:grocia/screen/home_screen.dart';
 import 'package:grocia/screen/order_detail_screen.dart';
 import 'package:grocia/screen/order_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
 void main() {
@@ -15,25 +18,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerDelegate: RoutemasterDelegate(
-        routesBuilder: (context) => RouteMap(
-            onUnknownRoute: (_) => const Redirect(HomeScreen.routeName),
-            routes: {
-              HomeScreen.routeName: (routeData) =>
-                  const MaterialPage(child: HomeScreen()),
-              CartScreen.routeName: (routeData) =>
-                  const MaterialPage(child: CartScreen()),
-              OrderScreen.routeName: (routeData) =>
-                  const MaterialPage(child: OrderScreen()),
-              "${OrderScreen.routeName}/:id": (routeData) => MaterialPage(
-                  child: OrderDetailScreen(
-                      OrderId: routeData.pathParameters['id']??'')),
-              AccountScreen.routeName: (routeData) =>
-                  const MaterialPage(child: AccountScreen())
-            }),
+    return ChangeNotifierProvider<OrderDetailProvider>(
+      create: (context) => OrderDetailProvider(dummyOrderList),
+      child: MaterialApp.router(
+        routerDelegate: RoutemasterDelegate(
+          routesBuilder: (context) => RouteMap(
+              onUnknownRoute: (_) => const Redirect(HomeScreen.routeName),
+              routes: {
+                HomeScreen.routeName: (routeData) =>
+                    const MaterialPage(child: HomeScreen()),
+                CartScreen.routeName: (routeData) =>
+                    const MaterialPage(child: CartScreen()),
+                OrderScreen.routeName: (routeData) =>
+                    const MaterialPage(child: OrderScreen()),
+                "${OrderScreen.routeName}/:id": (routeData) => MaterialPage(
+                    child: OrderDetailScreen(
+                        OrderId: routeData.pathParameters['id'] ?? '')),
+                AccountScreen.routeName: (routeData) =>
+                    const MaterialPage(child: AccountScreen())
+              }),
+        ),
+        routeInformationParser: const RoutemasterParser(),
       ),
-      routeInformationParser: const RoutemasterParser(),
     );
   }
 }

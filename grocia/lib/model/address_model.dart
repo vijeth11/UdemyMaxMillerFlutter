@@ -15,4 +15,8 @@ class AddressModel {
       required this.UserName,
       required this.UserPhone,
       required this.UserEmail});
+  @override
+  String toString() {
+    return "$Address, $City, $Country $ZipCode";
+  }
 }
