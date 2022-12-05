@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocia/model/order_detail_model.dart';
+import 'package:grocia/provider/cart_detail.provider.dart';
 import 'package:grocia/provider/order_detail_provider.dart';
 import 'package:grocia/screen/account_screen.dart';
 import 'package:grocia/screen/cart_screen.dart';
@@ -18,8 +19,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<OrderDetailProvider>(
-      create: (context) => OrderDetailProvider(dummyOrderList),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<OrderDetailProvider>(
+          create: (context) => OrderDetailProvider(dummyOrderList),
+        ),
+        ChangeNotifierProvider<CartProvider>(
+            create: (context) => CartProvider())
+      ],
       child: MaterialApp.router(
         routerDelegate: RoutemasterDelegate(
           routesBuilder: (context) => RouteMap(
