@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocia/constants/colors.dart';
-import 'package:grocia/constants/constants.dart';
+import 'package:grocia/constants/order-detail-constants.dart';
 import 'package:grocia/model/order_detail_model.dart';
 import 'package:grocia/provider/order_detail_provider.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
