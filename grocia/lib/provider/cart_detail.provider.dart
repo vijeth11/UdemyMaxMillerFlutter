@@ -9,6 +9,14 @@ class CartProvider extends ChangeNotifier {
     return _items;
   }
 
+  double get subTotalCost {
+    return items
+        .map((element) =>
+            (element.offer > 0 ? element.offerAmount : element.itemCost) *
+            element.quantity)
+        .reduce((value, element) => value + element);
+  }
+
   void addItemToCart(CartItemModel item) {
     if (_items.any((element) => element.itemName == item.itemName)) {
       final oldItemIndex =

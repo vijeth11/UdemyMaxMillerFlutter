@@ -35,43 +35,35 @@ class CartScreen extends StatelessWidget {
           style: screenHeaderStyle,
         ),
       ),
-      body: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          CartItemModel cartItem = items[index];
-          return Row(
-            children: [
-              // tile leading section
-              Stack(
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Image(
-                          height: 100,
-                          width: 100,
-                          image: AssetImage(
-                              "assets/images/${cartItem.itemImage}"))),
-                  if (cartItem.offer > 0.0)
-                    Positioned(
-                        top: 10,
-                        left: 10,
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: kRedColor.withOpacity(0.19)),
-                          child: Text(
-                            "${cartItem.offer}%",
-                            style: const TextStyle(
-                                color: kRedColor, fontWeight: FontWeight.w700),
-                          ),
-                        ))
-                ],
-              ),
-              //Center Title section
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.63,
-                child: Column(
+      body: Stack(children: [
+        ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            CartItemModel cartItem = items[index];
+            return Row(
+              children: [
+                // tile leading section
+                getTitleLeadingWidget(cartItem),
+                //Center Title section
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.63,
+                  child: getTitleCenterWidget(cartItem, cartProvider),
+                ),
+              ],
+            );
+          },
+        ),
+        // Subtotal Button
+        getSubTotalButton(context, cartProvider)
+      ]),
+      bottomNavigationBar: const BottomNavigation(
+        activeItemIndex: iconIndex,
+      ),
+    );
+  }
+
+  Column getTitleCenterWidget(CartItemModel cartItem, CartProvider cartProvider) {
+    return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -110,7 +102,15 @@ class CartScreen extends StatelessWidget {
                           "Rs ${(cartItem.offer > 0 ? cartItem.offerAmount : cartItem.itemCost) * cartItem.quantity}",
                           style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
-                        Row(
+                        getCartItemQuantity(cartProvider, cartItem)
+                      ],
+                    )
+                  ],
+                );
+  }
+
+  Row getCartItemQuantity(CartProvider cartProvider, CartItemModel cartItem) {
+    return Row(
                           children: [
                             ElevatedButton(
                                 onPressed: () {
@@ -138,19 +138,80 @@ class CartScreen extends StatelessWidget {
                                   color: kRedColor,
                                 )),
                           ],
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                        );
+  }
+
+  Stack getTitleLeadingWidget(CartItemModel cartItem) {
+    return Stack(
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Image(
+                          height: 100,
+                          width: 100,
+                          image: AssetImage(
+                              "assets/images/${cartItem.itemImage}"))),
+                  if (cartItem.offer > 0.0)
+                    Positioned(
+                        top: 10,
+                        left: 10,
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: kRedColor.withOpacity(0.19)),
+                          child: Text(
+                            "${cartItem.offer}%",
+                            style: const TextStyle(
+                                color: kRedColor,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ))
+                ],
+              );
+  }
+
+  Positioned getSubTotalButton(BuildContext context, CartProvider cartProvider) {
+    return Positioned(
+        bottom: 10,
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 15),
+          margin: EdgeInsets.symmetric(
+              vertical: 25,
+              horizontal: MediaQuery.of(context).size.width * 0.05),
+          decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [kGreenColor, kGreenColor.withOpacity(0.7)])),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Subtotal Rs${cartProvider.subTotalCost}",
+                    style: screenHeaderStyle.copyWith(color: kWhiteColor),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Text(
+                    "Proceed to checkout",
+                    style: TextStyle(color: kWhiteColor),
+                  )
+                ],
               ),
+              const Icon(
+                Icons.keyboard_arrow_right,
+                color: kWhiteColor,
+              )
             ],
-          );
-        },
-      ),
-      bottomNavigationBar: const BottomNavigation(
-        activeItemIndex: iconIndex,
-      ),
-    );
+          ),
+        ),
+      );
   }
 }
