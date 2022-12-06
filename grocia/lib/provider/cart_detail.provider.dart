@@ -3,6 +3,8 @@ import 'package:grocia/model/cart_item_model.dart';
 
 class CartProvider extends ChangeNotifier {
   List<CartItemModel> _items = [];
+
+  CartProvider(this._items);
   List<CartItemModel> get items {
     return _items;
   }

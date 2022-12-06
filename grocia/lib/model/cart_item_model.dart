@@ -12,6 +12,10 @@ class CartItemModel {
       required this.itemImage,
       required this.offer});
 
+  double get offerAmount {
+    return itemCost - (itemCost * offer / 100);
+  }
+
   CartItemModel copyTo(
           {String? itemName,
           double? itemCost,

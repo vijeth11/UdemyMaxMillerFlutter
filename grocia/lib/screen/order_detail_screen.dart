@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocia/constants/colors.dart';
+import 'package:grocia/constants/constants.dart';
 import 'package:grocia/constants/order-detail-constants.dart';
 import 'package:grocia/model/order_detail_model.dart';
 import 'package:grocia/provider/order_detail_provider.dart';
@@ -51,7 +52,7 @@ class OrderDetailScreen extends StatelessWidget {
         ),
         title: Text(
           "ID #${model.orderId}",
-          style: orderDetailScreenHeaderStyle,
+          style: screenHeaderStyle,
         ),
       ),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

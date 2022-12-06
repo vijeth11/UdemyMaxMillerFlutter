@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           create: (context) => OrderDetailProvider(dummyOrderList),
         ),
         ChangeNotifierProvider<CartProvider>(
-            create: (context) => CartProvider())
+            create: (context) => CartProvider(dummyCartItems))
       ],
       child: MaterialApp.router(
         routerDelegate: RoutemasterDelegate(
