@@ -44,14 +44,17 @@ It uses firebase flutter packages to access store and upload images, authenticat
 
 ![Flutter Chat](https://user-images.githubusercontent.com/21109775/179480502-4b0374bb-5d66-48a9-994d-26cbb93b4d52.gif)
  
- # Kedo Food
+# Kedo Food
  
  A grocery app where users can order fresh fruits, vegetables and other grocery items, and get them delivered to their
  door step. It uses Firebase realtime database to store products and user orders. It also use shared preferences to store user shipping address
  and sqlite to store cart items of the user which are ready for checkout. It uses flutter SVg to display SVG files and provider to communicate 
  within the app. Image picker is used to select a profile image from the gallery and upload it to Firebase store via firebase_storage flutter package.
  
- design:-https://preview.themeforest.net/item/grocery-mobile-app/full_screen_preview/31024594?_ga=2.84780954.280251949.1657966076-47749527.1657966076
+ design:-https://preview.themeforest.net/item/grocery-mobile-app/full_screen_preview/31024594?_ga=2.84780954.280251949.1657966076-47749527.1657966076 
+
+ https://user-images.githubusercontent.com/21109775/206899684-d96dc3ba-ff8c-4df7-86d1-7e3a9b616b84.mp4
+
 
 # Google Docs Clone
 
