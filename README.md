@@ -37,6 +37,8 @@ and add new items to the shop and view the list of shop items they have added an
 which can be expanded to see the items with quantity and total amount. This app uses Firebase realtime database for storing data and firebase auth for authentication
 and providers for handling data.
 
+https://user-images.githubusercontent.com/21109775/206908349-b654efe0-ad30-4643-a08a-9a6d923a5125.mp4
+ 
 # Flutter Chat
 
 A new Flutter chatting application which uses Firebase cloud services for providing a unique chatting experience.
