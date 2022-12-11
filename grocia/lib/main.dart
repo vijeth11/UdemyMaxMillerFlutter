@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocia/model/order_detail_model.dart';
+import 'package:grocia/model/user_model.dart';
+import 'package:grocia/provider/auth.provider.dart';
 import 'package:grocia/provider/cart_detail.provider.dart';
 import 'package:grocia/provider/order_detail_provider.dart';
 import 'package:grocia/screen/account_screen.dart';
@@ -21,6 +23,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<AuthProvider>(
+          create: (context) => AuthProvider(dummyUser),
+        ),
         ChangeNotifierProvider<OrderDetailProvider>(
           create: (context) => OrderDetailProvider(dummyOrderList),
         ),
