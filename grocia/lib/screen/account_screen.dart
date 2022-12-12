@@ -3,6 +3,7 @@ import 'package:grocia/constants/colors.dart';
 import 'package:grocia/constants/constants.dart';
 import 'package:grocia/model/user_model.dart';
 import 'package:grocia/provider/auth.provider.dart';
+import 'package:grocia/widgets/account-option-tile.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,20 @@ class AccountScreen extends StatelessWidget {
   static const String routeName = '/account';
   static const int iconIndex = 3;
   static const double profileImageSize = 120.0;
+  static const List<Map> options = [
+    {
+      "My Address": [Icons.contacts, kBlackColor]
+    },
+    {
+      "Terms, Privacy & Policy": [Icons.info, kBlueColor]
+    },
+    {
+      "Help & Support": [Icons.phone, kOrangeColor]
+    },
+    {
+      "Logout": [Icons.lock, kRedColor]
+    }
+  ];
   const AccountScreen({Key? key}) : super(key: key);
 
   @override
@@ -36,7 +51,24 @@ class AccountScreen extends StatelessWidget {
         ),
       ),
       body: Column(
-        children: [getProfileInfoSection(item)],
+        children: [
+          getProfileInfoSection(item),
+          Expanded(
+            child: ListView.separated(
+              itemCount: options.length,
+              itemBuilder: (ctx, index) {
+                return AccountOptionTile(
+                    titleName: options[index].keys.first,
+                    leadingIcon: options[index].values.first,
+                    displayArrowIcon: index != options.length - 1,
+                    onTap: () => {});
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return Divider();
+              },
+            ),
+          )
+        ],
       ),
       bottomNavigationBar: const BottomNavigation(activeItemIndex: iconIndex),
     );

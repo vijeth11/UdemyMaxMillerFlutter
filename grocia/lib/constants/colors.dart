@@ -7,3 +7,4 @@ const kBlackColor = Colors.black;
 const kWhiteColor = Colors.white;
 const kOrangeColor = Colors.orange;
 const kRedColor = Colors.red;
+const kBlueColor = Color(0xFF0d6efd);
