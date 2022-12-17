@@ -17,7 +17,8 @@ class AccountOptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Container(
+      leading: leadingIcon.length == 2 ?
+      Container(
         height: leadingIconsSize,
         width: leadingIconsSize,
         decoration: BoxDecoration(
@@ -26,7 +27,7 @@ class AccountOptionTile extends StatelessWidget {
           leadingIcon[0],
           color: kWhiteColor,
         ),
-      ),
+      ) : null,
       title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(titleName),
         if(displayArrowIcon)

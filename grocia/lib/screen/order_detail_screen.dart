@@ -4,6 +4,7 @@ import 'package:grocia/constants/constants.dart';
 import 'package:grocia/constants/order-detail-constants.dart';
 import 'package:grocia/model/order_detail_model.dart';
 import 'package:grocia/provider/order_detail_provider.dart';
+import 'package:grocia/widgets/back-button-appBar.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -21,40 +22,7 @@ class OrderDetailScreen extends StatelessWidget {
       (element) => element.orderId == OrderId,
     );
     return Scaffold(
-      appBar: AppBar(
-        //TODO: Create a Drawer app
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.menu,
-                color: kBlackColor,
-              ))
-        ],
-        foregroundColor: kBlackColor,
-        backgroundColor: kGreyLightColor,
-        elevation: 0.0,
-        titleSpacing: 0.0,
-        leading: TextButton(
-          onPressed: () {
-            Routemaster.of(context).pop();
-          },
-          child: Text(
-            String.fromCharCode(Icons.arrow_back_ios_new_rounded.codePoint),
-            style: TextStyle(
-                inherit: false,
-                color: kGreenColor,
-                fontSize: 19,
-                fontWeight: FontWeight.w900,
-                fontFamily: Icons.arrow_back_ios_new_rounded.fontFamily,
-                package: Icons.arrow_back_ios_new_rounded.fontPackage),
-          ),
-        ),
-        title: Text(
-          "ID #${model.orderId}",
-          style: screenHeaderStyle,
-        ),
-      ),
+      appBar: BackActionAppBar(context, "ID #${model.orderId}"),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         getOrderDeliveryAndReviewSection(model),
         getOrderStatusSection(model),
