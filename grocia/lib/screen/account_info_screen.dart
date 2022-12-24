@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocia/constants/account-info.constants.dart';
 import 'package:grocia/constants/colors.dart';
 import 'package:grocia/pages/account_faq_page.dart';
+import 'package:grocia/pages/info_detail_page.dart';
 import 'package:grocia/screen/account_screen.dart';
 import 'package:grocia/widgets/account-option-tile.dart';
 import 'package:grocia/widgets/back-button-appBar.dart';
@@ -60,11 +61,32 @@ class AccountInfoScreen extends StatelessWidget {
           ],
         );
       case Privacy:
-        return getInfoDetailSection("Privacy");
+        return const InfoDetailPage(title:"Privacy");
       case TermsAndCondition:
-        return getInfoDetailSection("Terms & Conditions");
-      // case HelpAndSupport:
-      //   return Container();
+        return const InfoDetailPage(title:"Terms & Conditions");
+      case HelpAndSupport:
+        const titles = [
+          "How to check status of myy order",
+          "Change items in my order",
+          "Cancel my order",
+          "Change my delivery address",
+          "Help with a pick-up order",
+          "My delivery person made me unsafe",
+          "Refunding Payment",
+        ];
+        return Column(
+          children: titles
+              .map((title) => AccountOptionTile(
+                  titleName: title,
+                  leadingIcon: [],
+                  onTap: () => {
+                        Routemaster.of(context).push(
+                            "${AccountScreen.routeName}/$HelpAndSupportDetail")
+                      }))
+              .toList(),
+        );
+      case HelpAndSupportDetail:
+        return const InfoDetailPage(title:"Help & Support");
       case Faq:
         return AccountFAQPage();
       default:
@@ -80,59 +102,14 @@ class AccountInfoScreen extends StatelessWidget {
         return "Terms & Conditions";
       case Privacy:
         return "Privacy";
+      case HelpAndSupport:
+        return "Help & Support";
+      case HelpAndSupportDetail:
+        return "Help & Ticket";
       case Faq:
         return "FAQ";
       default:
         return "";
     }
-  }
-
-  Widget getInfoDetailSection(String title) {
-    return Container(
-      color: kGreyLightColor,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Text(
-            """Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.""",
-            textAlign: TextAlign.left,
-            maxLines: 10,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 16, color: kGreyColor),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Text(
-            """Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.""",
-            textAlign: TextAlign.left,
-            maxLines: 10,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 16, color: kGreyColor),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Text(
-            """Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.""",
-            textAlign: TextAlign.left,
-            maxLines: 10,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 16, color: kGreyColor),
-          )
-        ],
-      ),
-    );
   }
 }
