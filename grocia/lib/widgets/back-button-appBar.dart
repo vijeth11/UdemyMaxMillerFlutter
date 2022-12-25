@@ -22,7 +22,7 @@ AppBar BackActionAppBar(BuildContext context, String title,
     titleSpacing: 0.0,
     leading: TextButton(
       onPressed: () {
-        Routemaster.of(context).pop();
+        Routemaster.of(context).history.back();
       },
       child: Text(
         String.fromCharCode(Icons.arrow_back_ios_new_rounded.codePoint),

@@ -49,14 +49,15 @@ class MyApp extends StatelessWidget {
                 "${OrderScreen.routeName}/:id": (routeData) => MaterialPage(
                     child: OrderDetailScreen(
                         OrderId: routeData.pathParameters['id'] ?? '')),
+                UserAddressScreen.routeName: (routeData) =>
+                    const MaterialPage(child: UserAddressScreen()),
                 AccountScreen.routeName: (routeData) =>
                     const MaterialPage(child: AccountScreen()),
-                "${AccountScreen.routeName}/edit": (RouteData) =>
+                "${AccountScreen.routeName}/edit": (routeData) =>
                     const MaterialPage(child: AccountEditScreen()),
                 "${AccountScreen.routeName}/:info": (routeData) => MaterialPage(
                     child: AccountInfoScreen(
                         infoType: routeData.pathParameters['info'] ?? '')),
-                UserAddressScreen.routeName: (_) => const MaterialPage(child: UserAddressScreen())
               }),
         ),
         routeInformationParser: const RoutemasterParser(),
