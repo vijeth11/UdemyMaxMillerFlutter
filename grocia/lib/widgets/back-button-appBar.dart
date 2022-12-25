@@ -4,10 +4,11 @@ import 'package:grocia/constants/constants.dart';
 import 'package:routemaster/routemaster.dart';
 
 AppBar BackActionAppBar(BuildContext context, String title,
-    {Color backgroundColor = kGreyLightColor}) {
+    {Color backgroundColor = kGreyLightColor, List<Widget>? extraActions}) {
   return AppBar(
     //TODO: Create a Drawer app
     actions: [
+      ...(extraActions ?? []),
       IconButton(
           onPressed: () {},
           icon: const Icon(

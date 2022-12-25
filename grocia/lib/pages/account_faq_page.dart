@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocia/constants/colors.dart';
 
 class AccountFAQPage extends StatefulWidget {
+  const AccountFAQPage({super.key});
+
   @override
   State<AccountFAQPage> createState() => _AccountFAQPageState();
 }
@@ -24,7 +25,6 @@ class _AccountFAQPageState extends State<AccountFAQPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -68,7 +68,7 @@ class _AccountFAQPageState extends State<AccountFAQPage> {
         child: Container(
           decoration: const BoxDecoration(
               color: kWhiteColor,
-              border: Border(bottom: BorderSide(color: kBlackColor))),
+              border: Border(bottom: BorderSide(color: kGreyLightColor))),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 12.0,

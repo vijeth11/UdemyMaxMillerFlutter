@@ -4,6 +4,7 @@ import 'package:grocia/constants/colors.dart';
 import 'package:grocia/constants/constants.dart';
 import 'package:grocia/model/user_model.dart';
 import 'package:grocia/provider/auth.provider.dart';
+import 'package:grocia/screen/user_address_screen.dart';
 import 'package:grocia/widgets/account-option-tile.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +71,8 @@ class AccountScreen extends StatelessWidget {
                     onTap: () {
                       switch (options[index].keys.first) {
                         case addressTitle:
-                          // Route to address Page
+                          Routemaster.of(context)
+                              .push(UserAddressScreen.routeName);
                           break;
                         case termsTitle:
                           Routemaster.of(context).push(

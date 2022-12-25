@@ -1,3 +1,5 @@
+enum AddressType {Home, Work, Other}
+
 class AddressModel {
   final String Address;
   final String ZipCode;
@@ -6,6 +8,8 @@ class AddressModel {
   final String UserName;
   final String UserPhone;
   final String UserEmail;
+  final bool isDefault;
+  final AddressType addressType;
 
   AddressModel(
       {required this.Address,
@@ -14,7 +18,9 @@ class AddressModel {
       required this.Country,
       required this.UserName,
       required this.UserPhone,
-      required this.UserEmail});
+      required this.UserEmail,
+      required this.addressType,
+      this.isDefault = false});
   @override
   String toString() {
     return "$Address, $City, $Country $ZipCode";

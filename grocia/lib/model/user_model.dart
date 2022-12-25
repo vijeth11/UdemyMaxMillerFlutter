@@ -24,7 +24,19 @@ final dummyAddress = AddressModel(
     Country: "test",
     UserName: "test",
     UserPhone: "test",
-    UserEmail: "test");
+    UserEmail: "test",
+    isDefault: true,
+    addressType: AddressType.Home);
+
+final dummyAddress1 = AddressModel(
+    Address: "test1",
+    ZipCode: "test1",
+    City: "test1",
+    Country: "test1",
+    UserName: "test1",
+    UserPhone: "test1",
+    UserEmail: "test1",
+    addressType: AddressType.Work);
 
 final dummyUser = UserModel(
     displayName: "test user",
@@ -32,6 +44,4 @@ final dummyUser = UserModel(
     profileImage: "assets/images/grocia-logo.png",
     userEmail: "test@test.com",
     phoneNumber: "(+91)9632876421",
-    addresses: [
-      dummyAddress
-    ]);
+    addresses: [dummyAddress, dummyAddress1]);

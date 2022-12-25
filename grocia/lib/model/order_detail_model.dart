@@ -36,7 +36,8 @@ final dummyOrderAddress = AddressModel(
     Country: "test",
     UserName: "test",
     UserPhone: "test",
-    UserEmail: "test");
+    UserEmail: "test",
+    addressType: AddressType.Home);
 final dummyCartItems = [
   CartItemModel(
       itemName: "Bread", itemCost: 12.5, quantity: 1, itemImage: "g2.png", offer: 10),

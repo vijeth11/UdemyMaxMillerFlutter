@@ -11,6 +11,7 @@ import 'package:grocia/screen/cart_screen.dart';
 import 'package:grocia/screen/home_screen.dart';
 import 'package:grocia/screen/order_detail_screen.dart';
 import 'package:grocia/screen/order_screen.dart';
+import 'package:grocia/screen/user_address_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -54,7 +55,8 @@ class MyApp extends StatelessWidget {
                     const MaterialPage(child: AccountEditScreen()),
                 "${AccountScreen.routeName}/:info": (routeData) => MaterialPage(
                     child: AccountInfoScreen(
-                        infoType: routeData.pathParameters['info'] ?? ''))
+                        infoType: routeData.pathParameters['info'] ?? '')),
+                UserAddressScreen.routeName: (_) => const MaterialPage(child: UserAddressScreen())
               }),
         ),
         routeInformationParser: const RoutemasterParser(),
