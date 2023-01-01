@@ -23,9 +23,12 @@ class _AddressEditPageState extends State<AddressEditPage> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                ModalRoute.of(context)?.navigator;
               },
-              icon: Icon(Icons.close, color: kGreyLightColor,))
+              icon: Icon(
+                Icons.close,
+                color: kGreyLightColor,
+              ))
         ],
       ),
       body: Form(key: _formKey, child: Column()),
