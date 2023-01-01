@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:grocia/constants/colors.dart';
 
 class AddressEditPage extends StatefulWidget {
@@ -19,13 +17,13 @@ class _AddressEditPageState extends State<AddressEditPage> {
       appBar: AppBar(
         elevation: 5,
         backgroundColor: kWhiteColor,
-        title: Text("Delivery Address"),
+        title: const Text("Delivery Address"),
         actions: [
           IconButton(
               onPressed: () {
                 ModalRoute.of(context)?.navigator;
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.close,
                 color: kGreyLightColor,
               ))
