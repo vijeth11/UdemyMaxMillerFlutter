@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:grocia/constants/account-edit.const.dart';
 import 'package:grocia/constants/address-edit.constants.dart';
 import 'package:grocia/constants/colors.dart';
 import 'package:grocia/model/address_model.dart';
+import 'package:grocia/widgets/page-app-bar.dart';
+import 'package:grocia/widgets/form_textbox.dart';
 
 class AddressEditPage extends StatefulWidget {
   const AddressEditPage({super.key});
@@ -19,29 +22,9 @@ class _AddressEditPageState extends State<AddressEditPage> {
   Widget build(BuildContext context) {
     final double sizeOfButton = MediaQuery.of(context).size.width * 0.31;
     final double sizeOfTabButtons = MediaQuery.of(context).size.width * 0.5;
-    const SizedBox divider = SizedBox(
-      height: 30,
-    );
+    
     return Scaffold(
-      appBar: AppBar(
-        elevation: 1,
-        backgroundColor: kWhiteColor,
-        title: const Text(
-          "Delivery Address",
-          style: TextStyle(color: kBlackColor),
-        ),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(
-                Icons.close,
-                color: kGreyColor,
-              ))
-        ],
-      ),
+      appBar: getPageAppBar("Delivery Address", context),
       body: Form(
           key: _formKey,
           child: Padding(
@@ -119,15 +102,7 @@ class _AddressEditPageState extends State<AddressEditPage> {
     );
   }
 
-  List<Widget> getInputForm(String title) {
-    return [
-      Text(title),
-      TextFormField(
-        decoration: InputDecoration(
-            hintText: title, contentPadding: EdgeInsets.only(left: 10)),
-      )
-    ];
-  }
+  
 
   SizedBox addressTypeSelector(double sizeOfButton, String title,
       AddressType type, BorderRadius borderRadius) {

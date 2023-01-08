@@ -4,6 +4,7 @@ import 'package:grocia/pages/address_edit_page.dart';
 import 'package:grocia/provider/auth.provider.dart';
 import 'package:grocia/widgets/back-button-appBar.dart';
 import 'package:grocia/widgets/address-info-card.dart';
+import 'package:grocia/widgets/create_animated_router.dart';
 import 'package:provider/provider.dart';
 
 class UserAddressScreen extends StatelessWidget {
@@ -32,7 +33,7 @@ class UserAddressScreen extends StatelessWidget {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(5))))),
                 onPressed: () {
-                  Navigator.of(context).push(_createRoute());
+                  Navigator.of(context).push(CreateRoute(AddressEditPage()));
                 },
                 child: const Text("Add")),
           ),
@@ -45,34 +46,15 @@ class UserAddressScreen extends StatelessWidget {
           return GestureDetector(
             child: AddressInfoCard(
               address: address,
-              createRoute: _createRoute,
+              createRoute: () => CreateRoute(AddressEditPage()),
             ),
             onTap: () {
-              // TODO: code change the default
+              // TODO: code change the "default" address
             },
           );
         },
       ),
     );
   }
-
-  Route _createRoute() {
-    return PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 500),
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            AddressEditPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(0.0, -1.0);
-          const end = Offset.zero;
-          const curve = Curves.ease;
-
-          var tween =
-              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-          return SlideTransition(
-            position: animation.drive(tween),
-            child: child,
-          );
-        });
-  }
+  
 }

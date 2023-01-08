@@ -7,13 +7,13 @@ import 'package:grocia/provider/auth.provider.dart';
 import 'package:grocia/screen/user_address_screen.dart';
 import 'package:grocia/widgets/account-option-tile.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
+import 'package:grocia/widgets/user-profile-info-section.dart';
 import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
 class AccountScreen extends StatelessWidget {
   static const String routeName = '/account';
   static const int iconIndex = 3;
-  static const double profileImageSize = 120.0;
   static const String addressTitle = "My Address";
   static const String termsTitle = "Terms, Privacy & Policy";
   static const String helpTitle = "Help & Support";
@@ -59,7 +59,7 @@ class AccountScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          getProfileInfoSection(item),
+          UserProfileInfoSection(item:item, isEdit: false,),
           Expanded(
             child: ListView.separated(
               itemCount: options.length,
@@ -97,80 +97,6 @@ class AccountScreen extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: const BottomNavigation(activeItemIndex: iconIndex),
-    );
-  }
-
-  Widget getProfileInfoSection(UserModel item) {
-    return Container(
-      alignment: Alignment.center,
-      width: double.infinity,
-      color: kGreyLightColor,
-      child: Column(
-        children: [
-          // profile Image
-          Padding(
-            padding: const EdgeInsets.only(top: 22.0, bottom: 10),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(25),
-                child: Image.asset(
-                  item.profileImage,
-                  height: profileImageSize,
-                  width: profileImageSize,
-                  fit: BoxFit.cover,
-                )),
-          ),
-          // user display name
-          Text(
-            item.displayName,
-            style: screenHeaderStyle,
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          // user email
-          Text(
-            item.userEmail,
-            style: const TextStyle(color: kGreyColor),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          editProfileButton(),
-          const SizedBox(
-            height: 22,
-          ),
-        ],
-      ),
-    );
-  }
-
-  DecoratedBox editProfileButton() {
-    return DecoratedBox(
-      decoration: buttonStyle.copyWith(borderRadius: BorderRadius.circular(5)),
-      child: ElevatedButton(
-        onPressed: () => {
-          // TODO open new page for editing
-        },
-        style:
-            ElevatedButton.styleFrom(primary: Colors.transparent, elevation: 0),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          // ignore: prefer_const_literals_to_create_immutables
-          children: [
-            const Icon(
-              Icons.edit,
-              color: kWhiteColor,
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            const Text(
-              "Edit Profile",
-              style: TextStyle(color: kWhiteColor),
-            )
-          ],
-        ),
-      ),
     );
   }
 }
