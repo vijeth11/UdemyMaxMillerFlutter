@@ -3,7 +3,8 @@ import 'package:grocia/constants/constants.dart';
 
 class SaveChangesButton extends StatelessWidget {
   final VoidCallback onPress;
-  const SaveChangesButton({super.key, required this.onPress});
+  final String title;
+  const SaveChangesButton({super.key, required this.onPress, this.title = "Save Changes"});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class SaveChangesButton extends StatelessWidget {
               primary: Colors.transparent,
               elevation: 0,
               padding: EdgeInsets.symmetric(horizontal: 20)),
-          child: Text("Save Changes"),
+          child: Text(title),
         ),
       ),
     );

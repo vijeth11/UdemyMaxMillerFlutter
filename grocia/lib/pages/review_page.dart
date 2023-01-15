@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocia/constants/colors.dart';
 import 'package:grocia/widgets/page-app-bar.dart';
+import 'package:grocia/widgets/save_changes_button.dart';
 import 'package:intl/intl.dart';
 
 enum ReviewType { Bad, Better, Good }
@@ -16,60 +18,98 @@ class ReviewPage extends StatefulWidget {
 
 class _ReviewPageState extends State<ReviewPage> {
   ReviewType selectedType = ReviewType.Good;
-  
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       appBar: getPageAppBar("", context),
       body: Padding(
-        padding: EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.only(top: 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Rate your order experience",
               style: TextStyle(fontSize: 22),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Text(DateFormat(
               "dd MMMM yyyy",
             ).format(widget.orderDate)),
-            SizedBox(
-              height: 10,
+            const SizedBox(
+              height: 30,
             ),
-            Text("Give me what you feel after you finish your order"),
-            SizedBox(
-              height: 5,
+            const Text("Give me what you feel after you finish your order"),
+            const SizedBox(
+              height: 15,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ReviewTypeSelector(
+                    FaIcon(
+                      FontAwesomeIcons.faceGrinHearts,
+                      color: selectedType == ReviewType.Good
+                          ? kWhiteColor
+                          : kGreenColor,
+                    ),
+                    ReviewType.Good,
+                    const BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                    )),
+                ReviewTypeSelector(
+                    FaIcon(
+                      FontAwesomeIcons.faceSmile,
+                      color: selectedType == ReviewType.Better
+                          ? kWhiteColor
+                          : kGreenColor,
+                    ),
+                    ReviewType.Better,
+                    const BorderRadius.all(Radius.circular(0))),
+                ReviewTypeSelector(
+                    FaIcon(
+                      FontAwesomeIcons.faceSadTear,
+                      color: selectedType == ReviewType.Bad
+                          ? kWhiteColor
+                          : kGreenColor,
+                    ),
+                    ReviewType.Bad,
+                    const BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        bottomRight: Radius.circular(15)))
+              ],
+            )
           ],
         ),
       ),
       backgroundColor: kGreyLightColor,
+      bottomSheet: SaveChangesButton(onPress: () {}),
     );
   }
 
-  SizedBox ReviewTypeSelector(double sizeOfButton, String title,
-      ReviewType type, BorderRadius borderRadius) {
-    return SizedBox(
-      width: sizeOfButton,
-      child: TextButton(
-          onPressed: () {
-            setState(() {
-              selectedType = type;
-            });
-          },
-          style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                  selectedType == type ? kGreyColor : kWhiteColor),
-              foregroundColor: MaterialStateProperty.all(
-                  selectedType == type ? kWhiteColor : kGreyColor),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  side: BorderSide(color: kGreyColor),
-                  borderRadius: borderRadius))),
-          child: Text(title)),
-    );
+  TextButton ReviewTypeSelector(
+      FaIcon icon, ReviewType type, BorderRadius borderRadius) {
+    return TextButton(
+        onPressed: () {
+          setState(() {
+            selectedType = type;
+          });
+        },
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(
+                selectedType == type ? kGreenColor : kWhiteColor),
+            foregroundColor: MaterialStateProperty.all(
+                selectedType == type ? kWhiteColor : kGreenColor),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                side: const BorderSide(color: kGreenColor),
+                borderRadius: borderRadius))),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+          child: icon,
+        ));
   }
 }

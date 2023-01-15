@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:grocia/constants/colors.dart';
 import 'package:grocia/constants/order-detail-constants.dart';
 import 'package:grocia/model/order_detail_model.dart';
+import 'package:grocia/pages/review_page.dart';
 import 'package:grocia/provider/order_detail_provider.dart';
 import 'package:grocia/widgets/back-button-appBar.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
+import 'package:grocia/widgets/create_animated_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +24,7 @@ class OrderDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: BackActionAppBar(context, "ID #${model.orderId}"),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        getOrderDeliveryAndReviewSection(model),
+        getOrderDeliveryAndReviewSection(model, context),
         getOrderStatusSection(model),
         getOrderDeliveryAddressSection(model),
         getOrderItemsSection(model, context),
@@ -34,7 +36,8 @@ class OrderDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget getOrderDeliveryAndReviewSection(OrderDetailModel model) {
+  Widget getOrderDeliveryAndReviewSection(
+      OrderDetailModel model, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Row(
@@ -52,9 +55,13 @@ class OrderDetailScreen extends StatelessWidget {
               )
             ],
           ),
-          //TODO: Creart a user review page
+          //review page
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(CreateRoute(ReviewPage(
+                  orderDate: model.orderDate,
+                )));
+              },
               child: const Text(
                 "Review",
                 style: TextStyle(color: kGreenColor, fontSize: 17),

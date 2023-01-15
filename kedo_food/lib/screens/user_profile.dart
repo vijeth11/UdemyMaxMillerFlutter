@@ -8,11 +8,11 @@ import 'package:kedo_food/providers/auth_provider.dart';
 import 'package:kedo_food/widgets/page_header.dart';
 import 'package:kedo_food/widgets/shipping_address_form.dart';
 import 'package:provider/provider.dart';
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart' as sysPath;
 
 class UserProfile extends StatefulWidget {
   static const String routeName = 'UserProfile';
+
+  const UserProfile({super.key});
 
   @override
   State<UserProfile> createState() => _UserProfileState();

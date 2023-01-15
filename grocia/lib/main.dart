@@ -11,6 +11,7 @@ import 'package:grocia/screen/cart_screen.dart';
 import 'package:grocia/screen/home_screen.dart';
 import 'package:grocia/screen/order_detail_screen.dart';
 import 'package:grocia/screen/order_screen.dart';
+import 'package:grocia/screen/payment_method_screen.dart';
 import 'package:grocia/screen/user_address_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
@@ -44,13 +45,17 @@ class MyApp extends StatelessWidget {
                     const MaterialPage(child: HomeScreen()),
                 CartScreen.routeName: (routeData) =>
                     const MaterialPage(child: CartScreen()),
+                PaymentMethodScreen.routeName: (route) =>
+                    const MaterialPage(child: PaymentMethodScreen()),
                 OrderScreen.routeName: (routeData) =>
                     const MaterialPage(child: OrderScreen()),
                 "${OrderScreen.routeName}/:id": (routeData) => MaterialPage(
                     child: OrderDetailScreen(
                         OrderId: routeData.pathParameters['id'] ?? '')),
-                UserAddressScreen.routeName: (routeData) =>
-                    const MaterialPage(child: UserAddressScreen()),
+                UserAddressScreen.routeName: (routeData) => MaterialPage(
+                    child: UserAddressScreen(
+                        displayContinueButton:
+                            routeData.queryParameters["isCart"] == "1")),
                 AccountScreen.routeName: (routeData) =>
                     const MaterialPage(child: AccountScreen()),
                 "${AccountScreen.routeName}/edit": (routeData) =>
