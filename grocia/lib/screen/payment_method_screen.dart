@@ -28,7 +28,6 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   PaymentMethod currentMethod = PaymentMethod.Card;
   final banks = ["HDFC", "ICICI", "AXIS", "SBI", "KOTAK"];
   String bankSelected = '';
-  final cardKeys = [GlobalKey()];
 
   @override
   void initState() {
@@ -75,7 +74,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   Widget getExpansionTile(String title, IconData leadingIcon,
       List<Widget> children, PaymentMethod method) {
     return ExpansionTile(
-        key: cardKeys[0], //new Key(new Random().nextInt(10000).toString()),
+        key: new Key(new Random().nextInt(10000).toString()),
         title: Text(title),
         initiallyExpanded: currentMethod == method,
         backgroundColor: kWhiteColor,
@@ -89,7 +88,6 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
           if (isExpanded) {
             setState(() {
               currentMethod = method;
-              cardKeys[0].currentState?.initState();
             });
           }
         },
