@@ -8,6 +8,7 @@ import 'package:grocia/screen/account_edit_screen.dart';
 import 'package:grocia/screen/account_info_screen.dart';
 import 'package:grocia/screen/account_screen.dart';
 import 'package:grocia/screen/cart_screen.dart';
+import 'package:grocia/screen/checkout_screen.dart';
 import 'package:grocia/screen/home_screen.dart';
 import 'package:grocia/screen/order_detail_screen.dart';
 import 'package:grocia/screen/order_screen.dart';
@@ -47,6 +48,8 @@ class MyApp extends StatelessWidget {
                     const MaterialPage(child: CartScreen()),
                 PaymentMethodScreen.routeName: (route) =>
                     const MaterialPage(child: PaymentMethodScreen()),
+                CheckoutScreen.routeName: (routeData) =>
+                    const MaterialPage(child: CheckoutScreen()),
                 OrderScreen.routeName: (routeData) =>
                     const MaterialPage(child: OrderScreen()),
                 "${OrderScreen.routeName}/:id": (routeData) => MaterialPage(
