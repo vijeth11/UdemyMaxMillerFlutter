@@ -12,7 +12,7 @@ class Platform extends SpriteComponent
   Future<void>? onLoad() async {
     // TODO: implement onLoad
     await super.onLoad();
-    sprite = await gameRef.loadSprite('game/tello_platform.png');
+    sprite = await gameRef.loadSprite('game/yellow_platform.png');
 
     // add collision detection logic
     await add(hitbox);
