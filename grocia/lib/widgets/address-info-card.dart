@@ -26,49 +26,19 @@ class AddressInfoCard extends StatelessWidget {
                   ? kGreenColor
                   : const Color.fromARGB(0, 0, 0, 0))),
       child: Padding(
-        padding: const EdgeInsets.only(
-            left: 20, right: 20, top: 30, bottom: 10),
+        padding:
+            const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // title
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  address.addressType.name,
-                  style: const TextStyle(
-                      color: kBlackColor,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w700),
-                ),
-                if (address.isDefault)
-                  Container(
-                    padding: const EdgeInsets.all(7.5),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: kGreenColor.withOpacity(0.2)),
-                    child: const Text(
-                      "Default",
-                      style: TextStyle(
-                          color: kGreenColor,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  )
-              ],
-            ),
+            AddressInfoCard.getAddressInfoTitle(
+                address.addressType.name, address.isDefault),
             const SizedBox(
               height: 15,
             ),
             // address
-            SizedBox(
-                width: 230,
-                child: Text(
-                  address.toString(),
-                  softWrap: true,
-                  style:
-                      const TextStyle(color: kGreyColor, fontSize: 17),
-                )),
+            AddressInfoCard.getAddressInfoAddress(address.toString()),
             const SizedBox(
               height: 15,
             ),
@@ -89,8 +59,7 @@ class AddressInfoCard extends StatelessWidget {
                         style: TextStyle(fontSize: 16),
                       ),
                       style: ButtonStyle(
-                          padding:
-                              MaterialStateProperty.all(EdgeInsets.zero),
+                          padding: MaterialStateProperty.all(EdgeInsets.zero),
                           foregroundColor:
                               MaterialStateProperty.all(kGreenColor)),
                     ),
@@ -115,5 +84,39 @@ class AddressInfoCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  static Widget getAddressInfoTitle(String addressName, bool isDefault) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          addressName,
+          style: const TextStyle(
+              color: kBlackColor, fontSize: 19, fontWeight: FontWeight.w700),
+        ),
+        if (isDefault)
+          Container(
+            padding: const EdgeInsets.all(7.5),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: kGreenColor.withOpacity(0.2)),
+            child: const Text(
+              "Default",
+              style: TextStyle(color: kGreenColor, fontWeight: FontWeight.w500),
+            ),
+          )
+      ],
+    );
+  }
+
+  static Widget getAddressInfoAddress(String address) {
+    return SizedBox(
+        width: 230,
+        child: Text(
+          address,
+          softWrap: true,
+          style: const TextStyle(color: kGreyColor, fontSize: 17),
+        ));
   }
 }

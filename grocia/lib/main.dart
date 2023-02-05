@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:grocia/model/checkout_model.dart';
 import 'package:grocia/model/order_detail_model.dart';
 import 'package:grocia/model/user_model.dart';
 import 'package:grocia/provider/auth.provider.dart';
 import 'package:grocia/provider/cart_detail.provider.dart';
+import 'package:grocia/provider/checkout.provider.dart';
 import 'package:grocia/provider/order_detail_provider.dart';
 import 'package:grocia/screen/account_edit_screen.dart';
 import 'package:grocia/screen/account_info_screen.dart';
@@ -35,7 +37,11 @@ class MyApp extends StatelessWidget {
           create: (context) => OrderDetailProvider(dummyOrderList),
         ),
         ChangeNotifierProvider<CartProvider>(
-            create: (context) => CartProvider(dummyCartItems))
+            create: (context) => CartProvider(dummyCartItems)
+        ),
+        ChangeNotifierProvider<CheckoutProvider>(
+            create: (context) => CheckoutProvider(dummyCheckoutMode)
+        ),
       ],
       child: MaterialApp.router(
         routerDelegate: RoutemasterDelegate(

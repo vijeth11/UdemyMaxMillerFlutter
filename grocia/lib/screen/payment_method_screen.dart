@@ -2,13 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:grocia/constants/colors.dart';
+import 'package:grocia/model/payment_model.dart';
 import 'package:grocia/screen/checkout_screen.dart';
 import 'package:grocia/widgets/back-button-appBar.dart';
 import 'package:grocia/widgets/form_textbox.dart';
 import 'package:grocia/widgets/save_changes_button.dart';
 import 'package:routemaster/routemaster.dart';
-
-enum PaymentMethod { Card, NetBanking, Cash }
 
 class PaymentMethodScreen extends StatefulWidget {
   static const String routeName = "/paymentMethod";
