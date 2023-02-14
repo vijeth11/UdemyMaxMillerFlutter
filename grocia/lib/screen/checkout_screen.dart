@@ -4,11 +4,13 @@ import 'package:grocia/constants/colors.dart';
 import 'package:grocia/pages/order_success_page.dart';
 import 'package:grocia/provider/auth.provider.dart';
 import 'package:grocia/provider/checkout.provider.dart';
+import 'package:grocia/screen/order_screen.dart';
 import 'package:grocia/widgets/address-info-card.dart';
 import 'package:grocia/widgets/back-button-appBar.dart';
 import 'package:grocia/widgets/create_animated_router.dart';
 import 'package:grocia/widgets/save_changes_button.dart';
 import 'package:provider/provider.dart';
+import 'package:routemaster/routemaster.dart';
 
 class CheckoutScreen extends StatelessWidget {
   static const String routeName = "/checkout";
@@ -120,8 +122,13 @@ class CheckoutScreen extends StatelessWidget {
       bottomSheet: SaveChangesButton(
           title: "Place Order",
           onPress: () {
-            Navigator.of(context).push(
-                CreateRoute(OrderSuccessPage(username: userModel.displayName)));
+            Navigator.of(context).push(CreateRoute(OrderSuccessPage(
+              username: userModel.displayName,
+              onClick: () {
+                // Todo Add code to open recent placed order
+                Routemaster.of(context).replace(OrderScreen.routeName);
+              },
+            )));
           }),
     );
   }

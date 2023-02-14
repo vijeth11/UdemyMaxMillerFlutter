@@ -39,26 +39,28 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
     screenWidth = MediaQuery.of(context).size.width - spaceBetweenTwoInputs;
     return Scaffold(
         appBar: BackActionAppBar(context, "Payment Method"),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20),
-          child: Column(
-            children: [
-              getExpansionTile("Credit/Debit Card", Icons.credit_card_rounded,
-                  [getCardExpandTileContent()], PaymentMethod.Card),
-              const SizedBox(
-                height: 20,
-              ),
-              getExpansionTile(
-                  "Net Banking",
-                  Icons.money_sharp,
-                  [getNetbankingExpandedTitleContent()],
-                  PaymentMethod.NetBanking),
-              const SizedBox(
-                height: 20,
-              ),
-              getExpansionTile("Cash on Delivery", Icons.currency_rupee,
-                  [getCashExpandedTileContent()], PaymentMethod.Cash)
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 20),
+            child: Column(
+              children: [
+                getExpansionTile("Credit/Debit Card", Icons.credit_card_rounded,
+                    [getCardExpandTileContent()], PaymentMethod.Card),
+                const SizedBox(
+                  height: 20,
+                ),
+                getExpansionTile(
+                    "Net Banking",
+                    Icons.money_sharp,
+                    [getNetbankingExpandedTitleContent()],
+                    PaymentMethod.NetBanking),
+                const SizedBox(
+                  height: 20,
+                ),
+                getExpansionTile("Cash on Delivery", Icons.currency_rupee,
+                    [getCashExpandedTileContent()], PaymentMethod.Cash)
+              ],
+            ),
           ),
         ),
         backgroundColor: kGreyLightColor,
