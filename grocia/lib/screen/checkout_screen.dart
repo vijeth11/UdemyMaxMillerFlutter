@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:grocia/constants/checkout-screen.const.dart';
 import 'package:grocia/constants/colors.dart';
+import 'package:grocia/pages/order_success_page.dart';
+import 'package:grocia/provider/auth.provider.dart';
 import 'package:grocia/provider/checkout.provider.dart';
 import 'package:grocia/widgets/address-info-card.dart';
 import 'package:grocia/widgets/back-button-appBar.dart';
+import 'package:grocia/widgets/create_animated_router.dart';
 import 'package:grocia/widgets/save_changes_button.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +18,7 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final checkoutModel =
         Provider.of<CheckoutProvider>(context, listen: false).item;
+    final userModel = Provider.of<AuthProvider>(context, listen: false).item;
     final selectedAddress = checkoutModel.selectedAddress;
     const totalStyle = TextStyle(
         fontSize: 22, color: kBlackColor, fontWeight: FontWeight.w700);
@@ -72,14 +76,14 @@ class CheckoutScreen extends StatelessWidget {
                   Text("Rs ${checkoutModel.totalCost}")
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [const Text("Delivery Fee"), const Text("Rs 80")],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -89,7 +93,7 @@ class CheckoutScreen extends StatelessWidget {
                   Text("Rs ${checkoutModel.totalCost + 80}")
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               const Divider(height: 15, color: kBlackColor),
@@ -116,7 +120,8 @@ class CheckoutScreen extends StatelessWidget {
       bottomSheet: SaveChangesButton(
           title: "Place Order",
           onPress: () {
-            //TODO: Place order and move to change the
+            Navigator.of(context).push(
+                CreateRoute(OrderSuccessPage(username: userModel.displayName)));
           }),
     );
   }
