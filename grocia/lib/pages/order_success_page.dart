@@ -103,10 +103,9 @@ class OrderSuccessPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                     style: ButtonStyle(
-                        foregroundColor:
-                            const MaterialStatePropertyAll(kBlackColor),
+                        foregroundColor: MaterialStateProperty.all(kBlackColor),
                         backgroundColor:
-                            const MaterialStatePropertyAll(kYellowColor),
+                            MaterialStateProperty.all(kYellowColor),
                         minimumSize: MaterialStateProperty.all(
                             const Size.fromHeight(50))),
                     onPressed: () {
