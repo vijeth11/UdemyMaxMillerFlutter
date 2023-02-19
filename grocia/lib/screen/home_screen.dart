@@ -1,21 +1,181 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:grocia/constants/colors.dart';
+import 'package:grocia/constants/constants.dart';
+import 'package:grocia/model/item_model.dart';
+import 'package:grocia/provider/productItem.provider.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
+import 'package:grocia/widgets/form_textbox.dart';
+import 'package:grocia/widgets/product_item_card.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/shop';
-static const int iconIndex = 0;
+  static const int iconIndex = 0;
 
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final appBar = AppBar(
+    backgroundColor: kGreyLightColor,
+    leading: Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(25),
+          child: Image.asset(
+            iconImagePath,
+            height: iconImageSize,
+            width: iconImageSize,
+            fit: BoxFit.cover,
+          )),
+    ),
+    title: const Text(
+      "Grocia",
+      style: TextStyle(color: kGreenColor, fontSize: 25),
+    ),
+    elevation: 0,
+  );
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Home Page"),
+    final productItems =
+        Provider.of<ProductItemProvider>(context, listen: false).items;
+    return Scaffold(
+      appBar: appBar,
+      body: Container(
+        color: kGreyLightColor,
+        width: double.infinity,
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              getSearchBar(),
+              const SizedBox(
+                height: 10,
+              ),
+              Divider(
+                height: 1,
+                thickness: 1,
+                color: kGreyColor.withOpacity(0.4),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                "What are you looking for?",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              getCategoryItemGrid(),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Pick's Today",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                      TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "See more",
+                            style: TextStyle(color: kGreenColor),
+                          ))
+                    ],
+                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              getProductItemsGrid(productItems.sublist(0, 6))
+            ],
+          ),
+        ),
       ),
-
       bottomNavigationBar: BottomNavigation(
         activeItemIndex: iconIndex,
       ),
+    );
+  }
+
+  Widget getSearchBar() {
+    const searchBarBorderRadius = 10.0;
+    const searchBarPadding = 10.0;
+    return Container(
+      margin: const EdgeInsets.all(searchBarPadding),
+      decoration: BoxDecoration(
+          color: kWhiteColor,
+          borderRadius: BorderRadius.circular(searchBarBorderRadius),
+          boxShadow: const [
+            BoxShadow(color: kGreyColor, offset: Offset(0, 1))
+          ]),
+      child: getInputForm(
+        "Search for Products...",
+        icon: Icons.search,
+        isSuffix: false,
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(searchBarBorderRadius),
+            borderSide: const BorderSide(width: 5)),
+        onIconPress: () {
+          // TODO take to items page
+        },
+      )[1],
+    );
+  }
+
+  Widget getCategoryItemGrid() {
+    const childCardWidth = 100.0;
+    const childCardHeight = 110.0;
+
+    return SizedBox(
+      height: 220,
+      // to increase GridView size to wrap arround the size of child elemnts
+      // use childAspectRatio
+      child: GridView.count(
+        crossAxisCount: 4,
+        childAspectRatio: (childCardWidth / childCardHeight),
+        children: categoryImages.keys
+            .map((name) => getCategoryItemGridCard(name))
+            .toList(),
+      ),
+    );
+  }
+
+  Widget getCategoryItemGridCard(String itemName) {
+    const categoryImageSize = 50.0;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Column(
+          children: [
+            SvgPicture.asset(
+              categoryImages[itemName]!,
+              height: categoryImageSize,
+              width: categoryImageSize,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(itemName)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getProductItemsGrid(List<ItemModel> items) {
+    return SizedBox(
+      height: 330,
+      child: GridView.count(
+          crossAxisCount: 2,
+          children:
+              items.map((item) => ProductItemCard(productItem: item)).toList()),
     );
   }
 }

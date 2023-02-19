@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocia/constants/colors.dart';
+import 'package:grocia/constants/constants.dart';
 import 'package:grocia/widgets/page-app-bar.dart';
 import 'package:grocia/widgets/save_changes_button.dart';
 import 'package:intl/intl.dart';
-
-enum ReviewType { Bad, Better, Good }
 
 class ReviewPage extends StatefulWidget {
   final DateTime orderDate;

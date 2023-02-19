@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:grocia/model/checkout_model.dart';
+import 'package:grocia/model/item_model.dart';
 import 'package:grocia/model/order_detail_model.dart';
 import 'package:grocia/model/user_model.dart';
 import 'package:grocia/provider/auth.provider.dart';
 import 'package:grocia/provider/cart_detail.provider.dart';
 import 'package:grocia/provider/checkout.provider.dart';
 import 'package:grocia/provider/order_detail_provider.dart';
+import 'package:grocia/provider/productItem.provider.dart';
 import 'package:grocia/screen/account_edit_screen.dart';
 import 'package:grocia/screen/account_info_screen.dart';
 import 'package:grocia/screen/account_screen.dart';
@@ -37,11 +39,11 @@ class MyApp extends StatelessWidget {
           create: (context) => OrderDetailProvider(dummyOrderList),
         ),
         ChangeNotifierProvider<CartProvider>(
-            create: (context) => CartProvider(dummyCartItems)
-        ),
+            create: (context) => CartProvider(dummyCartItems)),
         ChangeNotifierProvider<CheckoutProvider>(
-            create: (context) => CheckoutProvider(dummyCheckoutMode)
-        ),
+            create: (context) => CheckoutProvider(dummyCheckoutMode)),
+        ChangeNotifierProvider<ProductItemProvider>(
+            create: (context) => ProductItemProvider(dummyItemModels))
       ],
       child: MaterialApp.router(
         routerDelegate: RoutemasterDelegate(
@@ -49,7 +51,7 @@ class MyApp extends StatelessWidget {
               onUnknownRoute: (_) => const Redirect(HomeScreen.routeName),
               routes: {
                 HomeScreen.routeName: (routeData) =>
-                    const MaterialPage(child: HomeScreen()),
+                    MaterialPage(child: HomeScreen()),
                 CartScreen.routeName: (routeData) =>
                     const MaterialPage(child: CartScreen()),
                 PaymentMethodScreen.routeName: (route) =>
