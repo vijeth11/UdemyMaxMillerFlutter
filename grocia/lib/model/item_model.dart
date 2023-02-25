@@ -83,4 +83,22 @@ final dummyItemModels = [
       "assets/images/items/Garlic.jpg", 0, "not yet", [], 3.5, 0, []),
   ItemModel("Ginger", categoryImages.keys.toList()[1], 120,
       "assets/images/items/Ginger.jpg", 0, "not yet", [], 3.5, 0, []),
+  ItemModel("Orange", categoryImages.keys.toList()[1], 120,
+      "assets/images/items/orange.jpg", 0, "not yet", [
+        "assets/images/items/orange1.jpg",
+        "assets/images/items/orange2.jpg",
+        "assets/images/items/orange3.jpg"
+      ], 3.5, 0, []),
+  ItemModel("Green Apple", categoryImages.keys.toList()[1], 120,
+      "assets/images/items/GreenApple.jpg", 0, "not yet", [
+        "assets/images/items/GreenApple1.jpg",
+        "assets/images/items/GreenApple2.jpg",
+        "assets/images/items/GreenApple3.jpg"
+      ], 3.5, 0, []),
+  ItemModel("apple", categoryImages.keys.toList()[1], 120,
+      "assets/images/items/Ginger.jpg", 0, "not yet", [
+        "assets/images/items/apple1.jpg",
+        "assets/images/items/apple2.jpg",
+        "assets/images/items/apple3.jpg"
+      ], 3.5, 0, []),
 ];

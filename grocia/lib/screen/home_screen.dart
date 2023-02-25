@@ -7,6 +7,7 @@ import 'package:grocia/provider/productItem.provider.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
 import 'package:grocia/widgets/form_textbox.dart';
 import 'package:grocia/widgets/product_item_card.dart';
+import 'package:grocia/widgets/product_item_carousal.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -61,46 +62,51 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              const Text(
-                "What are you looking for?",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              addPadding(
+                const Text(
+                  "What are you looking for?",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              getCategoryItemGrid(),
+              addPadding(getCategoryItemGrid()),
               const SizedBox(
                 height: 10,
               ),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Pick's Today",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
-                      ),
-                      TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "See more",
-                            style: TextStyle(color: kGreenColor),
-                          ))
-                    ],
-                  )),
+              getSectionTitle("Pick's Today"),
               const SizedBox(
                 height: 10,
               ),
-              getProductItemsGrid(productItems.sublist(0, 6))
+              addPadding(getProductItemsGrid(productItems.sublist(0, 6))),
+              getSectionTitle("Recommend for You"),
+              ...productItems
+                  .where((element) => element.slidingImages.isNotEmpty)
+                  .map((item) => [
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        getCarousalItemCard(item)
+                      ])
+                  .reduce((value, element) {
+                value.addAll(element);
+                return value;
+              })
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(
+      bottomNavigationBar: const BottomNavigation(
         activeItemIndex: iconIndex,
       ),
+    );
+  }
+
+  Widget addPadding(Widget child) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: child,
     );
   }
 
@@ -130,8 +136,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget getCategoryItemGrid() {
-    const childCardWidth = 100.0;
-    const childCardHeight = 110.0;
+    const childCardWidthPercent = 100.0;
+    const childCardHeightPercent = 111.0;
 
     return SizedBox(
       height: 220,
@@ -139,12 +145,33 @@ class HomeScreen extends StatelessWidget {
       // use childAspectRatio
       child: GridView.count(
         crossAxisCount: 4,
-        childAspectRatio: (childCardWidth / childCardHeight),
+        physics: const NeverScrollableScrollPhysics(),
+        childAspectRatio: (childCardWidthPercent / childCardHeightPercent),
         children: categoryImages.keys
             .map((name) => getCategoryItemGridCard(name))
             .toList(),
       ),
     );
+  }
+
+  Widget getSectionTitle(String title) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "See more",
+                  style: TextStyle(color: kGreenColor),
+                ))
+          ],
+        ));
   }
 
   Widget getCategoryItemGridCard(String itemName) {
@@ -170,12 +197,67 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget getProductItemsGrid(List<ItemModel> items) {
+    const childCardWidthPercent = 100.0;
+    const childCardHeightPercent = 125.0;
+    const sizedHeight = 735.0;
     return SizedBox(
-      height: 330,
+      height: sizedHeight,
       child: GridView.count(
+          childAspectRatio: (childCardWidthPercent / childCardHeightPercent),
+          physics: NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 5,
           children:
               items.map((item) => ProductItemCard(productItem: item)).toList()),
+    );
+  }
+
+  Widget getCarousalItemCard(ItemModel item) {
+    return Card(
+      margin: const EdgeInsets.all(10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ProductItemCarousal(carousalImages: item.slidingImages),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(
+                item.itemName,
+                style: const TextStyle(
+                    color: kGreenColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(
+                item.description,
+                style: TextStyle(color: kGreyColor, fontSize: 15),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: ProductItemCard.getAmountDisplayRow(
+                  item.itemCost.toString(),
+                  costColorblack: true),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
