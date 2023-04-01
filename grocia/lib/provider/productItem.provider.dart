@@ -13,4 +13,8 @@ class ProductItemProvider extends ChangeNotifier {
   ItemModel getItemById(int id) {
     return items.firstWhere((item) => item.id == id);
   }
+
+  List<ItemModel> itemsByCategory(String category){
+    return items.where((element) => element.itemCategory == category).toList();
+  }
 }

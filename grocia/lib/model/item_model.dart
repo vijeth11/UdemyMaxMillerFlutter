@@ -151,7 +151,7 @@ final dummyItemModels = [
       "apple",
       categoryImages.keys.toList()[1],
       120,
-      "assets/images/items/Ginger.jpg",
+      "assets/images/items/apple.jpg",
       0,
       "High quality Fresh Orange fruit exporters from South Korea for sale. All citrus trees belong to the single genus Citrus and remain almost entirely interfertile. This includes grapefruits, lemons, limes, oranges, and various other types and hybrids. The fruit of any citrus tree is considered a hesperidium, a kind of modified berry; it is covered by a rind originated by a rugged thickening of the ovary wall.",
       [

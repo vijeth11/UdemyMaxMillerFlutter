@@ -279,7 +279,7 @@ class ProductDetailScreen extends StatelessWidget {
       const SizedBox(
         height: 10,
       ),
-      getProductItemsGrid(similarItems)
+      getProductItemsGrid(similarItems, sizedHeight: 770)
     ]);
   }
 }

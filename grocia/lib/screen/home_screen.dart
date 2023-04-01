@@ -4,6 +4,7 @@ import 'package:grocia/constants/colors.dart';
 import 'package:grocia/constants/constants.dart';
 import 'package:grocia/model/item_model.dart';
 import 'package:grocia/provider/productItem.provider.dart';
+import 'package:grocia/screen/category_items_screen.dart';
 import 'package:grocia/screen/product_detail_screen.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
 import 'package:grocia/widgets/form_textbox.dart';
@@ -74,7 +75,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              addPadding(getCategoryItemGrid()),
+              addPadding(getCategoryItemGrid(context)),
               const SizedBox(
                 height: 10,
               ),
@@ -138,7 +139,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget getCategoryItemGrid() {
+  Widget getCategoryItemGrid(BuildContext context) {
     const childCardWidthPercent = 100.0;
     const childCardHeightPercent = 111.0;
 
@@ -151,7 +152,7 @@ class HomeScreen extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         childAspectRatio: (childCardWidthPercent / childCardHeightPercent),
         children: categoryImages.keys
-            .map((name) => getCategoryItemGridCard(name))
+            .map((name) => getCategoryItemGridCard(name, context))
             .toList(),
       ),
     );
@@ -177,25 +178,29 @@ class HomeScreen extends StatelessWidget {
         ));
   }
 
-  Widget getCategoryItemGridCard(String itemName) {
+  Widget getCategoryItemGridCard(String itemName, BuildContext context) {
     const categoryImageSize = 50.0;
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
-        child: Column(
-          children: [
-            SvgPicture.asset(
-              categoryImages[itemName]!,
-              height: categoryImageSize,
-              width: categoryImageSize,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(itemName)
-          ],
+    return GestureDetector(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
+          child: Column(
+            children: [
+              SvgPicture.asset(
+                categoryImages[itemName]!,
+                height: categoryImageSize,
+                width: categoryImageSize,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(itemName)
+            ],
+          ),
         ),
       ),
+      onTap: () => Routemaster.of(context)
+          .push("${CategoryItemScreen.routeName}/${itemName}"),
     );
   }
 
