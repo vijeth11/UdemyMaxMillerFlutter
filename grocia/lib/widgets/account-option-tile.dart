@@ -6,10 +6,10 @@ class AccountOptionTile extends StatelessWidget {
   // format [Icon, color]
   final List leadingIcon;
   final VoidCallback onTap;
-  bool displayArrowIcon;
-  bool displayBoxArroundArrowIcon;
+  final bool displayArrowIcon;
+  final bool displayBoxArroundArrowIcon;
   static const double leadingIconsSize = 40;
-  AccountOptionTile(
+  const AccountOptionTile(
       {super.key,
       required this.titleName,
       required this.leadingIcon,

@@ -9,6 +9,8 @@ class ProductItemProvider extends ChangeNotifier {
   List<ItemModel> get items {
     return _items;
   }
+
+  ItemModel getItemById(int id) {
+    return items.firstWhere((item) => item.id == id);
+  }
 }
-
-

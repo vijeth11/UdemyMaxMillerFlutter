@@ -4,11 +4,14 @@ import 'package:grocia/constants/colors.dart';
 import 'package:grocia/constants/constants.dart';
 import 'package:grocia/model/item_model.dart';
 import 'package:grocia/provider/productItem.provider.dart';
+import 'package:grocia/screen/product_detail_screen.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
 import 'package:grocia/widgets/form_textbox.dart';
+import 'package:grocia/widgets/product-item-grid.dart';
 import 'package:grocia/widgets/product_item_card.dart';
 import 'package:grocia/widgets/product_item_carousal.dart';
 import 'package:provider/provider.dart';
+import 'package:routemaster/routemaster.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/shop';
@@ -87,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        getCarousalItemCard(item)
+                        getCarousalItemCard(item, context)
                       ])
                   .reduce((value, element) {
                 value.addAll(element);
@@ -196,24 +199,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget getProductItemsGrid(List<ItemModel> items) {
-    const childCardWidthPercent = 100.0;
-    const childCardHeightPercent = 125.0;
-    const sizedHeight = 735.0;
-    return SizedBox(
-      height: sizedHeight,
-      child: GridView.count(
-          childAspectRatio: (childCardWidthPercent / childCardHeightPercent),
-          physics: NeverScrollableScrollPhysics(),
-          crossAxisCount: 2,
-          mainAxisSpacing: 5,
-          crossAxisSpacing: 5,
-          children:
-              items.map((item) => ProductItemCard(productItem: item)).toList()),
-    );
-  }
-
-  Widget getCarousalItemCard(ItemModel item) {
+  Widget getCarousalItemCard(ItemModel item, BuildContext context) {
     return Card(
       margin: const EdgeInsets.all(10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -222,30 +208,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProductItemCarousal(carousalImages: item.slidingImages),
-            const SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                item.itemName,
-                style: const TextStyle(
-                    color: kGreenColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                item.description,
-                style: TextStyle(color: kGreyColor, fontSize: 15),
-              ),
-            ),
+            getItemCarousal(item, context),
             const SizedBox(
               height: 15,
             ),
@@ -257,6 +220,48 @@ class HomeScreen extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget getItemCarousal(ItemModel item, BuildContext context) {
+    return GestureDetector(
+      onTap: () => Routemaster.of(context)
+          .push("${ProductDetailScreen.routeName}/${item.id}"),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProductItemCarousal(carousalImages: item.slidingImages),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(
+                item.itemName,
+                style: const TextStyle(
+                    color: kGreenColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(
+                item.description,
+                style: const TextStyle(color: kGreyColor, fontSize: 15),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
