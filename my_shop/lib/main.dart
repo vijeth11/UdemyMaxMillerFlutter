@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           TargetPlatform.iOS: CustomPageTransitionBuilder()
         }));
 
-    // this is how we instantiate a state management by wripping the Material app with
+    // this is how we instantiate a state management by wrapping the Material app with
     // a provider class 'ChangeNotifierProvider'. This requires child attribute and
     // create attribute. create attribute takes a function which returns
     // an instance of the State class which has mixin ChangeNotifier with it
