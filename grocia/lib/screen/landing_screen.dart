@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grocia/constants/colors.dart';
 import 'package:grocia/screen/home_screen.dart';
+import 'package:grocia/screen/sign_in_screen.dart';
+import 'package:grocia/screen/sign_up_screen.dart';
 import 'package:grocia/widgets/save_changes_button.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:video_player/video_player.dart';
@@ -73,7 +75,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                   SaveChangesButton(
                     onPress: () =>
-                        Routemaster.of(context).push(HomeScreen.routeName),
+                        Routemaster.of(context).push(SignUpScreen.routeName),
                     title: "Sign Up",
                     verticalHeight: 25,
                   ),
@@ -82,7 +84,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                   TextButton(
                       onPressed: () =>
-                          Routemaster.of(context).push(HomeScreen.routeName),
+                          Routemaster.of(context).push(SignInScreen.routeName),
                       child: const Text(
                         "Already have an Account? Login Here",
                         style: TextStyle(color: kWhiteColor),

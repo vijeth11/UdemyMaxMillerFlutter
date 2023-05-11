@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grocia/constants/colors.dart';
 import 'package:grocia/constants/constants.dart';
-import 'package:grocia/model/item_model.dart';
+import 'package:grocia/pages/recommended_items_page.dart';
+import 'package:grocia/pages/top_picks_page.dart';
 import 'package:grocia/provider/productItem.provider.dart';
 import 'package:grocia/screen/category_items_screen.dart';
-import 'package:grocia/screen/product_detail_screen.dart';
 import 'package:grocia/widgets/bottom_navigator.dart';
+import 'package:grocia/widgets/create_animated_router.dart';
 import 'package:grocia/widgets/form_textbox.dart';
+import 'package:grocia/widgets/product-item-carousal-card.dart';
 import 'package:grocia/widgets/product-item-grid.dart';
-import 'package:grocia/widgets/product_item_card.dart';
-import 'package:grocia/widgets/product_item_carousal.dart';
 import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -79,12 +79,17 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              getSectionTitle("Pick's Today"),
+              getSectionTitle("Pick's Today", () {
+                Navigator.of(context).push(CreateRoute(const TopPicks()));
+              }),
               const SizedBox(
                 height: 10,
               ),
               addPadding(getProductItemsGrid(productItems.sublist(0, 6))),
-              getSectionTitle("Recommend for You"),
+              getSectionTitle("Recommend for You", () {
+                Navigator.of(context)
+                    .push(CreateRoute(const RecommendedItems()));
+              }),
               ...productItems
                   .where((element) => element.slidingImages.isNotEmpty)
                   .map((item) => [
@@ -158,7 +163,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget getSectionTitle(String title) {
+  Widget getSectionTitle(String title, VoidCallback seeMore) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
@@ -169,7 +174,7 @@ class HomeScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: seeMore,
                 child: const Text(
                   "See more",
                   style: TextStyle(color: kGreenColor),
@@ -201,73 +206,6 @@ class HomeScreen extends StatelessWidget {
       ),
       onTap: () => Routemaster.of(context)
           .push("${CategoryItemScreen.routeName}/${itemName}"),
-    );
-  }
-
-  Widget getCarousalItemCard(ItemModel item, BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            getItemCarousal(item, context),
-            const SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: ProductItemCard.getAmountDisplayRow(
-                  item.itemCost.toString(),
-                  costColorblack: true),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget getItemCarousal(ItemModel item, BuildContext context) {
-    return GestureDetector(
-      onTap: () => Routemaster.of(context)
-          .push("${ProductDetailScreen.routeName}/${item.id}"),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ProductItemCarousal(carousalImages: item.slidingImages),
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                item.itemName,
-                style: const TextStyle(
-                    color: kGreenColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Text(
-                item.description,
-                style: const TextStyle(color: kGreyColor, fontSize: 15),
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 }

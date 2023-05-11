@@ -14,12 +14,15 @@ import 'package:grocia/screen/account_screen.dart';
 import 'package:grocia/screen/cart_screen.dart';
 import 'package:grocia/screen/category_items_screen.dart';
 import 'package:grocia/screen/checkout_screen.dart';
+import 'package:grocia/screen/getting_started_screen.dart';
 import 'package:grocia/screen/home_screen.dart';
 import 'package:grocia/screen/landing_screen.dart';
 import 'package:grocia/screen/order_detail_screen.dart';
 import 'package:grocia/screen/order_screen.dart';
 import 'package:grocia/screen/payment_method_screen.dart';
 import 'package:grocia/screen/product_detail_screen.dart';
+import 'package:grocia/screen/sign_in_screen.dart';
+import 'package:grocia/screen/sign_up_screen.dart';
 import 'package:grocia/screen/user_address_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
@@ -53,7 +56,14 @@ class MyApp extends StatelessWidget {
           routesBuilder: (context) => RouteMap(
               onUnknownRoute: (_) => const Redirect(LandingScreen.routeName),
               routes: {
-                LandingScreen.routeName:(route) =>const MaterialPage(child: LandingScreen()), 
+                LandingScreen.routeName: (route) =>
+                    const MaterialPage(child: LandingScreen()),
+                SignUpScreen.routeName: (route) =>
+                    const MaterialPage(child: SignUpScreen()),
+                SignInScreen.routeName: (route) =>
+                    const MaterialPage(child: SignInScreen()),
+                GettingStartedScreen.routeName: (route) =>
+                    MaterialPage(child: GettingStartedScreen()),
                 HomeScreen.routeName: (routeData) =>
                     MaterialPage(child: HomeScreen()),
                 "${CategoryItemScreen.routeName}/:title": (routeData) =>

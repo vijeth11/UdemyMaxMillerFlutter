@@ -43,6 +43,7 @@ dependencies:
   flutter_svg: ^1.1.6
   flutter_rating_bar: ^4.0.1
   video_player: ^2.6.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -94,6 +95,9 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  fonts:
+    - family: MyFlutterApp
+      fonts:
+        - asset: assets/fonts/MyFlutterApp.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
