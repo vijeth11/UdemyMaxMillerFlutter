@@ -1,4 +1,4 @@
-enum AddressType {Home, Work, Other}
+enum AddressType { Home, Work, Other }
 
 class AddressModel {
   final String Address;
@@ -24,5 +24,19 @@ class AddressModel {
   @override
   String toString() {
     return "$Address, $City, $Country $ZipCode";
+  }
+
+  Map<String, Object> toMap() {
+    return {
+      "address": Address,
+      "ZipCode": ZipCode,
+      "City": City,
+      "Country": Country,
+      "UserName": UserName,
+      "UserPhone": UserPhone,
+      "UserEmail": UserEmail,
+      'isDefault': isDefault,
+      'addressType': addressType
+    };
   }
 }

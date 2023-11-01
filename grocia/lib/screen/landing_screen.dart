@@ -24,6 +24,8 @@ class _LandingScreenState extends State<LandingScreen> {
     super.initState();
     _controller = VideoPlayerController.asset('assets/videos/grocery.mp4');
     _controller.initialize().then((_) {
+      print(_controller.value.aspectRatio);
+      print(_controller.value.errorDescription);
       _controller.play();
       _controller.setLooping(true);
       setState(
@@ -35,8 +37,8 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _controller.dispose();
     super.dispose();
+    _controller.dispose();
   }
 
   @override
@@ -45,13 +47,9 @@ class _LandingScreenState extends State<LandingScreen> {
       body: Stack(
         children: [
           SizedBox.expand(
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: SizedBox(
-                width: _controller.value.size.width,
-                height: _controller.value.size.height,
-                child: VideoPlayer(_controller),
-              ),
+            child: AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: VideoPlayer(_controller),
             ),
           ),
           Positioned(

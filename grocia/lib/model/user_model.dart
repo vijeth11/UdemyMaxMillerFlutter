@@ -15,6 +15,34 @@ class UserModel {
       required this.userEmail,
       required this.phoneNumber,
       required this.addresses});
+
+  Map<String, Object> toMap() {
+    return {
+      userId:{
+        "displayName":displayName,
+        "profileImage":profileImage,
+        "email":userEmail,
+        "phoneNumber":phoneNumber,
+        "addresses":addresses.map((e) => e.toMap()).toList()
+      }
+    };
+  }
+
+  UserModel copyTo(
+      {String? displayName,
+      String? userId,
+      String? phoneNumber,
+      String? userEmail,
+      String? profileImage}) {
+    return UserModel(
+        userId: userId ?? this.userId,
+        addresses: addresses,
+        displayName: displayName ?? this.displayName,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        profileImage: profileImage ?? this.profileImage,
+        userEmail: userEmail ?? this.userEmail
+        );
+  }
 }
 
 final dummyAddress = AddressModel(
