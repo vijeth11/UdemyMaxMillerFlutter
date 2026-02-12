@@ -17,7 +17,7 @@ class AuthProvider extends ChangeNotifier {
   DateTime? _expiryDate;
   late String? _userId;
   Timer? _authTimer = null;
-  
+
   AuthProvider();
 
   UserModel get item {
@@ -37,12 +37,19 @@ class AuthProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<void> signup(String email, String password, String username, String phone) async {
+  Future<void> signup(
+      String email, String password, String username, String phone) async {
     try {
       const url =
           "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCVrSn749U65LtR5yHfDpp_Cgq9ICG8KGo";
       await _authenticate(email, password, url, false);
-      _userDetail = UserModel(displayName: username,phoneNumber: phone,userEmail: email,userId: _userId!,profileImage: '',addresses: []);
+      _userDetail = UserModel(
+          displayName: username,
+          phoneNumber: phone,
+          userEmail: email,
+          userId: _userId!,
+          profileImage: '',
+          addresses: []);
       await updateUserProfile();
       return _storeLoggedInUserData();
     } catch (error) {
@@ -55,7 +62,6 @@ class AuthProvider extends ChangeNotifier {
       const url =
           "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCVrSn749U65LtR5yHfDpp_Cgq9ICG8KGo";
       await _authenticate(email, password, url, true);
-      await fetchUserDetails();
     } catch (error) {
       rethrow;
     }
@@ -69,7 +75,7 @@ class AuthProvider extends ChangeNotifier {
     var responseData = json.decode(response.body);
     if (responseData['error'] != null) {
       throw HttpException(responseData['error']['message']);
-    } 
+    }
     notifyListeners();
   }
 
@@ -86,7 +92,8 @@ class AuthProvider extends ChangeNotifier {
       _userId = responseData['localId'];
       _expiryDate = DateTime.now()
           .add(Duration(seconds: int.parse(responseData['expiresIn'])));
-      if (isLogin) {        
+      if (isLogin) {
+        await fetchUserDetails();
         await _storeLoggedInUserData();
       }
     }
@@ -112,28 +119,29 @@ class AuthProvider extends ChangeNotifier {
     if (response.body != "null") {
       final userdetails = json.decode(response.body) as Map<String, dynamic>;
       print(userdetails);
-      _userDetail = UserModel(userId: _userId!,
-      displayName: userdetails["displayName"],
-      phoneNumber: userdetails["PhoneNumber"],
-      userEmail: userdetails["email"],
-      profileImage: userdetails["profileImage"],
-      addresses: _getUserAddress(userdetails));
+      _userDetail = UserModel(
+          userId: _userId!,
+          displayName: userdetails["displayName"],
+          phoneNumber: userdetails["PhoneNumber"],
+          userEmail: userdetails["email"],
+          profileImage: userdetails["profileImage"],
+          addresses: _getUserAddress(userdetails));
     }
   }
 
-  List<AddressModel> _getUserAddress(dynamic data){
+  List<AddressModel> _getUserAddress(dynamic data) {
     List<AddressModel> userAddress = [];
-    for(var item in  data){
+    for (var item in data) {
       userAddress.add(AddressModel(
-        Address: item["address"], 
-        ZipCode: item["ZipCode"], 
-        City: item["City"], 
-        Country: item["Country"], 
-        UserName: item["UserName"], 
-        UserPhone: item["UserPhone"], 
-        UserEmail: item["UserEmail"], 
-        addressType: item["addressType"],
-        isDefault: item["isDefault"]));
+          Address: item["address"],
+          ZipCode: item["ZipCode"],
+          City: item["City"],
+          Country: item["Country"],
+          UserName: item["UserName"],
+          UserPhone: item["UserPhone"],
+          UserEmail: item["UserEmail"],
+          addressType: item["addressType"],
+          isDefault: item["isDefault"]));
     }
     return userAddress;
   }
@@ -215,10 +223,11 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> uploadUserProfile(File userProfile) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final userProfileImage =
-        storageRef.child('UserProfileImage').child('${_userDetail.displayName}.png');
+    final userProfileImage = storageRef
+        .child('UserProfileImage')
+        .child('${_userDetail.displayName}.png');
     await userProfileImage.putFile(userProfile);
-    _userDetail =
-        _userDetail.copyTo(profileImage: await userProfileImage.getDownloadURL());
+    _userDetail = _userDetail.copyTo(
+        profileImage: await userProfileImage.getDownloadURL());
   }
 }
