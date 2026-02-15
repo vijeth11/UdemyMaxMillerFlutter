@@ -48,7 +48,7 @@ class SettingsScreen extends StatelessWidget {
                 onChanged: (value) {
                   audioController.toggleBGMusic(value);
                 },
-                activeColor: Colors.green,
+                activeThumbColor: Colors.green,
               ),
             ),
             const SizedBox(height: 16),
@@ -72,13 +72,13 @@ class SettingsScreen extends StatelessWidget {
                 onChanged: (value) {
                   audioController.toggleSFX(value);
                 },
-                activeColor: Colors.green,
+                activeThumbColor: Colors.green,
               ),
             ),
             const SizedBox(height: 32),
 
             // Info section
-            Card(
+            const Card(
               elevation: 4,
               child: Padding(
                 padding: EdgeInsets.all(16.0),

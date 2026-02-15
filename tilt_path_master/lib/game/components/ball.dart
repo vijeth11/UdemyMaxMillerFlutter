@@ -7,7 +7,7 @@ class Ball extends PositionComponent {
   static const double radius = 15.0;
   static const double friction = 0.95;
   static const double maxSpeed = 200.0;
-  
+
   Vector2 velocity = Vector2.zero();
   final Paint _paint = Paint()..color = Colors.blue.shade700;
   final Paint _highlightPaint = Paint()..color = Colors.white.withOpacity(0.3);
@@ -57,21 +57,21 @@ class Ball extends PositionComponent {
       ..color = Colors.black.withOpacity(0.3)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
     canvas.drawCircle(
-      Offset(radius + 2, radius + 2),
+      const Offset(radius + 2, radius + 2),
       radius,
       shadowPaint,
     );
 
     // Draw ball
     canvas.drawCircle(
-      Offset(radius, radius),
+      const Offset(radius, radius),
       radius,
       _paint,
     );
 
     // Draw highlight for 3D effect
     canvas.drawCircle(
-      Offset(radius - 5, radius - 5),
+      const Offset(radius - 5, radius - 5),
       radius * 0.3,
       _highlightPaint,
     );

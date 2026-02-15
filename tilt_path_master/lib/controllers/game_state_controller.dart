@@ -7,11 +7,11 @@ import '../game/levels/level_definitions.dart';
 /// Controller for managing game state
 class GameStateController extends ChangeNotifier {
   final StorageService _storageService;
-  
+
   GameProgress _progress = GameProgress();
   Level? _currentLevel;
   int _currentScore = 0;
-  Set<String> _visitedCells = {};
+  final Set<String> _visitedCells = {};
   bool _isPaused = false;
 
   GameStateController(this._storageService) {
@@ -22,7 +22,7 @@ class GameStateController extends ChangeNotifier {
   GameProgress get progress => _progress;
   Level? get currentLevel => _currentLevel;
   int get currentScore => _currentScore;
-  int get currentHighScore => _currentLevel != null 
+  int get currentHighScore => _currentLevel != null
       ? _progress.getHighScore(_currentLevel!.levelNumber)
       : 0;
   bool get isPaused => _isPaused;
@@ -98,13 +98,13 @@ class GameStateController extends ChangeNotifier {
     if (_currentLevel == null) return;
 
     final levelNumber = _currentLevel!.levelNumber;
-    
+
     // Set high score to current score
     _progress.setHighScore(levelNumber, _currentScore);
-    
+
     // Mark level as completed
     _progress.completeLevel(levelNumber);
-    
+
     _saveProgress();
     notifyListeners();
   }

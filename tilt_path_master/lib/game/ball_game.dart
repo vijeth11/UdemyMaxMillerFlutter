@@ -97,7 +97,7 @@ class BallGame extends FlameGame {
     // Mark cell as visited and update score
     gameStateController.visitCell(cellPos.row, cellPos.col);
     _gameBoard.markCellVisited(cellPos.row, cellPos.col);
-    
+
     // Play rolling sound
     audioService.playSFX('ball_rolling');
   }
@@ -105,10 +105,10 @@ class BallGame extends FlameGame {
   void _handlePitCollision(CellPosition pitPos) {
     // Play pit fall sound
     audioService.playSFX('pit_fall');
-    
+
     // Notify game state
     gameStateController.handlePitFall();
-    
+
     // Reset ball to start position
     final startCenter = _gameBoard.getCellCenter(
       level.startCell.row,
@@ -117,10 +117,10 @@ class BallGame extends FlameGame {
     _ball.position = startCenter;
     _ball.velocity = Vector2.zero();
     _lastCellPosition = null;
-    
+
     // Reset board visuals
     _gameBoard.resetVisitedCells();
-    
+
     // Notify callback
     onPitFall?.call();
   }
@@ -128,19 +128,19 @@ class BallGame extends FlameGame {
   void _handleGoalReached() {
     // Notify game state
     gameStateController.handleGoalReached();
-    
+
     // Play success sound
     audioService.playSFX('success');
-    
+
     // Pause the game
     pause();
-    
+
     // Notify callback
     onGoalReached?.call();
   }
 
   void _handleWallCollisions() {
-    final ballRadius = Ball.radius;
+    const ballRadius = Ball.radius;
     final bounds = _gameBoard.getBounds();
 
     // Check boundaries
@@ -166,7 +166,7 @@ class BallGame extends FlameGame {
     if (_gameBoard.isWall(_ball.position)) {
       // Reverse velocity
       _ball.velocity *= -0.5;
-      
+
       // Push ball back to previous valid position
       final gridPos = _gameBoard.worldToGrid(_ball.position);
       if (gridPos != null) {
@@ -202,10 +202,10 @@ class BallGame extends FlameGame {
     _ball.position = startCenter;
     _ball.velocity = Vector2.zero();
     _lastCellPosition = null;
-    
+
     // Reset board
     _gameBoard.resetVisitedCells();
-    
+
     // Resume game
     _isPaused = false;
   }

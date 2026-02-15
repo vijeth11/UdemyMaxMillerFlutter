@@ -1,11 +1,11 @@
 {
-    "name": "Tilt Path Master",
-    "short_name": "Tilt Path Master",
+    "name": "tilt_path_master",
+    "short_name": "tilt_path_master",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Tilt Path Master - A tilt-controlled maze game.",
+    "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
